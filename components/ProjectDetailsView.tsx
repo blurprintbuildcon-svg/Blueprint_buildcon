@@ -467,7 +467,7 @@ export default function ProjectDetailsView({ project, relatedProjects }: Project
                   </Link>
 
                   <a
-                    href={`https://wa.me/919999999999?text=${whatsappMessage}`}
+                    href={`https://wa.me/919028346900?text=${whatsappMessage}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full flex items-center justify-center gap-2 py-3 px-5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-sm transition-colors"
@@ -477,7 +477,7 @@ export default function ProjectDetailsView({ project, relatedProjects }: Project
                   </a>
 
                   <a
-                    href="tel:+919999999999"
+                    href="tel:+919028346900"
                     className="w-full flex items-center justify-center gap-2 py-3 px-5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl text-sm transition-colors"
                   >
                     <Phone size={15} />

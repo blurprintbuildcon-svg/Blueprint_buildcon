@@ -85,7 +85,7 @@ export default function ContactSection() {
                 </div>
                 <div>
                   <h4 className="font-semibold text-brand-navy mb-1 text-lg">Phone</h4>
-                  <p className="text-slate-600">+91 XXXXX XXXXX</p>
+                  <a href="tel:+919028346900" className="text-slate-600 hover:text-brand-orange transition-colors">+91 9028346900</a>
                 </div>
               </div>
 
@@ -95,7 +95,7 @@ export default function ContactSection() {
                 </div>
                 <div>
                   <h4 className="font-semibold text-brand-navy mb-1 text-lg">Email</h4>
-                  <p className="text-slate-600">info@blueprintbuildcon.com</p>
+                  <a href="mailto:project@blueprintbuildcon.homes" className="text-slate-600 hover:text-brand-orange transition-colors">project@blueprintbuildcon.homes</a>
                 </div>
               </div>
 
@@ -105,7 +105,12 @@ export default function ContactSection() {
                 </div>
                 <div>
                   <h4 className="font-semibold text-brand-navy mb-1 text-lg">Address</h4>
-                  <p className="text-slate-600">[Company Address]<br/>City, State, ZIP</p>
+                  <p className="text-slate-600 leading-relaxed">
+                    WORK FLO, ICON TOWER 7TH FLOOR OFFICE NO 702,<br />
+                    BANER ROAD, BANER, OPP KFC, BANER,<br />
+                    PUNE (MUNICIPAL CORPORATION.), PUNE CITY,<br />
+                    PUNE, 411045
+                  </p>
                 </div>
               </div>
 

@@ -4,7 +4,11 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Send, CheckCircle2, Star, StarHalf } from 'lucide-react';
 
-export default function TestimonialForm() {
+type TestimonialFormProps = {
+  onTestimonialSubmitted?: (newTestimonial: any) => void;
+};
+
+export default function TestimonialForm({ onTestimonialSubmitted }: TestimonialFormProps = {}) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [rating, setRating] = useState<number>(0);
@@ -31,7 +35,11 @@ export default function TestimonialForm() {
         body: JSON.stringify({ ...formData, rating }),
       });
       if (response.ok) {
+        const result = await response.json();
         setIsSubmitted(true);
+        if (result.success && result.data && onTestimonialSubmitted) {
+          onTestimonialSubmitted(result.data);
+        }
         setTimeout(() => setIsSubmitted(false), 5000);
         setFormData({ fullname: '', email: '', feedback: '' });
         setRating(0);
