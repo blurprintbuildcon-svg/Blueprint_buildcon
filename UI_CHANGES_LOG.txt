@@ -1,0 +1,87 @@
+Blueprint Build Con - UI Changes Log
+Date: 2026-09-15
+
+This file records the changes currently present in the working tree. It does not include recommendations that were discussed but not implemented.
+
+Implemented changes
+-------------------
+
+1. Global visual theme
+   File: app/globals.css
+   - Updated the brand palette from the original navy/orange/slate colors to a warmer construction-focused palette:
+     - Dark green charcoal: #14221f
+     - Terracotta orange: #e46b3c
+     - Warm off-white: #f4f1eb
+     - Charcoal text: #26332f
+     - Sand accent: #e7dfd2
+   - Added separate body and heading font variables.
+   - Added display-font styling for headings h1 through h6.
+   - Added tighter heading letter spacing.
+   - Added a branded text-selection color.
+
+2. Typography
+   File: app/layout.tsx
+   - Replaced the single Inter font with two Google fonts:
+     - DM Sans for body text.
+     - Space Grotesk for headings and display text.
+   - Added the font variables to the root HTML element.
+
+3. Mobile navigation accessibility
+   File: components/Navbar.tsx
+   - Added an aria-label to the mobile menu button.
+   - Added aria-expanded so screen readers can identify whether the mobile menu is open.
+
+4. Project image update
+   File: data/projects.ts
+   - Replaced the image used for the Luxury Family Villa project with a new Unsplash image URL.
+
+5. Service image update
+   File: data/services.ts
+   - Replaced the image used for the Project Management service with a new Unsplash image URL.
+
+6. About section
+   File: components/AboutSection.tsx
+   - The file currently contains one tracked visual/data line change from the original version.
+
+Still recommended, but not implemented in this pass
+-----------------------------------------------------
+
+- Replace placeholder phone numbers and company address with real business details.
+- Reduce the number of top-level navigation links on desktop.
+- Create stronger visual distinction between repeated card-based sections.
+- Add real project outcomes, certifications, warranties, and trust proof.
+- Replace remote Unsplash images with approved, optimized project photography.
+- Connect the consultation and contact forms to a real submission endpoint.
+- Run a full responsive visual review after the local development server is available.
+
+Validation note
+---------------
+
+The UI changes reviewed for this log are located in six source files:
+app/globals.css, app/layout.tsx, components/AboutSection.tsx, components/Navbar.tsx,
+data/projects.ts, and data/services.ts. The current Git status should be checked
+separately to determine whether those source changes are committed or uncommitted.
+
+The development-server/browser validation was blocked by the local VS Code Windows
+sandbox failing to initialize because of a permissions issue involving C:\Python312\Scripts.
+
+Routing update
+--------------
+
+Date: 2026-09-15
+
+- Added dedicated Next.js App Router pages:
+   - /about
+   - /services
+   - /process
+   - /projects
+   - /packages
+   - /why-us
+   - /contact
+- Updated the desktop and mobile navbar links to use real page routes instead of home-page hash anchors.
+- Updated footer navigation links to use the new routes.
+- Updated shared process, package, estimate and About links to use route-based navigation where appropriate.
+- Updated hero and service calls to action to use `/contact` and `/services` routes.
+- Updated the project details action to navigate to `/contact` with Next.js routing.
+- Added page-specific metadata titles and descriptions for each new route.
+- Updated the navbar to detect internal routes and show a solid readable navigation background there.

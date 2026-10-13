@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-navy: #0a1227;
+  --color-brand-blue: #1360e2;
+  --color-brand-blue-hover: #0b4ec2;
+  --color-brand-blue-light: #eff6ff;
+  --color-brand-cyan: #00b4d8;
+  --color-brand-orange: #1360e2;
+  --color-brand-gray: #f4f7fb;
+  --color-brand-charcoal: #1e293b;
+  --color-brand-sand: #e2e8f2;
+  
+  --color-background: #ffffff;
+  --color-foreground: var(--color-brand-charcoal);
+
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-display);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-body), sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display), sans-serif;
+  letter-spacing: -0.02em;
+}
+
+::selection {
+  background-color: var(--color-brand-blue);
+  color: white;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+body:has(.admin-root) > nav,
+body:has(.admin-root) > footer,
+body:has(.admin-root) > div[aria-label="Floating contact actions"],
+body:has(.admin-root) div.fixed.bottom-6.right-6 {
+  display: none !important;
+}
+
+.field {
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  outline: none;
+}
+
+.field:focus {
+  border-color: var(--color-brand-orange);
+  box-shadow: 0 0 0 2px rgb(19 96 226 / 15%);
+}
+
+.admin-root main {
+  min-width: 0;
+}
+
+.admin-root .overflow-x-auto {
+  scrollbar-color: var(--color-brand-orange) var(--color-brand-gray);
+  scrollbar-width: auto;
+}
+
+.admin-root .overflow-x-auto::-webkit-scrollbar {
+  height: 12px;
+}
+
+.admin-root .overflow-x-auto::-webkit-scrollbar-track {
+  background: var(--color-brand-gray);
+}
+
+.admin-root .overflow-x-auto::-webkit-scrollbar-thumb {
+  background: var(--color-brand-orange);
+  border: 3px solid var(--color-brand-gray);
+}

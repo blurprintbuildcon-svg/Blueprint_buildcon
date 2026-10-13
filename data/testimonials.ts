@@ -1,0 +1,38 @@
+export const testimonials = [
+  {
+    id: '1',
+    name: 'Rajesh Sharma',
+    location: 'Mumbai',
+    projectType: 'Residential Construction',
+    rating: 5,
+    text: 'Blueprint Build Con delivered our dream home exactly as promised. The transparency in pricing and the regular updates made the whole process stress-free. The quality of materials used is exceptional.',
+    avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150&h=150',
+  },
+  {
+    id: '2',
+    name: 'Priya Patel',
+    location: 'Bengaluru',
+    projectType: 'Villa Construction',
+    rating: 5,
+    text: 'The architectural design team is brilliant. They understood our vision and translated it into a beautiful reality. The site engineers were highly professional and ensured everything was built to perfection.',
+    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150',
+  },
+  {
+    id: '3',
+    name: 'Amit Desai',
+    location: 'Pune',
+    projectType: 'Commercial Project',
+    rating: 5,
+    text: 'We hired them for our new office complex. They completed the project on time despite tight deadlines. Their project management skills and attention to safety standards are highly commendable.',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=150&h=150',
+  },
+  {
+    id: '4',
+    name: 'Sneha Reddy',
+    location: 'Hyderabad',
+    projectType: 'Renovation & Interior',
+    rating: 5,
+    text: 'Transforming our old apartment felt like a daunting task, but Blueprint made it look easy. The interior finishing is premium, and the overall space planning has completely changed how we live.',
+    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=150&h=150',
+  },
+];
