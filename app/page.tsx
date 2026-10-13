@@ -21,7 +21,7 @@ export default function Home() {
       <ServicesSection />
       <WhyChooseUs />
       <ProcessTimeline />
-      <ProjectsGallery />
+      {/* <ProjectsGallery /> */}
       <QualitySection />
       <PackagesSection />
       <EstimateCTA />

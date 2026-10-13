@@ -10,6 +10,8 @@ export default function HeroSection() {
     name: '',
     phone: '',
     company: '',
+    website: '',
+    location: '',
     message: '',
   });
 
@@ -57,6 +59,8 @@ export default function HeroSection() {
           name: formData.name,
           phone: formData.phone,
           company: formData.company,
+          website: formData.website,
+          location: formData.location,
           message: formData.message,
         }),
       });
@@ -67,7 +71,7 @@ export default function HeroSection() {
       }
 
       setIsSubmitted(true);
-      setFormData({ name: '', phone: '', company: '', message: '' });
+      setFormData({ name: '', phone: '', company: '', website: '', location: '', message: '' });
       setTimeout(() => setIsSubmitted(false), 5000);
     } catch (submissionError) {
       setError(submissionError instanceof Error ? submissionError.message : 'Unable to submit your enquiry');
@@ -80,16 +84,54 @@ export default function HeroSection() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const heroImages = [
+    {
+      url: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80',
+      alt: 'Luxury Modern Architecture and Construction',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=85&w=1600',
+      alt: 'Commercial Civil Engineering and Construction Site',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=1600',
+      alt: 'Contemporary Urban Residence Project',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1600',
+      alt: 'Bespoke Premium Villa and Landscaping',
+    },
+  ];
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
+    }, 6000);
+
+    return () => clearInterval(timer);
+  }, [heroImages.length]);
+
   return (
     <section id="home" className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-brand-charcoal">
-      {/* Background Image */}
+      {/* 4 Sliding Background Images (6s interval) */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-brand-navy/70 mix-blend-multiply z-10" />
-        <img
-          src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80"
-          alt="Modern House Construction"
-          className="w-full h-full object-cover"
-        />
+        {heroImages.map((img, idx) => (
+          <motion.img
+            key={img.url}
+            src={img.url}
+            alt={img.alt}
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{
+              opacity: currentImageIndex === idx ? 1 : 0,
+              scale: currentImageIndex === idx ? 1 : 1.05,
+            }}
+            transition={{ duration: 1, ease: 'easeInOut' }}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        ))}
       </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-20 py-12 lg:py-24">
@@ -140,6 +182,23 @@ export default function HeroSection() {
                   </div>
                 ))}
               </div>
+
+              {/* Slide Indicators */}
+              <div className="flex items-center gap-2 pt-6">
+                {heroImages.map((_, dotIdx) => (
+                  <button
+                    key={dotIdx}
+                    type="button"
+                    aria-label={`Go to slide ${dotIdx + 1}`}
+                    onClick={() => setCurrentImageIndex(dotIdx)}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      currentImageIndex === dotIdx
+                        ? 'w-8 bg-brand-orange'
+                        : 'w-2 bg-white/40 hover:bg-white/70'
+                    }`}
+                  />
+                ))}
+              </div>
             </motion.div>
           </div>
 
@@ -159,7 +218,7 @@ export default function HeroSection() {
               </div>
             </div>
 
-            <div className="relative min-h-0 overflow-y-auto p-5 sm:p-6 md:p-7">
+            <div className="relative min-h-0 max-h-[85vh] overflow-y-auto p-5 sm:p-6 md:p-7 custom-scrollbar">
               <button type="button" aria-label="Close consultation form" onClick={() => setIsFormOpen(false)} className="absolute right-5 top-5 text-slate-400 transition-colors hover:text-brand-navy"><X size={24} /></button>
               <h2 id="consultation-title" className="pr-8 text-2xl font-bold leading-tight text-brand-navy sm:text-3xl">Let Us Help You With the Right Solution</h2>
 
@@ -171,6 +230,12 @@ export default function HeroSection() {
                   <input type="text" name="name" placeholder="Your Name" required value={formData.name} onChange={handleChange} className="w-full border border-blue-300 px-4 py-2.5 text-base outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100" />
                   <input type="tel" name="phone" placeholder="Your Phone Number" required value={formData.phone} onChange={handleChange} className="w-full border border-blue-300 px-4 py-2.5 text-base outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100" />
                   <input type="text" name="company" placeholder="Company Name" value={formData.company} onChange={handleChange} className="w-full border border-blue-300 px-4 py-2.5 text-base outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100" />
+                  <select name="website" value={formData.website} onChange={handleChange} className="w-full border border-blue-300 bg-white px-4 py-2.5 text-base outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100 text-slate-700">
+                    <option value="" disabled hidden>Do you have a website?</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                  <input type="text" name="location" placeholder="Location" value={formData.location} onChange={handleChange} className="w-full border border-blue-300 px-4 py-2.5 text-base outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100" />
                   <textarea name="message" placeholder="Message..." rows={2} value={formData.message} onChange={handleChange} className="w-full resize-none border border-blue-300 px-4 py-2.5 text-base outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100" />
                   <p className="text-sm font-medium leading-5 text-blue-700">By clicking Sign Up, you confirm that you have read and agree to our Terms &amp; Conditions and Privacy Policy.</p>
                   <label className="flex items-start gap-2 text-sm leading-5 text-blue-700"><input type="checkbox" required className="mt-1 h-4 w-4 accent-blue-600" /><span>By submitting this form, you agree to be contacted by us on <strong>WhatsApp / SMS / Email</strong> regarding your enquiry.</span></label>

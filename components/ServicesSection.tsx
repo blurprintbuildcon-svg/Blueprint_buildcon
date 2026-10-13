@@ -60,10 +60,10 @@ export default function ServicesSection({ services: providedServices }: { servic
                     {service.description}
                   </p>
                   <Link
-                    href="/contact"
-                    className="inline-flex items-center text-brand-orange font-semibold hover:text-blue-700 transition-colors"
+                    href={`/services/${service.id}`}
+                    className="inline-flex items-center text-brand-orange font-semibold hover:text-blue-700 transition-colors group-hover:translate-x-1 duration-200"
                   >
-                    Learn More
+                    <span>View Service Details</span>
                     <ArrowRight className="ml-2 w-4 h-4" />
                   </Link>
                 </div>
