@@ -5,59 +5,10 @@ import { motion } from 'framer-motion';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
+import { processSteps } from '@/data/processSteps';
+
 export default function ProcessTimeline() {
   const [activeImage, setActiveImage] = useState(0);
-
- const processSteps = [
-  {
-    number: "01",
-    title: "Consultation",
-    description:
-      "We understand your requirements, budget, timeline, and vision for your construction project.",
-    image:
-      "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    number: "02",
-    title: "Planning & Design",
-    description:
-      "Our team develops detailed plans and designs that match your requirements and project goals.",
-    image:
-      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    number: "03",
-    title: "Blueprint",
-    description:
-      "Detailed architectural blueprints and technical drawings are prepared before construction begins.",
-    image:
-      "https://images.unsplash.com/photo-1542621334-a254cf47733d?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    number: "04",
-    title: "Construction",
-    description:
-      "Our experienced team manages the construction process while maintaining quality and timelines.",
-    image:
-      "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    number: "05",
-    title: "Quality Inspection",
-    description:
-      "Every stage is carefully inspected to ensure that the work meets required quality standards.",
-    image:
-      "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    number: "06",
-    title: "Handover",
-    description:
-      "Once everything is completed and inspected, your finished project is handed over to you.",
-    image:
-      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-  },
-];
 
   const processImages = [
     {
@@ -163,9 +114,10 @@ export default function ProcessTimeline() {
                     : []
                 )
                 .map((step) => (
-                  <div
+                  <Link
                     key={step.number}
-                    className="group bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300"
+                    href={`/process/${step.id}`}
+                    className="group bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
                   >
                     {/* Image */}
                     <div className="relative h-56 overflow-hidden">
@@ -179,19 +131,33 @@ export default function ProcessTimeline() {
                       <div className="absolute top-4 left-4 w-12 h-12 rounded-full bg-brand-navy text-white flex items-center justify-center font-bold text-lg shadow-lg">
                         {step.number}
                       </div>
+
+                      {/* Hover Overlay Badge */}
+                      <div className="absolute inset-0 bg-brand-navy/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span className="px-4 py-2 bg-white/95 text-brand-navy font-bold text-xs uppercase tracking-wider rounded-full shadow-lg">
+                          View Details &rarr;
+                        </span>
+                      </div>
                     </div>
 
                     {/* Content */}
-                    <div className="p-6">
-                      <h3 className="text-2xl font-bold text-brand-navy mb-3">
-                        {step.title}
-                      </h3>
+                    <div className="p-6 flex flex-col justify-between flex-1">
+                      <div>
+                        <h3 className="text-2xl font-bold text-brand-navy mb-3 group-hover:text-brand-orange transition-colors">
+                          {step.title}
+                        </h3>
 
-                      <p className="text-slate-600 leading-relaxed">
-                        {step.description}
-                      </p>
+                        <p className="text-slate-600 leading-relaxed text-sm">
+                          {step.shortDescription}
+                        </p>
+                      </div>
+
+                      <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-brand-orange uppercase tracking-wider">
+                        <span>Explore Stage Details</span>
+                        <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
             </motion.div>
           </div>

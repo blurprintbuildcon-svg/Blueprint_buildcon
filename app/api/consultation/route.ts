@@ -11,6 +11,8 @@ export async function POST(request: Request) {
       name: typeof body.name === 'string' ? body.name.trim() : '',
       phone: typeof body.phone === 'string' ? body.phone.trim() : '',
       company: typeof body.company === 'string' ? body.company.trim() : '',
+      website: typeof body.website === 'string' ? body.website.trim() : '',
+      location: typeof body.location === 'string' ? body.location.trim() : '',
       message: typeof body.message === 'string' ? body.message.trim() : '',
     };
 

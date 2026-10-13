@@ -92,3 +92,27 @@ body:has(.admin-root) div.fixed.bottom-6.right-6 {
   background: var(--color-brand-orange);
   border: 3px solid var(--color-brand-gray);
 }
+
+/* Modal Form Custom Scrollbar */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #93c5fd #f1f5f9;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #93c5fd;
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #3b82f6;
+}

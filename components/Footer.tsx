@@ -86,15 +86,17 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start space-x-3 text-slate-400 text-sm">
                 <Phone size={18} className="text-brand-orange mt-0.5 shrink-0" />
-                <span>+91 XXXXX XXXXX</span>
+                <a href="tel:+919028346900" className="hover:text-white transition-colors">+91 9028346900</a>
               </li>
               <li className="flex items-start space-x-3 text-slate-400 text-sm">
                 <Mail size={18} className="text-brand-orange mt-0.5 shrink-0" />
-                <span>info@blueprintbuildcon.com</span>
+                <a href="mailto:project@blueprintbuildcon.homes" className="hover:text-white transition-colors">project@blueprintbuildcon.homes</a>
               </li>
               <li className="flex items-start space-x-3 text-slate-400 text-sm">
                 <MapPin size={18} className="text-brand-orange mt-0.5 shrink-0" />
-                <span>[Company Address], City, State, ZIP Code</span>
+                <span className="leading-relaxed">
+                  WORK FLO, ICON TOWER 7TH FLOOR OFFICE NO 702, BANER ROAD, BANER, OPP KFC, BANER, PUNE (MUNICIPAL CORPORATION.), PUNE CITY, PUNE, 411045
+                </span>
               </li>
             </ul>
           </div>

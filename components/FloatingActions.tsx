@@ -9,8 +9,8 @@ export default function FloatingActions() {
     return null;
   }
 
-  const whatsappNumber = "919999999999";
-  const phoneNumber = "+919999999999";
+  const whatsappNumber = "919028346900";
+  const phoneNumber = "+919028346900";
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">

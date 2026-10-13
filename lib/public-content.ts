@@ -21,14 +21,6 @@ export type PublicProject = {
   details: { duration: string; area: string; completion: string };
 };
 
-export type PublicService = {
-  id: string;
-  title: string;
-  description: string;
-  iconName?: string;
-  image: string;
-};
-
 export async function getPublicProjects(): Promise<PublicProject[]> {
   try {
     await connectToDatabase();
@@ -135,11 +127,38 @@ export async function getRelatedProjects(currentId: string, category?: string, l
   return [...sameCategory, ...remaining].slice(0, limit);
 }
 
+export type PublicService = {
+  id: string;
+  title: string;
+  shortDescription?: string;
+  description: string;
+  category?: string;
+  iconName?: string;
+  image: string;
+  features?: string[];
+  deliverables?: string[];
+  processHighlights?: string[];
+};
+
 export async function getPublicServices(): Promise<PublicService[]> {
   try {
     await connectToDatabase();
     const records = await Service.find().sort({ createdAt: -1 }).lean();
-    if (records.length) return records.map((service) => ({ id: String(service._id), title: service.title, description: service.shortDescription || service.description, iconName: fallbackServices.find((item) => item.title === service.title)?.id ?? fallbackServices[0].id, image: service.image?.url ?? fallbackServices[0].image }));
+    if (records.length) return records.map((service) => {
+      const fallback = fallbackServices.find((item) => item.title === service.title) ?? fallbackServices[0];
+      return {
+        id: String(service._id),
+        title: service.title,
+        shortDescription: service.shortDescription || fallback.shortDescription,
+        description: service.description || fallback.description,
+        category: service.category || fallback.category,
+        iconName: fallback.id,
+        image: service.image?.url ?? fallback.image,
+        features: service.features?.length ? service.features : fallback.features,
+        deliverables: fallback.deliverables,
+        processHighlights: fallback.processHighlights,
+      };
+    });
   } catch { /* Static content keeps the public site available while MongoDB is unavailable. */ }
 
   return fallbackServices.map(({ icon, ...item }) => ({
@@ -147,4 +166,49 @@ export async function getPublicServices(): Promise<PublicService[]> {
     iconName: item.id,
     image: item.image,
   }));
+}
+
+export async function getPublicServiceById(id: string): Promise<PublicService | null> {
+  try {
+    await connectToDatabase();
+    let record: any = null;
+    if (mongoose.isValidObjectId(id)) {
+      record = await Service.findById(id).lean();
+    }
+    if (!record) {
+      try {
+        record = await Service.findOne({ _id: id }).lean();
+      } catch {
+        /* invalid query */
+      }
+    }
+    if (record) {
+      const fallback = fallbackServices.find((item) => item.title === record.title) ?? fallbackServices[0];
+      return {
+        id: String(record._id),
+        title: record.title,
+        shortDescription: record.shortDescription || fallback.shortDescription,
+        description: record.description || fallback.description,
+        category: record.category || fallback.category,
+        iconName: fallback.id,
+        image: record.image?.url ?? fallback.image,
+        features: record.features?.length ? record.features : fallback.features,
+        deliverables: fallback.deliverables,
+        processHighlights: fallback.processHighlights,
+      };
+    }
+  } catch {
+    /* Fallback to static */
+  }
+
+  const fallback = fallbackServices.find((item) => item.id === id);
+  if (fallback) {
+    const { icon, ...rest } = fallback;
+    return {
+      ...rest,
+      iconName: fallback.id,
+    };
+  }
+
+  return null;
 }
