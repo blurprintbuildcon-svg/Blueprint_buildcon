@@ -28,7 +28,11 @@ export async function connectToDatabase() {
   }
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(mongoUri);
+    cached.promise = mongoose.connect(mongoUri, {
+      serverSelectionTimeoutMS: 5000,
+      connectTimeoutMS: 5000,
+      bufferCommands: false,
+    });
   }
 
   try {

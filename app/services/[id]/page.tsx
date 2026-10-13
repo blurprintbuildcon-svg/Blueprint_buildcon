@@ -20,12 +20,7 @@ type PageProps = {
   params: Promise<{ id: string }>;
 };
 
-export async function generateStaticParams() {
-  const allServices = await getPublicServices();
-  return allServices.map((service) => ({
-    id: service.id,
-  }));
-}
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
