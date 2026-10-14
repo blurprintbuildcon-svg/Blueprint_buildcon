@@ -1,22 +1,284 @@
-import Link from 'next/link';
-import { ArrowUpRight, BriefcaseBusiness, Building2, FolderOpen, Image as ImageIcon, Plus } from 'lucide-react';
-import { projects } from '@/data/projects';
-import { services } from '@/data/services';
+'use client';
 
-const stats = [
-  { label: 'Featured projects', value: projects.length, note: 'Published in portfolio', icon: BriefcaseBusiness, accent: 'bg-brand-orange' },
-  { label: 'Active services', value: services.length, note: 'Shown on services page', icon: Building2, accent: 'bg-brand-navy' },
-  { label: 'Project images', value: projects.length, note: 'Primary gallery assets', icon: ImageIcon, accent: 'bg-[#8c9b75]' },
-  { label: 'Total data received', value: projects.length + services.length, note: 'Projects + services records', icon: FolderOpen, accent: 'bg-[#b58c64]' },
-];
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import {
+  ArrowUpRight,
+  BriefcaseBusiness,
+  Building2,
+  FolderOpen,
+  Image as ImageIcon,
+  Plus,
+  Inbox,
+  Mail,
+  Phone,
+  Calendar,
+  Sparkles,
+  Send,
+} from 'lucide-react';
+
+type StatsData = {
+  projects: number;
+  services: number;
+  contacts: number;
+  serviceEnquiries: number;
+  consultations: number;
+  submissions: number;
+};
+
+type RecentLead = {
+  _id: string;
+  type: 'contact' | 'enquiry';
+  name: string;
+  email: string;
+  phone: string;
+  detail: string;
+  date: string;
+};
 
 export default function AdminDashboardPage() {
-  return <div className="mx-auto max-w-[1500px] space-y-8">
-    <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="mb-2 text-sm text-slate-500">Good to see you.</p><h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Your work, at a glance.</h2><p className="mt-3 max-w-xl text-sm leading-6 text-slate-500">Keep the public portfolio sharp by managing the work and services your team is proud to deliver.</p></div><div className="flex gap-3"><Link href="/admin/projects/new" className="inline-flex items-center gap-2 bg-brand-orange px-4 py-3 text-sm font-bold text-white shadow-lg shadow-brand-orange/15 transition hover:bg-orange-700"><Plus size={17} /> Add project</Link><Link href="/admin/services/new" className="inline-flex items-center gap-2 border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-brand-navy transition hover:border-brand-orange"><Plus size={17} /> Add service</Link></div></div>
-    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{stats.map((stat) => <div key={stat.label} className="border border-slate-200 bg-white p-5 shadow-[0_12px_35px_rgba(20,34,31,0.04)]"><div className="mb-7 flex items-start justify-between"><div className={`flex h-11 w-11 items-center justify-center text-white ${stat.accent}`}><stat.icon size={21} /></div><span className="text-xs font-bold uppercase tracking-[0.16em] text-emerald-600">Live</span></div><p className="text-3xl font-bold tracking-tight text-brand-navy">{stat.value}</p><p className="mt-1 text-sm font-semibold text-brand-navy">{stat.label}</p><p className="mt-2 text-xs text-slate-400">{stat.note}</p></div>)}</div>
-    <div className="grid gap-6 xl:grid-cols-[1.4fr_0.8fr]">
-      <section className="border border-slate-200 bg-white"><div className="flex items-center justify-between border-b border-slate-100 px-5 py-5 sm:px-7"><div><p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-orange">Portfolio pulse</p><h3 className="mt-1 text-xl font-bold">Recently featured projects</h3></div><Link href="/admin/projects" className="inline-flex items-center gap-1 text-sm font-bold text-brand-orange hover:text-orange-700">View all <ArrowUpRight size={16} /></Link></div><div className="divide-y divide-slate-100">{projects.slice(0, 4).map((project) => <div key={project.id} className="flex items-center gap-4 px-5 py-4 sm:px-7"><img src={project.image} alt="" className="h-14 w-20 object-cover" /><div className="min-w-0 flex-1"><p className="truncate text-sm font-bold text-brand-navy">{project.title}</p><p className="mt-1 text-xs text-slate-400">{project.location}</p></div><span className="hidden bg-brand-gray px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500 sm:inline-block">{project.category}</span><ArrowUpRight size={16} className="text-slate-300" /></div>)}</div></section>
-      <section className="bg-brand-navy p-6 text-white sm:p-7"><p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-orange">Quick start</p><h3 className="mt-4 max-w-xs text-2xl font-bold leading-tight">Make the next update count.</h3><p className="mt-4 text-sm leading-6 text-white/60">Your public pages are built around strong imagery and clear project stories. Start with the content that needs attention most.</p><div className="mt-8 space-y-3"><Link href="/admin/projects/new" className="flex items-center justify-between border border-white/15 px-4 py-3 text-sm font-semibold transition hover:border-brand-orange hover:bg-white/5">Create a project <ArrowUpRight size={17} /></Link><Link href="/admin/services/new" className="flex items-center justify-between border border-white/15 px-4 py-3 text-sm font-semibold transition hover:border-brand-orange hover:bg-white/5">Add a service <ArrowUpRight size={17} /></Link></div></section>
+  const [stats, setStats] = useState<StatsData>({
+    projects: 0,
+    services: 0,
+    contacts: 0,
+    serviceEnquiries: 0,
+    consultations: 0,
+    submissions: 0,
+  });
+
+  const [recentLeads, setRecentLeads] = useState<RecentLead[]>([]);
+
+  useEffect(() => {
+    // 1. Fetch live stats
+    fetch('/api/admin/dashboard/stats')
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success && res.data) {
+          setStats(res.data);
+        }
+      })
+      .catch(() => undefined);
+
+    // 2. Fetch latest submissions for quick dashboard view
+    Promise.all([
+      fetch('/api/admin/contacts').then((r) => r.json()),
+      fetch('/api/admin/enquiries').then((r) => r.json()),
+    ])
+      .then(([contactsRes, enquiriesRes]) => {
+        const combined: RecentLead[] = [];
+
+        if (contactsRes.success && Array.isArray(contactsRes.data)) {
+          contactsRes.data.forEach((c: any) => {
+            combined.push({
+              _id: c._id,
+              type: 'contact',
+              name: c.name,
+              email: c.email,
+              phone: c.phone,
+              detail: `${c.projectType} (${c.city})`,
+              date: c.createdAt,
+            });
+          });
+        }
+
+        if (enquiriesRes.success && Array.isArray(enquiriesRes.data)) {
+          enquiriesRes.data.forEach((e: any) => {
+            combined.push({
+              _id: e._id,
+              type: 'enquiry',
+              name: e.fullname,
+              email: e.email,
+              phone: e.mobile,
+              detail: e.serviceInterestedIn,
+              date: e.createdAt,
+            });
+          });
+        }
+
+        combined.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        setRecentLeads(combined.slice(0, 5));
+      })
+      .catch(() => undefined);
+  }, []);
+
+  const statCards = [
+    {
+      label: 'Contact Submissions',
+      value: stats.contacts,
+      note: 'Website contact form leads',
+      icon: Send,
+      accent: 'bg-brand-orange',
+      href: '/admin/enquiries',
+    },
+    {
+      label: 'Service Enquiries',
+      value: stats.serviceEnquiries,
+      note: 'Service-specific lead inquiries',
+      icon: Sparkles,
+      accent: 'bg-[#2b537d]',
+      href: '/admin/enquiries',
+    },
+    {
+      label: 'Featured Projects',
+      value: stats.projects,
+      note: 'Published projects in portfolio',
+      icon: BriefcaseBusiness,
+      accent: 'bg-brand-navy',
+      href: '/admin/projects',
+    },
+    {
+      label: 'Active Services',
+      value: stats.services,
+      note: 'Live offerings on services page',
+      icon: Building2,
+      accent: 'bg-[#8c9b75]',
+      href: '/admin/services',
+    },
+  ];
+
+  return (
+    <div className="mx-auto max-w-[1500px] space-y-8">
+      {/* Top Banner */}
+      <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+        <div>
+          <p className="mb-2 text-sm text-slate-500">Good to see you.</p>
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Your work, at a glance.</h2>
+          <p className="mt-3 max-w-xl text-sm leading-6 text-slate-500">
+            Keep track of customer inquiries, contact submissions, services, and showcased portfolio projects.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          <Link
+            href="/admin/enquiries"
+            className="inline-flex items-center gap-2 bg-brand-navy px-4 py-3 text-sm font-bold text-white shadow-lg transition hover:bg-slate-800"
+          >
+            <Inbox size={17} /> View all enquiries
+          </Link>
+          <Link
+            href="/admin/projects/new"
+            className="inline-flex items-center gap-2 bg-brand-orange px-4 py-3 text-sm font-bold text-white shadow-lg shadow-brand-orange/15 transition hover:bg-orange-700"
+          >
+            <Plus size={17} /> Add project
+          </Link>
+        </div>
+      </div>
+
+      {/* Metric Cards */}
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {statCards.map((stat) => (
+          <Link
+            key={stat.label}
+            href={stat.href}
+            className="group block border border-slate-200 bg-white p-5 shadow-[0_12px_35px_rgba(20,34,31,0.04)] transition hover:border-brand-orange"
+          >
+            <div className="mb-6 flex items-start justify-between">
+              <div className={`flex h-11 w-11 items-center justify-center text-white ${stat.accent}`}>
+                <stat.icon size={21} />
+              </div>
+              <span className="flex items-center gap-1 text-xs font-bold uppercase tracking-[0.16em] text-slate-400 group-hover:text-brand-orange">
+                View <ArrowUpRight size={14} />
+              </span>
+            </div>
+            <p className="text-3xl font-bold tracking-tight text-brand-navy">{stat.value}</p>
+            <p className="mt-1 text-sm font-semibold text-brand-navy">{stat.label}</p>
+            <p className="mt-2 text-xs text-slate-400">{stat.note}</p>
+          </Link>
+        ))}
+      </div>
+
+      {/* Main Grid: Recent Inquiries + Quick Actions */}
+      <div className="grid gap-6 xl:grid-cols-[1.4fr_0.8fr]">
+        {/* Recent Submissions */}
+        <section className="border border-slate-200 bg-white">
+          <div className="flex items-center justify-between border-b border-slate-100 px-5 py-5 sm:px-7">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-orange">
+                Recent Inquiries
+              </p>
+              <h3 className="mt-1 text-xl font-bold">Latest Customer Leads</h3>
+            </div>
+            <Link
+              href="/admin/enquiries"
+              className="inline-flex items-center gap-1 text-sm font-bold text-brand-orange hover:text-orange-700"
+            >
+              Open Enquiries Hub <ArrowUpRight size={16} />
+            </Link>
+          </div>
+
+          <div className="divide-y divide-slate-100">
+            {recentLeads.length === 0 ? (
+              <div className="py-12 text-center text-slate-400">
+                <Inbox size={32} className="mx-auto mb-2 text-slate-300" />
+                No customer submissions recorded yet.
+              </div>
+            ) : (
+              recentLeads.map((lead) => (
+                <div key={lead._id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 py-4 sm:px-7 hover:bg-slate-50/60">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <p className="truncate text-sm font-bold text-brand-navy">{lead.name}</p>
+                      <span
+                        className={`text-[10px] font-bold uppercase tracking-[0.12em] px-2 py-0.5 rounded ${
+                          lead.type === 'contact'
+                            ? 'bg-orange-50 text-brand-orange border border-orange-100'
+                            : 'bg-blue-50 text-blue-700 border border-blue-100'
+                        }`}
+                      >
+                        {lead.type === 'contact' ? 'Contact' : 'Service Enquiry'}
+                      </span>
+                    </div>
+                    <p className="mt-1 text-xs text-slate-500 truncate">{lead.detail}</p>
+                    <div className="mt-1 flex items-center gap-3 text-xs text-slate-400">
+                      <span>{lead.email}</span>
+                      <span>•</span>
+                      <span>{lead.phone}</span>
+                    </div>
+                  </div>
+
+                  <span className="text-xs text-slate-400 whitespace-nowrap self-start sm:self-center">
+                    {new Date(lead.date).toLocaleDateString('en-IN', {
+                      day: 'numeric',
+                      month: 'short',
+                    })}
+                  </span>
+                </div>
+              ))
+            )}
+          </div>
+        </section>
+
+        {/* Quick Start Side Card */}
+        <section className="bg-brand-navy p-6 text-white sm:p-7 flex flex-col justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-orange">Lead & Content Hub</p>
+            <h3 className="mt-4 max-w-xs text-2xl font-bold leading-tight">Prompt replies win clients.</h3>
+            <p className="mt-4 text-sm leading-6 text-white/60">
+              Check incoming queries from clients interested in construction, architecture, and interior design directly in your enquiries dashboard.
+            </p>
+          </div>
+
+          <div className="mt-8 space-y-3">
+            <Link
+              href="/admin/enquiries"
+              className="flex items-center justify-between border border-white/15 px-4 py-3 text-sm font-semibold transition hover:border-brand-orange hover:bg-white/5"
+            >
+              Review all enquiries <ArrowUpRight size={17} />
+            </Link>
+            <Link
+              href="/admin/projects/new"
+              className="flex items-center justify-between border border-white/15 px-4 py-3 text-sm font-semibold transition hover:border-brand-orange hover:bg-white/5"
+            >
+              Add a new portfolio project <ArrowUpRight size={17} />
+            </Link>
+            <Link
+              href="/admin/services/new"
+              className="flex items-center justify-between border border-white/15 px-4 py-3 text-sm font-semibold transition hover:border-brand-orange hover:bg-white/5"
+            >
+              Add a new service offering <ArrowUpRight size={17} />
+            </Link>
+          </div>
+        </section>
+      </div>
     </div>
-  </div>;
+  );
 }

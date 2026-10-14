@@ -3,16 +3,18 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { BarChart3, BriefcaseBusiness, Building2, ChevronRight, CircleUserRound, LogOut, Menu, PanelLeftClose, PanelLeftOpen, X, MessageSquare } from 'lucide-react';
+import { BarChart3, BriefcaseBusiness, Building2, ChevronRight, CircleUserRound, LogOut, Menu, PanelLeftClose, PanelLeftOpen, X, MessageSquare, Inbox } from 'lucide-react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
 const navigation = [
   { label: 'Dashboard', href: '/admin/dashboard', icon: BarChart3 },
+  { label: 'Enquiries & Leads', href: '/admin/enquiries', icon: Inbox },
   { label: 'Featured Projects', href: '/admin/projects', icon: BriefcaseBusiness },
   { label: 'Services', href: '/admin/services', icon: Building2 },
   { label: 'Testimonials', href: '/admin/testimonials', icon: MessageSquare },
 ];
+
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();

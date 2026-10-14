@@ -22,7 +22,12 @@ const child = cp.spawn(command, args, {
   stdio: 'inherit',
   shell: true,
   cwd: process.cwd(),
+  env: {
+    ...process.env,
+    NODE_OPTIONS: `${process.env.NODE_OPTIONS || ''} --max-old-space-size=4096`.trim(),
+  },
 });
+
 
 child.on('exit', (code) => {
   process.exit(code ?? 0);
