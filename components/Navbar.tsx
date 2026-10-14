@@ -13,6 +13,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const isHomePage = pathname === '/';
   const showSolidNav = isScrolled || !isHomePage;
+  const isActiveLink = (href: string) => pathname === href || (href !== '/' && Boolean(pathname?.startsWith(`${href}/`)));
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,7 +29,7 @@ export default function Navbar() {
     { name: 'About', href: '/about' },
     { name: 'Services', href: '/services' },
     { name: 'Process', href: '/process' },
-    // { name: 'Projects', href: '/projects' },
+    { name: 'Portfolio', href: '/projects' },
     // { name: 'Packages', href: '/packages' },
     { name: 'Why Us', href: '/why-us' },
     { name: 'Contact', href: '/contact' },
@@ -38,13 +39,13 @@ export default function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${showSolidNav
           ? 'bg-white/95 backdrop-blur-md shadow-sm py-2.5'
-          : 'bg-transparent py-4'
+          : 'bg-white/95 backdrop-blur-md shadow-sm py-2.5 lg:bg-transparent lg:py-4 lg:shadow-none lg:backdrop-blur-none'
         }`}
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
-          <Link href="/" className="group flex items-center gap-3 flex-shrink-0">
-            <div className={`relative flex items-center justify-center w-11 h-11 rounded-xl p-1.5 transition-all duration-300 group-hover:scale-105 ${
+          <Link href="/" className="group flex min-w-0 items-center gap-2 sm:gap-3 flex-shrink-0">
+            <div className={`relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl p-1.5 transition-all duration-300 group-hover:scale-105 sm:h-11 sm:w-11 ${
               showSolidNav
                 ? 'bg-gradient-to-br from-blue-50 to-white shadow-md shadow-blue-900/5 ring-1 ring-blue-500/20'
                 : 'bg-white/95 shadow-lg shadow-black/20 ring-1 ring-white/60'
@@ -59,12 +60,12 @@ export default function Navbar() {
               />
             </div>
             <div className="flex flex-col">
-              <span className={`text-xl font-extrabold tracking-tight leading-none ${
+              <span className={`text-base font-extrabold tracking-tight leading-none sm:text-xl ${
                 showSolidNav ? 'text-brand-navy' : 'text-brand-navy lg:text-white'
               }`}>
                 BluePrint<span className="text-brand-orange">-BuildCon</span>
               </span>
-              <span className={`text-[8.5px] font-bold uppercase tracking-[0.24em] mt-1 transition-colors ${
+              <span className={`mt-1 text-[7px] font-bold uppercase tracking-[0.16em] transition-colors sm:text-[8.5px] sm:tracking-[0.24em] ${
                 showSolidNav ? 'text-slate-400 group-hover:text-brand-orange' : 'text-slate-500 lg:text-blue-100/80 group-hover:text-white'
               }`}>
                 Ideas • Structures • Reality
@@ -79,7 +80,10 @@ export default function Navbar() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className={`text-sm font-medium transition-colors hover:text-brand-orange ${showSolidNav ? 'text-brand-charcoal' : 'text-brand-charcoal lg:text-white'
+                    aria-current={isActiveLink(link.href) ? 'page' : undefined}
+                    className={`text-sm transition-colors hover:text-brand-orange ${isActiveLink(link.href)
+                      ? 'font-semibold text-brand-orange underline decoration-2 underline-offset-8'
+                      : `font-medium ${showSolidNav ? 'text-brand-charcoal' : 'text-white'}`
                       }`}
                   >
                     {link.name}
@@ -122,7 +126,11 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="px-4 py-3 text-brand-charcoal font-medium hover:bg-brand-gray rounded-lg transition-colors"
+                  aria-current={isActiveLink(link.href) ? 'page' : undefined}
+                  className={`rounded-lg px-4 py-3 transition-colors ${isActiveLink(link.href)
+                    ? 'bg-brand-blue-light font-semibold text-brand-blue'
+                    : 'font-medium text-brand-charcoal hover:bg-brand-gray'
+                    }`}
                 >
                   {link.name}
                 </Link>

@@ -22,11 +22,8 @@ export const metadata: Metadata = {
   title: "BluePrint-BuildCon | Ideas • Structures • Reality",
   description: "BluePrint-BuildCon provides reliable end-to-end residential and commercial construction services with transparent pricing, professional project management and quality-focused execution.",
   icons: {
-    icon: [
-      { url: '/logo-mark.png', type: 'image/png' },
-      { url: '/favicon.ico' },
-    ],
-    apple: '/logo-mark.png',
+    icon: '/logo.jpg',
+    apple: '/logo.jpg',
   },
   openGraph: {
     title: "BluePrint-BuildCon | Ideas • Structures • Reality",
