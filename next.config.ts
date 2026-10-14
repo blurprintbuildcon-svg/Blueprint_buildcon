@@ -14,7 +14,9 @@ if (process.platform === "win32") {
 }
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    qualities: [75, 95],
+  },
 };
 
 export default nextConfig;

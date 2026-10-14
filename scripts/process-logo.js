@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 async function processLogo() {
-  const inputPath = path.join(__dirname, '..', 'public', 'logo.jpg');
+  const inputPath = path.join(__dirname, '..', 'public', 'logo.jpeg');
   const publicDir = path.join(__dirname, '..', 'public');
   const appDir = path.join(__dirname, '..', 'app');
 
@@ -78,8 +78,8 @@ async function processLogo() {
   // The 'B' is situated roughly from y: 80 to 740, and x: 180 to 840
   // Let's find tight bounding box of the 'B' artwork above the text (y < 750)
   let minX = width, maxX = 0, minY = height, maxY = 0;
-  for (let y = 50; y < 750; y++) {
-    for (let x = 100; x < width - 100; x++) {
+  for (let y = 0; y < Math.round(height * 0.81); y++) {
+    for (let x = 100; x < width - 160; x++) {
       const idx = (y * width + x) * channels;
       if (transparentData[idx + 3] > 30) {
         if (x < minX) minX = x;

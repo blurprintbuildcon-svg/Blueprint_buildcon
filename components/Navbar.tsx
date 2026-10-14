@@ -45,16 +45,17 @@ export default function Navbar() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
           <Link href="/" className="group flex min-w-0 items-center gap-2 sm:gap-3 flex-shrink-0">
-            <div className={`relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl p-1.5 transition-all duration-300 group-hover:scale-105 sm:h-11 sm:w-11 ${
+            <div className={`relative flex h-14 w-14 shrink-0 items-center justify-center rounded-xl p-1 transition-all duration-300 group-hover:scale-105 sm:h-16 sm:w-16 ${
               showSolidNav
                 ? 'bg-gradient-to-br from-blue-50 to-white shadow-md shadow-blue-900/5 ring-1 ring-blue-500/20'
                 : 'bg-white/95 shadow-lg shadow-black/20 ring-1 ring-white/60'
             }`}>
               <Image
-                src="/logo-mark.png"
+                src="/logo.jpeg"
                 alt="BluePrint-BuildCon"
-                width={40}
-                height={40}
+                width={64}
+                height={64}
+                quality={95}
                 priority
                 className="w-full h-full object-contain filter drop-shadow-sm"
               />

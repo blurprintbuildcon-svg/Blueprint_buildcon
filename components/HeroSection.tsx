@@ -204,7 +204,7 @@ export default function HeroSection() {
           <motion.div initial={{ opacity: 0, scale: 0.96, y: 12 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.25 }} className="relative grid max-h-[92vh] w-full max-w-4xl overflow-hidden bg-white shadow-2xl md:grid-cols-[0.9fr_1.1fr]">
             <div className="relative hidden min-h-[420px] items-center justify-center overflow-hidden bg-brand-navy md:flex">
               <Image
-                src="/Build Your Dream, Built Right.png"
+                src="/Blueprint to Reality at Sunset.png"
                 alt="BluePrint-BuildCon: Build Your Dream, We'll Build It Right"
                 fill
                 sizes="(min-width: 768px) 40vw, 0px"

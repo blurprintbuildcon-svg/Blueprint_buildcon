@@ -37,8 +37,8 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
     <aside className={`fixed inset-y-0 left-0 z-40 flex w-72 flex-col bg-brand-navy text-white transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} ${collapsed ? 'lg:w-24' : ''}`}>
       <div className="flex h-24 items-center justify-between border-b border-white/10 px-6">
         <Link href="/admin/dashboard" className={`flex items-center gap-3 overflow-hidden whitespace-nowrap text-lg font-bold tracking-tight ${collapsed ? 'lg:justify-center' : ''}`}>
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 p-1.5 ring-1 ring-white/15">
-            <Image src="/logo-mark.png" alt="Logo" width={32} height={32} className="h-full w-full object-contain filter drop-shadow-sm" />
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-white/10 p-1.5 ring-1 ring-white/15">
+            <Image src="/logo.jpeg" alt="BluePrint-BuildCon" width={56} height={56} quality={95} className="h-full w-full object-contain filter drop-shadow-sm" />
           </div>
           <div className={collapsed ? 'lg:hidden' : ''}>
             <span>BluePrint<span className="text-brand-orange">-BuildCon</span></span>

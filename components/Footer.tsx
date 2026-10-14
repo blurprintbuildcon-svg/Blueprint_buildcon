@@ -12,17 +12,18 @@ export default function Footer() {
           {/* Column 1 */}
           <div className="space-y-4">
             <Link href="/" className="group inline-flex items-center gap-3.5">
-              <div className="relative flex items-center justify-center w-12 h-12 rounded-xl bg-white/10 ring-1 ring-white/20 p-2 backdrop-blur-md transition-all group-hover:bg-white/15 group-hover:ring-brand-orange/40 group-hover:scale-105">
+              <div className="relative flex h-16 w-16 items-center justify-center rounded-xl bg-white/10 p-1 ring-1 ring-white/20 backdrop-blur-md transition-all group-hover:bg-white/15 group-hover:ring-brand-orange/40 group-hover:scale-105">
                 <Image
-                  src="/logo-mark.png"
+                  src="/logo.jpeg"
                   alt="BluePrint-BuildCon"
-                  width={44}
-                  height={44}
+                  width={64}
+                  height={64}
+                  quality={95}
                   className="w-full h-full object-contain filter drop-shadow"
                 />
               </div>
               <div className="flex flex-col">
-                <span className="text-2xl font-bold tracking-tight text-white leading-tight">
+                <span className="whitespace-nowrap text-xl font-bold tracking-tight text-white leading-tight">
                   BluePrint<span className="text-brand-orange">-BuildCon</span>
                 </span>
                 <span className="text-[9.5px] font-semibold uppercase tracking-[0.24em] text-blue-200/80">
