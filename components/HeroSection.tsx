@@ -136,7 +136,7 @@ export default function HeroSection() {
 
       <div className="container mx-auto px-4 md:px-6 relative z-20 py-12 lg:py-24">
         <div className="max-w-3xl">
-          
+
           {/* Hero Content */}
           <div className="lg:col-span-7 text-white">
             <motion.div
@@ -191,11 +191,10 @@ export default function HeroSection() {
                     type="button"
                     aria-label={`Go to slide ${dotIdx + 1}`}
                     onClick={() => setCurrentImageIndex(dotIdx)}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      currentImageIndex === dotIdx
+                    className={`h-2 rounded-full transition-all duration-300 ${currentImageIndex === dotIdx
                         ? 'w-8 bg-brand-orange'
                         : 'w-2 bg-white/40 hover:bg-white/70'
-                    }`}
+                      }`}
                   />
                 ))}
               </div>
@@ -237,7 +236,16 @@ export default function HeroSection() {
                   </select>
                   <input type="text" name="location" placeholder="Location" value={formData.location} onChange={handleChange} className="w-full border border-blue-300 px-4 py-2.5 text-base outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100" />
                   <textarea name="message" placeholder="Message..." rows={2} value={formData.message} onChange={handleChange} className="w-full resize-none border border-blue-300 px-4 py-2.5 text-base outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100" />
-                  <p className="text-sm font-medium leading-5 text-blue-700">By clicking Sign Up, you confirm that you have read and agree to our Terms &amp; Conditions and Privacy Policy.</p>
+                  <p className="text-sm font-medium leading-5 text-blue-700">
+                    By clicking Sign Up, you confirm that you have read and agree to our{' '}
+                    <Link href="/terms" target="_blank" className="underline hover:text-blue-900 font-semibold">
+                      Terms &amp; Conditions
+                    </Link>{' '}
+                    and{' '}
+                    <Link href="/privacy-policy" target="_blank" className="underline hover:text-blue-900 font-semibold">
+                      Privacy Policy
+                    </Link>.
+                  </p>
                   <label className="flex items-start gap-2 text-sm leading-5 text-blue-700"><input type="checkbox" required className="mt-1 h-4 w-4 accent-blue-600" /><span>By submitting this form, you agree to be contacted by us on <strong>WhatsApp / SMS / Email</strong> regarding your enquiry.</span></label>
                   <div className="grid grid-cols-2 gap-3 pt-1"><button type="button" onClick={() => setIsFormOpen(false)} className="bg-blue-100 px-4 py-2.5 font-semibold text-blue-700 transition hover:bg-blue-200">Skip</button><button type="submit" disabled={isSubmitting} className="bg-blue-600 px-4 py-2.5 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-wait disabled:opacity-60">{isSubmitting ? 'Submitting...' : 'Sign Up'}</button></div>
                 </form>
