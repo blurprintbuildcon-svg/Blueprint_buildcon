@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { Contact } from '@/models/Contact';
+import { sendContactEmail } from '@/lib/mailer';
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -29,6 +30,13 @@ export async function POST(request: Request) {
 
     await connectToDatabase();
     await Contact.create(contact);
+
+    // Send email notification to project@blueprintbuildcon.homes
+    try {
+      await sendContactEmail(contact);
+    } catch (mailErr) {
+      console.error('Failed sending contact email:', mailErr);
+    }
 
     return NextResponse.json({ message: 'Contact enquiry saved successfully' }, { status: 201 });
   } catch (error) {
