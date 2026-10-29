@@ -6,8 +6,6 @@ import {
   Send,
   AlertCircle,
   Gift,
-  Building2,
-  User,
   Sparkles,
   MessageCircle,
   Check,
@@ -258,24 +256,19 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
     <div
       className={`w-full bg-white text-slate-800 ${isModal
         ? 'p-5 sm:p-7 md:p-8'
-        : 'p-6 sm:p-9 md:p-11 rounded-3xl border border-slate-200/90 shadow-2xl relative overflow-hidden'
+        : 'relative overflow-hidden rounded-3xl border border-slate-200/80 p-6 shadow-sm sm:p-8'
         }`}
     >
-      {/* Top Brand Accent Bar */}
-      {!isModal && (
-        <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-brand-orange via-blue-600 to-brand-navy" />
-      )}
-
       {/* Header Info */}
-      <div className="mb-6 pb-6 border-b border-slate-100">
-        <div className="flex items-center justify-between flex-wrap gap-2 mb-2.5">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-brand-orange text-xs font-bold uppercase tracking-wider">
-            <Sparkles size={13} className="text-brand-orange" />
-            <span>Grow Together • Partner Program</span>
+      <div className="mb-6 border-b border-slate-100 pb-5">
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-700">
+            <Sparkles size={13} aria-hidden="true" />
+            <span>{isModal ? 'Grow Together • Partner Program' : 'Grow Together'}</span>
           </div>
 
           {/* Mode Switcher */}
-            <div className="flex bg-slate-100 p-0.5 rounded-lg text-xs font-bold">
+            <div className="flex rounded-lg bg-slate-100 p-0.5 text-xs font-bold">
               <button
                 type="button"
                 onClick={() => setActiveTab('submit')}
@@ -299,21 +292,21 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
             </div>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-brand-navy tracking-tight">
+          <h2 className="text-3xl font-extrabold tracking-tight text-brand-navy sm:text-4xl">
             Refer and Earn
           </h2>
-          <div className="mt-2.5 flex items-center gap-2 text-sm sm:text-base font-semibold text-slate-700">
-            <Gift size={18} className="text-brand-orange shrink-0" />
-            <span>Refer a Construction Client. Earn Real Commission &amp; Cash Rewards!</span>
+          <div className="mt-2 flex items-center gap-2 text-sm font-semibold text-slate-800 sm:text-base">
+            <Gift size={17} className="shrink-0 text-brand-orange" aria-hidden="true" />
+            <span>Refer a Client. Earn Commission &amp; Cash Rewards!</span>
           </div>
-          <p className="mt-2 text-xs sm:text-sm text-slate-500 leading-relaxed">
+          <p className="mt-2 text-sm leading-relaxed text-slate-600">
             Know someone looking to build a residential home, villa, commercial building, or complete renovation? Refer them to{' '}
             <strong className="text-brand-navy font-semibold">BluePrint-BuildCon</strong>. Our senior engineers will prepare customized architectural plans and estimates.
           </p>
-          <div className="mt-2.5 text-[11px] sm:text-xs font-medium text-amber-700 bg-amber-50/80 border border-amber-200/60 rounded-lg px-3 py-1.5 flex items-center gap-2">
+          <div className="mt-2.5 flex items-start gap-2 text-xs font-medium leading-relaxed text-slate-600">
             <span>🎁</span>
             <span>
-              <strong>Refer More, Earn More!</strong> Cash reward is transferred directly upon project eligibility, verified confirmation, and kickoff. T&amp;C Apply.
+              <strong className="text-brand-blue">Refer More, Earn More!</strong> Cash rewards are subject to project eligibility, confirmation, and applicable terms.
             </span>
           </div>
         </div>
@@ -472,16 +465,15 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
 
             {/* SECTION 1: REFERRER DETAILS */}
             <div>
-              <div className="flex items-center gap-2 mb-3.5 pb-1 border-b border-slate-100">
-                <User size={16} className="text-brand-orange" />
-                <h3 className="text-xs font-bold uppercase tracking-wider text-brand-orange">
-                  1. Referrer Details (You)
+              <div className="mb-3.5 border-b border-orange-100 pb-1">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-orange-600">
+                  Referrer Details
                 </h3>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="referrerName" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  <label htmlFor="referrerName" className="mb-1.5 block text-sm font-medium text-slate-700">
                     Referrer Name <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -492,12 +484,12 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
                     value={formData.referrerName}
                     onChange={handleChange}
                     placeholder="Enter your full name"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-slate-800 placeholder-slate-400 text-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="referrerPhone" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  <label htmlFor="referrerPhone" className="mb-1.5 block text-sm font-medium text-slate-700">
                     Referrer Contact Number <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -508,12 +500,12 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
                     value={formData.referrerPhone}
                     onChange={handleChange}
                     placeholder="Enter your mobile / WhatsApp number"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-slate-800 placeholder-slate-400 text-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="referrerRelation" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  <label htmlFor="referrerRelation" className="mb-1.5 block text-sm font-medium text-slate-700">
                     Your Relationship with Client
                   </label>
                   <select
@@ -521,7 +513,7 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
                     name="referrerRelation"
                     value={formData.referrerRelation}
                     onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-slate-800 text-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
                   >
                     {REFERRER_RELATIONS.map((rel) => (
                       <option key={rel} value={rel}>
@@ -532,7 +524,7 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
                 </div>
 
                 <div>
-                  <label htmlFor="referrerUpi" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  <label htmlFor="referrerUpi" className="mb-1.5 block text-sm font-medium text-slate-700">
                     UPI ID for Reward Payout <span className="text-slate-400 font-normal">(Optional)</span>
                   </label>
                   <input
@@ -542,7 +534,7 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
                     value={formData.referrerUpi}
                     onChange={handleChange}
                     placeholder="e.g. yourname@okhdfcbank / PhonePe"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-slate-800 placeholder-slate-400 text-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
                   />
                 </div>
               </div>
@@ -550,16 +542,15 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
 
             {/* SECTION 2: REFERRED CLIENT & CONSTRUCTION DETAILS */}
             <div>
-              <div className="flex items-center gap-2 mb-3.5 pb-1 border-b border-slate-100">
-                <Building2 size={16} className="text-brand-orange" />
-                <h3 className="text-xs font-bold uppercase tracking-wider text-brand-orange">
-                  2. Referred Client&apos;s Construction &amp; Project Details
+              <div className="mb-3.5 border-b border-orange-100 pb-1">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-orange-600">
+                  Referred Client&apos;s Construction &amp; Project Details
                 </h3>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="clientName" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  <label htmlFor="clientName" className="mb-1.5 block text-sm font-medium text-slate-700">
                     Referred Client Name <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -570,12 +561,12 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
                     value={formData.clientName}
                     onChange={handleChange}
                     placeholder="Enter client's full name"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-slate-800 placeholder-slate-400 text-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="clientPhone" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  <label htmlFor="clientPhone" className="mb-1.5 block text-sm font-medium text-slate-700">
                     Referred Client Contact Number <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -586,12 +577,12 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
                     value={formData.clientPhone}
                     onChange={handleChange}
                     placeholder="Enter client's contact number"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-slate-800 placeholder-slate-400 text-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="clientCity" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  <label htmlFor="clientCity" className="mb-1.5 block text-sm font-medium text-slate-700">
                     Project City / Location <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -602,12 +593,12 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
                     value={formData.clientCity}
                     onChange={handleChange}
                     placeholder="e.g. Pune (Baner, Wakad, PCMC), etc."
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-slate-800 placeholder-slate-400 text-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="clientEmail" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  <label htmlFor="clientEmail" className="mb-1.5 block text-sm font-medium text-slate-700">
                     Client Email Address <span className="text-slate-400 font-normal">(Optional)</span>
                   </label>
                   <input
@@ -617,12 +608,12 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
                     value={formData.clientEmail}
                     onChange={handleChange}
                     placeholder="client@example.com"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-slate-800 placeholder-slate-400 text-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="serviceRequired" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  <label htmlFor="serviceRequired" className="mb-1.5 block text-sm font-medium text-slate-700">
                     Construction Service Required <span className="text-red-500">*</span>
                   </label>
                   <select
@@ -631,7 +622,7 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
                     required
                     value={formData.serviceRequired}
                     onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-slate-800 text-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
                   >
                     <option value="" disabled>Select service required...</option>
                     {CONSTRUCTION_SERVICES.map((svc) => (
@@ -643,7 +634,7 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
                 </div>
 
                 <div>
-                  <label htmlFor="projectBudget" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  <label htmlFor="projectBudget" className="mb-1.5 block text-sm font-medium text-slate-700">
                     Estimated Project Budget (₹) <span className="text-red-500">*</span>
                   </label>
                   <select
@@ -652,7 +643,7 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
                     required
                     value={formData.projectBudget}
                     onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-slate-800 text-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
                   >
                     <option value="" disabled>Select estimated budget...</option>
                     {BUDGET_RANGES.map((b) => (
@@ -664,7 +655,7 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
                 </div>
 
                 <div>
-                  <label htmlFor="propertyStatus" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  <label htmlFor="propertyStatus" className="mb-1.5 block text-sm font-medium text-slate-700">
                     Property / Plot Status <span className="text-red-500">*</span>
                   </label>
                   <select
@@ -673,7 +664,7 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
                     required
                     value={formData.propertyStatus}
                     onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-slate-800 text-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
                   >
                     {PROPERTY_STATUSES.map((status) => (
                       <option key={status} value={status}>
@@ -684,7 +675,7 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
                 </div>
 
                 <div>
-                  <label htmlFor="timeline" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  <label htmlFor="timeline" className="mb-1.5 block text-sm font-medium text-slate-700">
                     Project Timeline / Urgency <span className="text-red-500">*</span>
                   </label>
                   <select
@@ -693,7 +684,7 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
                     required
                     value={formData.timeline}
                     onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-slate-800 text-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
                   >
                     {TIMELINES.map((t) => (
                       <option key={t} value={t}>
@@ -704,7 +695,7 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label htmlFor="estimatedArea" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  <label htmlFor="estimatedArea" className="mb-1.5 block text-sm font-medium text-slate-700">
                     Estimated Built-up Area / Plot Dimensions <span className="text-slate-400 font-normal">(Optional)</span>
                   </label>
                   <input
@@ -714,12 +705,12 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
                     value={formData.estimatedArea}
                     onChange={handleChange}
                     placeholder="e.g. 1500 sq ft, 30x40 plot, G+2 floor plan"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-slate-800 placeholder-slate-400 text-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
                   />
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label htmlFor="requirements" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  <label htmlFor="requirements" className="mb-1.5 block text-sm font-medium text-slate-700">
                     Project Requirements / Purpose <span className="text-red-500">*</span>
                   </label>
                   <textarea
@@ -730,7 +721,7 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
                     value={formData.requirements}
                     onChange={handleChange}
                     placeholder="e.g. Planning a new 3-BHK independent villa, looking for structural blueprints, 3D design, and turnkey A-grade construction contract..."
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-slate-800 placeholder-slate-400 text-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20 resize-none"
+                    className="w-full resize-none rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
                   />
                 </div>
               </div>

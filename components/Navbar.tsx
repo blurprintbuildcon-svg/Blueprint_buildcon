@@ -4,17 +4,24 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
+import { ChevronDown, Gift, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+
+type NavLink =
+  | { type: 'link'; name: string; href: string; highlight?: boolean }
+  | { type: 'dropdown'; name: string; submenu: { name: string; href: string }[] };
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isWorkMenuOpen, setIsWorkMenuOpen] = useState(false);
+  const [isMobileWorkOpen, setIsMobileWorkOpen] = useState(false);
   const pathname = usePathname();
   const isHomePage = pathname === '/';
   const showSolidNav = isScrolled || !isHomePage;
   const isActiveLink = (href: string) =>
     pathname === href || (href !== '/' && Boolean(pathname?.startsWith(`${href}/`)));
+  const isWorkActive = isActiveLink('/process') || isActiveLink('/projects');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,15 +31,21 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '/about' },
-    { name: 'Services', href: '/services' },
-    { name: 'Process', href: '/process' },
-    { name: 'Portfolio', href: '/projects' },
-    { name: 'Why Us', href: '/why-us' },
-    { name: 'Refer & Earn', href: '/refer', highlight: true },
-    { name: 'Contact', href: '/contact' },
+  const navLinks: NavLink[] = [
+    { type: 'link', name: 'Home', href: '/' },
+    { type: 'link', name: 'About', href: '/about' },
+    { type: 'link', name: 'Services', href: '/services' },
+    {
+      type: 'dropdown',
+      name: 'Work',
+      submenu: [
+        { name: 'Process', href: '/process' },
+        { name: 'Portfolio', href: '/projects' },
+      ],
+    },
+    { type: 'link', name: 'Why Us', href: '/why-us' },
+    { type: 'link', name: 'Refer & Earn', href: '/refer', highlight: true },
+    { type: 'link', name: 'Contact Us', href: '/contact' },
   ];
 
   return (
@@ -56,7 +69,7 @@ export default function Navbar() {
             >
               <Image
                 src="/logo-mark.png"
-                alt="BluePrint-BuildCon"
+                alt="BluePrint BuildCon"
                 width={40}
                 height={40}
                 priority
@@ -69,7 +82,7 @@ export default function Navbar() {
                   showSolidNav ? 'text-brand-navy' : 'text-brand-navy lg:text-white'
                 }`}
               >
-                BluePrint<span className="text-brand-orange">-BuildCon</span>
+                BluePrint<span className="text-brand-orange"> BuildCon</span>
               </span>
               <span
                 className={`mt-1 text-[7px] font-bold uppercase tracking-[0.16em] transition-colors sm:text-[8.5px] sm:tracking-[0.24em] ${
@@ -86,35 +99,79 @@ export default function Navbar() {
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center space-x-7">
             <ul className="flex items-center space-x-6">
-              {navLinks.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    aria-current={isActiveLink(link.href) ? 'page' : undefined}
-                    className={`text-sm font-medium transition-colors hover:text-brand-orange inline-flex items-center gap-1.5 ${
-                      isActiveLink(link.href)
-                        ? 'font-semibold text-brand-orange underline decoration-2 underline-offset-8'
-                        : showSolidNav
-                        ? 'text-brand-charcoal'
-                        : 'text-white'
-                    }`}
+              {navLinks.map((link) =>
+                link.type === 'dropdown' ? (
+                  <li
+                    key={link.name}
+                    className="relative"
+                    onMouseEnter={() => setIsWorkMenuOpen(true)}
+                    onMouseLeave={() => setIsWorkMenuOpen(false)}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Escape') setIsWorkMenuOpen(false);
+                    }}
                   >
-                    <span>{link.name}</span>
-                    {link.highlight && (
-                      <span className="px-1.5 py-0.5 text-[9.5px] font-extrabold uppercase tracking-wider rounded-full bg-amber-400 text-brand-navy shadow-xs">
-                        Earn ₹
-                      </span>
+                    <button
+                      type="button"
+                      aria-expanded={isWorkMenuOpen}
+                      aria-controls="desktop-work-links"
+                      onClick={() => setIsWorkMenuOpen(true)}
+                      className={`inline-flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-brand-orange ${
+                        isWorkActive
+                          ? 'font-semibold text-brand-orange underline decoration-2 underline-offset-8'
+                          : showSolidNav
+                            ? 'text-brand-charcoal'
+                            : 'text-white'
+                      }`}
+                    >
+                      {link.name}
+                      <ChevronDown size={15} aria-hidden="true" />
+                    </button>
+                    {isWorkMenuOpen && (
+                      <ul
+                        id="desktop-work-links"
+                        className="absolute left-0 top-full min-w-40 rounded-xl border border-slate-100 bg-white p-2 pt-3 shadow-xl"
+                      >
+                        {link.submenu.map((item) => (
+                          <li key={item.href}>
+                            <Link
+                              href={item.href}
+                              onClick={() => setIsWorkMenuOpen(false)}
+                              aria-current={isActiveLink(item.href) ? 'page' : undefined}
+                              className={`block rounded-lg px-4 py-2.5 text-sm transition-colors hover:bg-blue-50 hover:text-brand-orange ${
+                                isActiveLink(item.href)
+                                  ? 'font-semibold text-brand-orange'
+                                  : 'text-brand-charcoal'
+                              }`}
+                            >
+                              {item.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
                     )}
-                  </Link>
-                </li>
-              ))}
+                  </li>
+                ) : (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      aria-current={isActiveLink(link.href) ? 'page' : undefined}
+                      className={link.highlight
+                        ? 'inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-violet-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-600/20 transition hover:from-blue-700 hover:to-violet-700 hover:shadow-lg'
+                        : `text-sm font-medium transition-colors hover:text-brand-orange inline-flex items-center gap-1.5 ${
+                        isActiveLink(link.href)
+                          ? 'font-semibold text-brand-orange underline decoration-2 underline-offset-8'
+                          : showSolidNav
+                            ? 'text-brand-charcoal'
+                            : 'text-white'
+                      }`}
+                    >
+                      <span>{link.name}</span>
+                      {link.highlight && <Gift size={15} aria-hidden="true" className="text-amber-200" />}
+                    </Link>
+                  </li>
+                )
+              )}
             </ul>
-            <Link
-              href="/contact"
-              className="px-6 py-2.5 bg-brand-orange text-white text-sm font-medium rounded-full hover:bg-blue-700 transition-colors shadow-sm shadow-blue-600/20"
-            >
-              Get Free Consultation
-            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -146,33 +203,70 @@ export default function Navbar() {
             className="absolute top-full left-0 right-0 bg-white shadow-lg lg:hidden"
           >
             <div className="flex flex-col px-4 pt-2 pb-6 space-y-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  aria-current={isActiveLink(link.href) ? 'page' : undefined}
-                  className={`flex items-center justify-between px-4 py-2.5 rounded-lg transition-colors ${
-                    isActiveLink(link.href)
-                      ? 'bg-blue-50 font-semibold text-brand-orange'
-                      : 'font-medium text-brand-charcoal hover:bg-brand-gray'
-                  }`}
-                >
-                  <span>{link.name}</span>
-                  {link.highlight && (
-                    <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-amber-400 text-brand-navy">
-                      Earn Cash Rewards
-                    </span>
-                  )}
-                </Link>
-              ))}
-              <Link
-                href="/contact"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="mt-4 mx-4 px-6 py-3 bg-brand-orange text-white text-center font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm shadow-blue-600/20"
-              >
-                Get Free Consultation
-              </Link>
+              {navLinks.map((link) =>
+                link.type === 'dropdown' ? (
+                  <div key={link.name}>
+                    <button
+                      type="button"
+                      aria-expanded={isMobileWorkOpen}
+                      aria-controls="mobile-work-links"
+                      onClick={() => setIsMobileWorkOpen((open) => !open)}
+                      className={`flex w-full items-center justify-between rounded-lg px-4 py-2.5 font-medium transition-colors ${
+                        isWorkActive
+                          ? 'bg-blue-50 font-semibold text-brand-orange'
+                          : 'text-brand-charcoal hover:bg-brand-gray'
+                      }`}
+                    >
+                      {link.name}
+                      <ChevronDown
+                        size={18}
+                        aria-hidden="true"
+                        className={`transition-transform ${isMobileWorkOpen ? 'rotate-180' : ''}`}
+                      />
+                    </button>
+                    {isMobileWorkOpen && (
+                      <ul id="mobile-work-links" className="ml-4 mt-1 space-y-1 border-l border-slate-200 pl-3">
+                        {link.submenu.map((item) => (
+                          <li key={item.href}>
+                            <Link
+                              href={item.href}
+                              onClick={() => {
+                                setIsMobileMenuOpen(false);
+                                setIsMobileWorkOpen(false);
+                              }}
+                              aria-current={isActiveLink(item.href) ? 'page' : undefined}
+                              className={`block rounded-lg px-4 py-2.5 transition-colors ${
+                                isActiveLink(item.href)
+                                  ? 'bg-blue-50 font-semibold text-brand-orange'
+                                  : 'font-medium text-brand-charcoal hover:bg-brand-gray'
+                              }`}
+                            >
+                              {item.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                ) : (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    aria-current={isActiveLink(link.href) ? 'page' : undefined}
+                    className={link.highlight
+                      ? 'flex items-center justify-between rounded-lg bg-gradient-to-r from-blue-600 to-violet-600 px-4 py-2.5 font-semibold text-white shadow-sm'
+                      : `flex items-center justify-between px-4 py-2.5 rounded-lg transition-colors ${
+                        isActiveLink(link.href)
+                          ? 'bg-blue-50 font-semibold text-brand-orange'
+                          : 'font-medium text-brand-charcoal hover:bg-brand-gray'
+                      }`}
+                  >
+                    <span>{link.name}</span>
+                    {link.highlight && <Gift size={17} aria-hidden="true" className="text-amber-200" />}
+                  </Link>
+                )
+              )}
             </div>
           </motion.div>
         )}

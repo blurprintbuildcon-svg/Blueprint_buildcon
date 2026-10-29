@@ -34,11 +34,6 @@ export default function AboutSection() {
                 className="w-full h-full object-cover"
               />
             </div>
-            {/* Floating Element */}
-            <div className="absolute -bottom-8 -right-8 bg-brand-navy p-8 rounded-xl shadow-xl hidden md:block">
-              <p className="text-white text-4xl font-bold mb-1">15+</p>
-              <p className="text-brand-orange font-medium">Years of Trust</p>
-            </div>
           </motion.div>
 
           {/* Right: Content */}
