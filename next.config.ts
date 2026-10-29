@@ -10,11 +10,14 @@ if (process.platform === "win32") {
       process.chdir("C:\\");
       process.chdir(nativeCwd);
     }
-  } catch {}
+  } catch { }
 }
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  env: {
+    NEXT_PUBLIC_WHATSAPP_NUMBER:
+      process.env.Whatsup_Number || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "9561186693",
+  },
 };
 
 export default nextConfig;

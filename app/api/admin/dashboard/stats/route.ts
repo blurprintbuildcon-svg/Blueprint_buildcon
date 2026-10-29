@@ -6,17 +6,19 @@ import { Service } from '@/models/Service';
 import { Contact } from '@/models/Contact';
 import { Consultation } from '@/models/Consultation';
 import { ServiceEnquiry } from '@/models/ServiceEnquiry';
+import { Referral } from '@/models/Referral';
 
 export async function GET() {
   try {
     await requireAdmin();
     await connectToDatabase();
-    const [projects, services, contacts, serviceEnquiries, consultations] = await Promise.all([
+    const [projects, services, contacts, serviceEnquiries, consultations, referrals] = await Promise.all([
       Project.countDocuments(),
       Service.countDocuments(),
       Contact.countDocuments(),
       ServiceEnquiry.countDocuments(),
       Consultation.countDocuments(),
+      Referral.countDocuments(),
     ]);
 
     const projectImages = await Project.aggregate([
@@ -34,10 +36,11 @@ export async function GET() {
         contacts,
         serviceEnquiries,
         consultations,
+        referrals,
         projectImages,
         serviceImages,
-        submissions: contacts + serviceEnquiries + consultations,
-        totalRecords: projects + services + contacts + serviceEnquiries + consultations,
+        submissions: contacts + serviceEnquiries + consultations + referrals,
+        totalRecords: projects + services + contacts + serviceEnquiries + consultations + referrals,
       },
     });
   } catch (error) {
@@ -47,4 +50,4 @@ export async function GET() {
       { status: isUnauthorized ? 401 : 500 }
     );
   }
-}
+}

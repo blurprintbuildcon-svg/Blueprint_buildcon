@@ -47,6 +47,12 @@ export default function Footer() {
                 <Link href="/services" className="text-slate-400 hover:text-white transition-colors text-sm">Services</Link>
               </li>
               <li>
+                <Link href="/refer" className="text-amber-400 hover:text-amber-300 transition-colors text-sm font-semibold flex items-center gap-1.5">
+                  <span>Refer &amp; Earn Rewards</span>
+                  <span className="text-[10px] bg-amber-400/20 text-amber-300 px-1.5 py-0.5 rounded font-bold">Earn ₹</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="#" className="text-slate-400 hover:text-white transition-colors text-sm">Careers</Link>
               </li>
               <li>
@@ -102,9 +108,9 @@ export default function Footer() {
         <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row items-center justify-between text-sm text-slate-500">
           <p>© {currentYear} BluePrint-BuildCon. All Rights Reserved.</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-white transition-colors">Terms & Conditions</Link>
-            <Link href="#" className="hover:text-white transition-colors">Cookie Policy</Link>
+            <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms & Conditions</Link>
+            <Link href="/privacy-policy#cookies" className="hover:text-white transition-colors">Cookie Policy</Link>
           </div>
         </div>
       </div>
