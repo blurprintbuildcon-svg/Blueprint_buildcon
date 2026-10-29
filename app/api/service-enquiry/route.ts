@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { ServiceEnquiry } from '@/models/ServiceEnquiry';
+import { sendServiceEnquiryEmail } from '@/lib/mailer';
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -43,6 +44,19 @@ export async function POST(request: Request) {
       serviceInterestedIn,
       notes,
     });
+
+    // Send email notification to project@blueprintbuildcon.homes
+    try {
+      await sendServiceEnquiryEmail({
+        fullname,
+        mobile,
+        email,
+        serviceInterestedIn,
+        notes,
+      });
+    } catch (mailErr) {
+      console.error('Failed sending service enquiry email:', mailErr);
+    }
 
     return NextResponse.json(
       {
