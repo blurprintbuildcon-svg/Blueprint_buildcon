@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import PageHero from '@/components/PageHero';
 import ReferralForm from '@/components/ReferralForm';
+import BackButton from '@/components/BackButton';
 
 export const metadata: Metadata = {
   title: 'Refer & Earn Rewards | BluePrint-BuildCon Construction Partner Program',
@@ -89,16 +90,16 @@ export default function ReferPage() {
   return (
     <div className="bg-slate-50 min-h-screen">
       {/* Hero Section */}
-      <PageHero
+      {/* <PageHero
         eyebrow="BluePrint Partner & Referral Program"
         title="Refer a Construction Project. Earn Up to ₹1,00,000+ in Cash Rewards!"
         description="Help friends, colleagues, or clients find Pune's most reliable, transparent, and quality-driven civil construction team. Get rewarded generously for every verified project."
         image="/services/residential.jpg"
         imageAlt="Modern residential construction by BluePrint-BuildCon"
-      />
+      /> */}
 
       {/* Program Highlights Banner */}
-      <section className="py-12 bg-white border-b border-slate-200">
+      {/* <section className="py-12 bg-white border-b border-slate-200">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             <div className="flex items-start gap-4 p-5 rounded-2xl bg-blue-50/60 border border-blue-100">
@@ -138,10 +139,10 @@ export default function ReferPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* How it Works Section */}
-      <section className="py-16 bg-[#f7f9fc] border-b border-slate-200">
+      {/* <section className="py-16 bg-[#f7f9fc] border-b border-slate-200">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-2xl mx-auto mb-14">
             <span className="text-xs font-bold uppercase tracking-wider text-brand-orange bg-blue-50 px-3 py-1 rounded-full">
@@ -175,10 +176,10 @@ export default function ReferPage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Commission Tiers */}
-      <section className="py-16 bg-white border-b border-slate-200">
+      {/* <section className="py-16 bg-white border-b border-slate-200">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-brand-orange bg-blue-50 px-3 py-1 rounded-full">
@@ -234,19 +235,24 @@ export default function ReferPage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Main Referral Form Section */}
-      <section id="referral-form" className="py-20 bg-gradient-to-b from-white via-slate-50 to-white">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto">
-            <ReferralForm />
-          </div>
-        </div>
-      </section>
+        <section id="referral-form" className="pt-28 sm:pt-32 md:pt-36 pb-20 bg-gradient-to-b from-white via-slate-50 to-white min-h-[calc(100vh-80px)]">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="max-w-3xl mx-auto">
+              {/* Back Button */}
+              <div className="mb-4 sm:mb-6">
+                <BackButton label="Back to Home" fallbackHref="/" />
+              </div>
 
-      {/* FAQ Section */}
-      <section className="py-16 bg-[#f7f9fc] border-t border-slate-200">
+              <ReferralForm />
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        {/* <section className="py-16 bg-[#f7f9fc] border-t border-slate-200">
         <div className="container mx-auto px-4 md:px-6 max-w-4xl">
           <div className="text-center mb-12">
             <h2 className="text-2xl md:text-3xl font-extrabold text-brand-navy tracking-tight">
@@ -284,7 +290,7 @@ export default function ReferPage() {
             </p>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }

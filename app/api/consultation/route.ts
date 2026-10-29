@@ -10,10 +10,16 @@ export async function POST(request: Request) {
     const consultation = {
       name: typeof body.name === 'string' ? body.name.trim() : '',
       phone: typeof body.phone === 'string' ? body.phone.trim() : '',
+      email: typeof body.email === 'string' ? body.email.trim() : '',
+      projectType: typeof body.projectType === 'string' ? body.projectType.trim() : '',
       company: typeof body.company === 'string' ? body.company.trim() : '',
-      website: typeof body.website === 'string' ? body.website.trim() : '',
       location: typeof body.location === 'string' ? body.location.trim() : '',
+      propertyStatus: typeof body.propertyStatus === 'string' ? body.propertyStatus.trim() : '',
+      budget: typeof body.budget === 'string' ? body.budget.trim() : '',
+      service: typeof body.service === 'string' ? body.service.trim() : '',
       message: typeof body.message === 'string' ? body.message.trim() : '',
+      joinReferralProgram: typeof body.joinReferralProgram === 'string' ? body.joinReferralProgram.trim() : 'No',
+      website: typeof body.website === 'string' ? body.website.trim() : '',
     };
 
     const missingField = requiredFields.find((field) => !consultation[field]);
@@ -22,9 +28,15 @@ export async function POST(request: Request) {
     }
 
     await connectToDatabase();
-    await Consultation.create(consultation);
+    const created = await Consultation.create(consultation);
 
-    return NextResponse.json({ message: 'Consultation saved successfully' }, { status: 201 });
+    return NextResponse.json(
+      {
+        message: 'Consultation enquiry saved successfully',
+        data: { id: created._id },
+      },
+      { status: 201 }
+    );
   } catch (error) {
     console.error('Consultation form submission failed:', error);
     return NextResponse.json({ error: 'Unable to save your consultation right now' }, { status: 500 });
