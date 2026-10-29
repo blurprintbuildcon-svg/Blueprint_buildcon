@@ -13,6 +13,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const isHomePage = pathname === '/';
   const showSolidNav = isScrolled || !isHomePage;
+  const isActiveLink = (href: string) => pathname === href || (href !== '/' && Boolean(pathname?.startsWith(`${href}/`)));
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,7 +29,7 @@ export default function Navbar() {
     { name: 'About', href: '/about' },
     { name: 'Services', href: '/services' },
     { name: 'Process', href: '/process' },
-    // { name: 'Projects', href: '/projects' },
+    { name: 'Portfolio', href: '/projects' },
     // { name: 'Packages', href: '/packages' },
     { name: 'Why Us', href: '/why-us' },
     { name: 'Refer & Earn', href: '/refer', highlight: true },
@@ -44,8 +45,9 @@ export default function Navbar() {
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
-          <Link href="/" className="group flex items-center gap-3 flex-shrink-0">
-            <div className={`relative flex items-center justify-center w-11 h-11 rounded-xl p-1.5 transition-all duration-300 group-hover:scale-105 ${showSolidNav
+          <Link href="/" className="group flex min-w-0 items-center gap-2 sm:gap-3 flex-shrink-0">
+            <div className={`relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl p-1.5 transition-all duration-300 group-hover:scale-105 sm:h-11 sm:w-11 ${
+              showSolidNav
                 ? 'bg-gradient-to-br from-blue-50 to-white shadow-md shadow-blue-900/5 ring-1 ring-blue-500/20'
                 : 'bg-white/95 shadow-lg shadow-black/20 ring-1 ring-white/60'
               }`}>
@@ -65,6 +67,14 @@ export default function Navbar() {
               </span>
               <span className={`text-[8.5px] font-bold uppercase tracking-[0.24em] mt-1 transition-colors ${showSolidNav ? 'text-slate-400 group-hover:text-brand-orange' : 'text-slate-500 lg:text-blue-100/80 group-hover:text-white'
                 }`}>
+              <span className={`text-base font-extrabold tracking-tight leading-none sm:text-xl ${
+                showSolidNav ? 'text-brand-navy' : 'text-brand-navy lg:text-white'
+              }`}>
+                BluePrint<span className="text-brand-orange">-BuildCon</span>
+              </span>
+              <span className={`mt-1 text-[7px] font-bold uppercase tracking-[0.16em] transition-colors sm:text-[8.5px] sm:tracking-[0.24em] ${
+                showSolidNav ? 'text-slate-400 group-hover:text-brand-orange' : 'text-slate-500 lg:text-blue-100/80 group-hover:text-white'
+              }`}>
                 Ideas • Structures • Reality
               </span>
             </div>
@@ -93,6 +103,63 @@ export default function Navbar() {
                 <Link
                   href="/contact"
                   className="px-6 py-2.5 bg-brand-orange text-white text-sm font-medium rounded-full hover:bg-blue-700 transition-colors shadow-sm shadow-blue-600/20"
+          <div className="hidden lg:flex items-center space-x-8">
+            <ul className="flex items-center space-x-8">
+              {navLinks.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    aria-current={isActiveLink(link.href) ? 'page' : undefined}
+                    className={`text-sm transition-colors hover:text-brand-orange ${isActiveLink(link.href)
+                      ? 'font-semibold text-brand-orange underline decoration-2 underline-offset-8'
+                      : `font-medium ${showSolidNav ? 'text-brand-charcoal' : 'text-white'}`
+                      }`}
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <Link
+              href="/contact"
+              className="px-6 py-2.5 bg-brand-orange text-white text-sm font-medium rounded-full hover:bg-blue-700 transition-colors shadow-sm shadow-blue-600/20"
+            >
+              Get Free Consultation
+            </Link>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="lg:hidden p-2 text-brand-navy"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={isMobileMenuOpen}
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} className={showSolidNav ? 'text-brand-navy' : 'text-brand-navy lg:text-white'} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Nav */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="absolute top-full left-0 right-0 bg-white shadow-lg lg:hidden"
+          >
+            <div className="flex flex-col px-4 pt-2 pb-6 space-y-3">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  aria-current={isActiveLink(link.href) ? 'page' : undefined}
+                  className={`rounded-lg px-4 py-3 transition-colors ${isActiveLink(link.href)
+                    ? 'bg-brand-blue-light font-semibold text-brand-blue'
+                    : 'font-medium text-brand-charcoal hover:bg-brand-gray'
+                    }`}
                 >
                   Get Free Consultation
                 </Link>
