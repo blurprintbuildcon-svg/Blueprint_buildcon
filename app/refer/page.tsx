@@ -1,22 +1,13 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import {
-  Gift,
+  ArrowLeft,
   Building2,
-  BadgePercent,
-  CheckCircle2,
-  Sparkles,
-  ArrowRight,
-  ShieldCheck,
-  TrendingUp,
   Coins,
-  HelpCircle,
-  PhoneCall,
-  Clock,
   Layers,
 } from 'lucide-react';
-import PageHero from '@/components/PageHero';
 import ReferralForm from '@/components/ReferralForm';
-import BackButton from '@/components/BackButton';
+import ReferralShareButton from '@/components/ReferralShareButton';
 
 export const metadata: Metadata = {
   title: 'Refer & Earn Rewards | BluePrint-BuildCon Construction Partner Program',
@@ -238,18 +229,25 @@ export default function ReferPage() {
       </section> */}
 
       {/* Main Referral Form Section */}
-        <section id="referral-form" className="pt-28 sm:pt-32 md:pt-36 pb-20 bg-gradient-to-b from-white via-slate-50 to-white min-h-[calc(100vh-80px)]">
-          <div className="container mx-auto px-4 md:px-6">
-            <div className="max-w-3xl mx-auto">
-              {/* Back Button */}
-              <div className="mb-4 sm:mb-6">
-                <BackButton label="Back to Home" fallbackHref="/" />
-              </div>
-
-              <ReferralForm />
-            </div>
+      <section
+        id="referral-form"
+        className="min-h-[calc(100vh-80px)] bg-slate-100 px-4 pb-16 pt-28 sm:px-6 sm:pt-32"
+      >
+        <div className="mx-auto max-w-2xl">
+          <div className="mb-5 flex items-center justify-between">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 transition-colors hover:text-brand-blue"
+            >
+              <ArrowLeft size={16} aria-hidden="true" />
+              Back to Home
+            </Link>
+            <ReferralShareButton />
           </div>
-        </section>
+
+          <ReferralForm />
+        </div>
+      </section>
 
         {/* FAQ Section */}
         {/* <section className="py-16 bg-[#f7f9fc] border-t border-slate-200">

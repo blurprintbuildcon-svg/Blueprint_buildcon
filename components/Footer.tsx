@@ -15,7 +15,7 @@ export default function Footer() {
               <div className="relative flex items-center justify-center w-12 h-12 rounded-xl bg-white/10 ring-1 ring-white/20 p-2 backdrop-blur-md transition-all group-hover:bg-white/15 group-hover:ring-brand-orange/40 group-hover:scale-105">
                 <Image
                   src="/logo-mark.png"
-                  alt="BluePrint-BuildCon"
+                  alt="BluePrint BuildCon"
                   width={44}
                   height={44}
                   className="w-full h-full object-contain filter drop-shadow"
@@ -23,7 +23,7 @@ export default function Footer() {
               </div>
               <div className="flex flex-col">
                 <span className="text-2xl font-bold tracking-tight text-white leading-tight">
-                  BluePrint<span className="text-brand-orange">-BuildCon</span>
+                  BluePrint<span className="text-brand-orange"> BuildCon</span>
                 </span>
                 <span className="text-[9.5px] font-semibold uppercase tracking-[0.24em] text-blue-200/80">
                   Ideas | Structures | Reality
@@ -106,7 +106,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row items-center justify-between text-sm text-slate-500">
-          <p>© {currentYear} BluePrint-BuildCon. All Rights Reserved.</p>
+          <p>© {currentYear} BluePrint BuildCon. All Rights Reserved.</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link href="/terms" className="hover:text-white transition-colors">Terms & Conditions</Link>

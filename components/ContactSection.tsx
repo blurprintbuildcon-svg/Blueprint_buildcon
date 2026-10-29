@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, Clock, MessageCircle } from 'lucide-react';
+import { Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
 import { openWhatsApp } from '@/lib/whatsapp';
 
 export default function ContactSection() {
@@ -134,15 +134,6 @@ _Sent via BluePrint-BuildCon Website_`;
                 </div>
               </div>
 
-              <div className="flex items-start">
-                <div className="w-12 h-12 bg-brand-orange/10 rounded-full flex items-center justify-center shrink-0 mr-6">
-                  <Clock className="w-6 h-6 text-brand-orange" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-brand-navy mb-1 text-lg">Business Hours</h4>
-                  <p className="text-slate-600">Monday – Saturday<br />9:00 AM – 7:00 PM</p>
-                </div>
-              </div>
             </div>
           </motion.div>
 
