@@ -2,80 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle2, X } from 'lucide-react';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
+import ConsultationModal from '@/components/ConsultationModal';
 
 export default function HeroSection() {
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    company: '',
-    website: '',
-    location: '',
-    message: '',
-  });
-
   const [isFormOpen, setIsFormOpen] = useState(true);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    if (!isFormOpen) {
-      document.body.style.overflow = '';
-      return;
-    }
-
-    document.body.style.overflow = 'hidden';
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setIsFormOpen(false);
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isFormOpen]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setError('');
-
-    try {
-      const response = await fetch('/api/consultation', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          phone: formData.phone,
-          company: formData.company,
-          website: formData.website,
-          location: formData.location,
-          message: formData.message,
-        }),
-      });
-
-      if (!response.ok) {
-        const result = await response.json().catch(() => null);
-        throw new Error(result?.error ?? 'Unable to submit your enquiry');
-      }
-
-      setIsSubmitted(true);
-      setFormData({ name: '', phone: '', company: '', website: '', location: '', message: '' });
-      setTimeout(() => setIsSubmitted(false), 5000);
-    } catch (submissionError) {
-      setError(submissionError instanceof Error ? submissionError.message : 'Unable to submit your enquiry');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   const heroImages = [
     {
@@ -129,7 +61,6 @@ export default function HeroSection() {
 
       <div className="container mx-auto px-4 md:px-6 relative z-20 py-12 lg:py-24">
         <div className="max-w-3xl">
-
           {/* Hero Content */}
           <div className="lg:col-span-7 text-white">
             <motion.div
@@ -149,7 +80,7 @@ export default function HeroSection() {
                 <button
                   type="button"
                   onClick={() => setIsFormOpen(true)}
-                  className="px-8 py-3.5 bg-brand-orange text-white font-semibold rounded-full hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/30 flex items-center"
+                  className="px-8 py-3.5 bg-brand-orange text-white font-semibold rounded-full hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/30 flex items-center cursor-pointer"
                 >
                   Start Your Project
                   <ArrowRight className="ml-2 w-5 h-5" />
@@ -168,7 +99,7 @@ export default function HeroSection() {
                   'Transparent Pricing',
                   'Quality Construction',
                   'Professional Team',
-                  'End-to-End Support'
+                  'End-to-End Support',
                 ].map((item, idx) => (
                   <div key={idx} className="flex items-center text-sm font-medium text-slate-200">
                     <CheckCircle2 className="text-brand-orange w-4 h-4 mr-2 shrink-0" />
@@ -188,81 +119,20 @@ export default function HeroSection() {
                     className={`h-2 rounded-full transition-all duration-300 ${currentImageIndex === dotIdx
                         ? 'w-8 bg-brand-orange'
                         : 'w-2 bg-white/40 hover:bg-white/70'
-                      }`}
+                    }`}
                   />
                 ))}
               </div>
             </motion.div>
           </div>
-
         </div>
       </div>
 
-      {isFormOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 p-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="consultation-title" onMouseDown={(event) => { if (event.target === event.currentTarget) setIsFormOpen(false); }}>
-          <motion.div initial={{ opacity: 0, scale: 0.96, y: 12 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.25 }} className="relative grid max-h-[92vh] w-full max-w-4xl overflow-hidden bg-white shadow-2xl md:grid-cols-[0.9fr_1.1fr]">
-            <div className="relative hidden min-h-[420px] items-center justify-center overflow-hidden bg-brand-navy md:flex">
-              <Image
-                src="/Build Your Dream, Built Right.png"
-                alt="BluePrint-BuildCon: Build Your Dream, We'll Build It Right"
-                fill
-                sizes="(min-width: 768px) 40vw, 0px"
-                className="object-cover object-left"
-              />
-            </div>
-
-            <div className="relative min-h-0 p-4 sm:p-5">
-              <button type="button" aria-label="Close consultation form" onClick={() => setIsFormOpen(false)} className="absolute right-5 top-5 text-slate-400 transition-colors hover:text-brand-navy"><X size={24} /></button>
-              <h2 id="consultation-title" className="pr-8 text-xl font-bold leading-tight text-brand-navy sm:text-2xl">Let Us Help You With the Right Solution</h2>
-
-              {isSubmitted ? (
-                <div className="mt-8 space-y-4 border border-green-200 bg-green-50 p-6 text-center text-green-700"><CheckCircle2 className="mx-auto h-12 w-12 text-green-500" /><p className="text-lg font-bold">Thank you!</p><p>Our construction expert will contact you shortly.</p></div>
-              ) : (
-                <form onSubmit={handleSubmit} className="mt-4 space-y-2">
-                  {error && <p role="alert" className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
-                  <input type="text" name="name" placeholder="Your Name" required value={formData.name} onChange={handleChange} className="w-full border border-blue-300 px-4 py-2.5 text-base outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100" />
-                  <input type="tel" name="phone" placeholder="Your Phone Number" required value={formData.phone} onChange={handleChange} className="w-full border border-blue-300 px-4 py-2.5 text-base outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100" />
-                  <input type="text" name="company" placeholder="Company Name" value={formData.company} onChange={handleChange} className="w-full border border-blue-300 px-4 py-2.5 text-base outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100" />
-                  <select name="website" value={formData.website} onChange={handleChange} className="w-full border border-blue-300 bg-white px-4 py-2.5 text-base outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100 text-slate-700">
-                    <option value="" disabled hidden>Do you have a website?</option>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                  </select>
-                  <input type="text" name="location" placeholder="Location" value={formData.location} onChange={handleChange} className="w-full border border-blue-300 px-4 py-2.5 text-base outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100" />
-                  <textarea name="message" placeholder="Message..." rows={2} value={formData.message} onChange={handleChange} className="w-full resize-none border border-blue-300 px-4 py-2.5 text-base outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100" />
-                  <p className="text-sm font-medium leading-5 text-blue-700">
-                    By clicking Sign Up, you confirm that you have read and agree to our{' '}
-                    <Link href="/terms" target="_blank" className="underline hover:text-blue-900 font-semibold">
-                      Terms &amp; Conditions
-                    </Link>{' '}
-                    and{' '}
-                    <Link href="/privacy-policy" target="_blank" className="underline hover:text-blue-900 font-semibold">
-                      Privacy Policy
-                    </Link>.
-                  </p>
-                  <label className="flex items-start gap-2 text-sm leading-5 text-blue-700"><input type="checkbox" required className="mt-1 h-4 w-4 accent-blue-600" /><span>By submitting this form, you agree to be contacted by us on <strong>WhatsApp / SMS / Email</strong> regarding your enquiry.</span></label>
-                  <div className="grid grid-cols-2 gap-3 pt-1"><button type="button" onClick={() => setIsFormOpen(false)} className="bg-blue-100 px-4 py-2.5 font-semibold text-blue-700 transition hover:bg-blue-200">Skip</button><button type="submit" disabled={isSubmitting} className="bg-blue-600 px-4 py-2.5 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-wait disabled:opacity-60">{isSubmitting ? 'Submitting...' : 'Sign Up'}</button></div>
-                  <div className="grid grid-cols-2 gap-2">
-                    <input type="text" name="name" placeholder="Your Name" required value={formData.name} onChange={handleChange} className="min-w-0 w-full border border-blue-300 px-2 py-1.5 text-xs outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100 sm:px-3 sm:text-sm" />
-                    <input type="tel" name="phone" placeholder="Your Phone Number" required value={formData.phone} onChange={handleChange} className="min-w-0 w-full border border-blue-300 px-2 py-1.5 text-xs outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100 sm:px-3 sm:text-sm" />
-                    <input type="text" name="company" placeholder="Company Name" value={formData.company} onChange={handleChange} className="min-w-0 w-full border border-blue-300 px-2 py-1.5 text-xs outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100 sm:px-3 sm:text-sm" />
-                    <select name="website" value={formData.website} onChange={handleChange} className="min-w-0 w-full border border-blue-300 bg-white px-2 py-1.5 text-xs text-slate-700 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100 sm:px-3 sm:text-sm">
-                      <option value="" disabled hidden>Do you have a website?</option>
-                      <option value="Yes">Yes</option>
-                      <option value="No">No</option>
-                    </select>
-                  </div>
-                  <input type="text" name="location" placeholder="Location" value={formData.location} onChange={handleChange} className="w-full border border-blue-300 px-3 py-1.5 text-sm outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100" />
-                  <textarea name="message" placeholder="Message..." rows={2} value={formData.message} onChange={handleChange} className="w-full resize-none border border-blue-300 px-3 py-1.5 text-sm outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100" />
-                  <p className="text-sm font-medium leading-4 text-blue-700">By clicking Sign Up, you confirm that you have read and agree to our Terms &amp; Conditions and Privacy Policy.</p>
-                  <label className="flex items-start gap-2 text-sm leading-4 text-blue-700"><input type="checkbox" required className="mt-0.5 h-4 w-4 accent-blue-600" /><span>By submitting this form, you agree to be contacted by us on <strong>WhatsApp / SMS / Email</strong> regarding your enquiry.</span></label>
-                  <div className="grid grid-cols-2 gap-2 pt-1"><button type="button" onClick={() => setIsFormOpen(false)} className="bg-blue-100 px-3 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-200">Skip</button><button type="submit" disabled={isSubmitting} className="bg-blue-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:cursor-wait disabled:opacity-60">{isSubmitting ? 'Submitting...' : 'Sign Up'}</button></div>
-                </form>
-              )}
-            </div>
-          </motion.div>
-        </div>
-      )}
+      {/* REPLACED MODAL FORM (MATCHES SCREENSHOT 1 & 2 UI WITH CIVIL CONSTRUCTION FIELDS) */}
+      <ConsultationModal
+        isOpen={isFormOpen}
+        onClose={() => setIsFormOpen(false)}
+      />
     </section>
   );
 }

@@ -4,46 +4,46 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useState, useEffect } from 'react';
 
-const AnimatedCounter = ({ end, duration = 2, suffix = '' }: { end: number, duration?: number, suffix?: string }) => {
-  const [count, setCount] = useState(0);
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.5 });
+// const AnimatedCounter = ({ end, duration = 2, suffix = '' }: { end: number, duration?: number, suffix?: string }) => {
+//   const [count, setCount] = useState(0);
+//   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.5 });
 
-  useEffect(() => {
-    if (inView) {
-      let start = 0;
-      const increment = end / (duration * 60); // Assuming 60fps
-      const timer = setInterval(() => {
-        start += increment;
-        if (start >= end) {
-          setCount(end);
-          clearInterval(timer);
-        } else {
-          setCount(Math.ceil(start));
-        }
-      }, 1000 / 60);
+//   useEffect(() => {
+//     if (inView) {
+//       let start = 0;
+//       const increment = end / (duration * 60); // Assuming 60fps
+//       const timer = setInterval(() => {
+//         start += increment;
+//         if (start >= end) {
+//           setCount(end);
+//           clearInterval(timer);
+//         } else {
+//           setCount(Math.ceil(start));
+//         }
+//       }, 1000 / 60);
 
-      return () => clearInterval(timer);
-    }
-  }, [inView, end, duration]);
+//       return () => clearInterval(timer);
+//     }
+//   }, [inView, end, duration]);
 
-  return (
-    <span ref={ref} className="text-4xl md:text-5xl font-bold text-brand-navy">
-      {count}{suffix}
-    </span>
-  );
-};
+//   return (
+//     <span ref={ref} className="text-4xl md:text-5xl font-bold text-brand-navy">
+//       {count}{suffix}
+//     </span>
+//   );
+// };
 
 export default function StatsSection() {
-  const stats = [
-    { label: 'Projects Delivered', value: 500, suffix: '+' },
-    { label: 'Years Experience', value: 15, suffix: '+' },
-    { label: 'Cities & Locations', value: 25, suffix: '+' },
-    { label: 'Commitment to Quality', value: 100, suffix: '%' },
-  ];
+  // const stats = [
+  //   { label: 'Projects Delivered', value: 500, suffix: '+' },
+  //   { label: 'Years Experience', value: 15, suffix: '+' },
+  //   { label: 'Cities & Locations', value: 25, suffix: '+' },
+  //   { label: 'Commitment to Quality', value: 100, suffix: '%' },
+  // ];
 
   return (
-    <section className="py-16 bg-white border-b border-slate-100">
-      <div className="container mx-auto px-4 md:px-6">
+    <section>
+      {/* <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 text-center">
           {stats.map((stat, index) => (
             <motion.div
@@ -61,7 +61,7 @@ export default function StatsSection() {
             </motion.div>
           ))}
         </div>
-      </div>
+      </div> */}
     </section>
   );
 }
