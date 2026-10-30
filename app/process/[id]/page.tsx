@@ -32,16 +32,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!step) {
     return {
-      title: 'Process Step Not Found | BluePrint BuildCon',
+      title: 'Process Step Not Found | BluePrint Build-Con',
       description: 'The requested construction process step could not be found.',
     };
   }
 
   return {
-    title: `Step ${step.number}: ${step.title} | Our Process | BluePrint BuildCon`,
+    title: `Step ${step.number}: ${step.title} | Our Process | BluePrint Build-Con`,
     description: step.shortDescription,
     openGraph: {
-      title: `${step.title} - BluePrint BuildCon Construction Process`,
+      title: `${step.title} - BluePrint Build-Con Construction Process`,
       description: step.shortDescription,
       images: [{ url: step.image }],
     },
@@ -266,7 +266,7 @@ export default async function ProcessDetailPage({ params }: PageProps) {
                     <span>Call +91 9028346900</span>
                   </a>
                   <a
-                    href="https://wa.me/919028346900?text=Hi%20Blueprint%20BuildCon,%20I%20have%20questions%20about%20your%20construction%20process"
+                    href="https://wa.me/919028346900?text=Hi%20Blueprint%20Build-Con,%20I%20have%20questions%20about%20your%20construction%20process"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-[#25D366] hover:bg-emerald-600 text-white font-bold rounded-xl text-sm transition-colors shadow-sm"

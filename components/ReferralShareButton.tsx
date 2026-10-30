@@ -10,8 +10,8 @@ export default function ReferralShareButton() {
     try {
       if (navigator.share) {
         await navigator.share({
-          title: 'Refer & Earn | BluePrint BuildCon',
-          text: 'Refer a construction project to BluePrint BuildCon and earn rewards.',
+          title: 'Refer & Earn | BluePrint Build-Con',
+          text: 'Refer a construction project to BluePrint Build-Con and earn rewards.',
           url: window.location.href,
         });
         return;

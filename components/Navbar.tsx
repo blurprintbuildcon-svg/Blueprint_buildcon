@@ -59,8 +59,8 @@ export default function Navbar() {
           <Link href="/" className="group flex min-w-0 items-center gap-2 sm:gap-3 flex-shrink-0">
             <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl p-1.5 transition-all duration-300 group-hover:scale-105 sm:h-11 sm:w-11 bg-gradient-to-br from-blue-50 to-white shadow-md shadow-blue-900/5 ring-1 ring-blue-500/20">
               <Image
-                src="/logo-mark.png"
-                alt="BluePrint BuildCon"
+                src="/LOGO%20SVG.svg"
+                alt="BluePrint Build-Con"
                 width={40}
                 height={40}
                 priority
@@ -69,10 +69,10 @@ export default function Navbar() {
             </div>
             <div className="flex flex-col">
               <span className="text-base font-extrabold leading-none tracking-tight sm:text-xl text-brand-navy">
-                BluePrint<span className="text-brand-orange"> BuildCon</span>
+                BluePrint<span className="ml-1 text-brand-orange">Build-Con</span>
               </span>
               <span className="mt-1 text-[7px] font-bold uppercase tracking-[0.16em] transition-colors sm:text-[8.5px] sm:tracking-[0.24em] text-slate-400 group-hover:text-brand-orange">
-                Ideas • Structures • Reality
+                Your vision our victory
               </span>
             </div>
           </Link>

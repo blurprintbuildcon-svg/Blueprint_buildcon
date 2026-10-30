@@ -14,16 +14,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!project) {
     return {
-      title: 'Project Not Found | BluePrint BuildCon',
+      title: 'Project Not Found | BluePrint Build-Con',
       description: 'The requested project could not be found.',
     };
   }
 
   return {
-    title: `${project.title} | ${project.category} Construction | BluePrint BuildCon`,
+    title: `${project.title} | ${project.category} Construction | BluePrint Build-Con`,
     description: project.description.slice(0, 160),
     openGraph: {
-      title: `${project.title} - BluePrint BuildCon`,
+      title: `${project.title} - BluePrint Build-Con`,
       description: project.description.slice(0, 160),
       images: [{ url: project.image }],
     },

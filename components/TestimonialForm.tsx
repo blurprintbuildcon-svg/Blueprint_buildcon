@@ -173,7 +173,7 @@ export default function TestimonialForm({ onTestimonialSubmitted }: TestimonialF
                 value={formData.feedback}
                 onChange={(e) => setFormData({ ...formData, feedback: e.target.value })}
                 className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-transparent transition-all resize-none"
-                placeholder="Tell us about your project and experience with Blueprint BuildCon..."
+                placeholder="Tell us about your project and experience with Blueprint Build-Con..."
               ></textarea>
             </div>
             <button
