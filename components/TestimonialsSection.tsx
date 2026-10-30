@@ -2,10 +2,10 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Star, Quote, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { Star, Quote, Sparkles } from 'lucide-react';
 import { testimonials as fallbackTestimonials } from '@/data/testimonials';
 import TestimonialForm from '@/components/TestimonialForm';
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 type DynamicTestimonial = {
   _id: string;
@@ -27,9 +27,7 @@ type DisplayItem = {
 
 export default function TestimonialsSection() {
   const [dynamicTestimonials, setDynamicTestimonials] = useState<DynamicTestimonial[]>([]);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
 
   const fetchTestimonials = useCallback(() => {
     fetch('/api/testimonials')
@@ -66,35 +64,6 @@ export default function TestimonialsSection() {
     })),
   ];
 
-  const updateScrollButtons = () => {
-    const el = scrollContainerRef.current;
-    if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 10);
-    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 10);
-  };
-
-  useEffect(() => {
-    const el = scrollContainerRef.current;
-    if (!el) return;
-    updateScrollButtons();
-    el.addEventListener('scroll', updateScrollButtons);
-    window.addEventListener('resize', updateScrollButtons);
-    return () => {
-      el.removeEventListener('scroll', updateScrollButtons);
-      window.removeEventListener('resize', updateScrollButtons);
-    };
-  }, [allTestimonials.length]);
-
-  const handleScroll = (direction: 'left' | 'right') => {
-    const el = scrollContainerRef.current;
-    if (!el) return;
-    const scrollAmount = el.clientWidth * 0.8;
-    el.scrollBy({
-      left: direction === 'left' ? -scrollAmount : scrollAmount,
-      behavior: 'smooth',
-    });
-  };
-
   const renderStars = (rating: number) => {
     const stars = [];
     for (let i = 0; i < 5; i++) {
@@ -115,6 +84,46 @@ export default function TestimonialsSection() {
     }
     return stars;
   };
+
+  const renderTestimonialCard = (item: DisplayItem, keySuffix: string) => (
+    <div
+      key={`${item.id}-${keySuffix}`}
+      className="flex-shrink-0 w-[310px] sm:w-[380px] md:w-[420px] bg-slate-50/70 border border-slate-200/90 rounded-3xl p-7 md:p-9 relative shadow-[0_4px_20px_rgba(10,18,39,0.03)] hover:shadow-[0_16px_36px_rgba(10,18,39,0.08)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
+    >
+      <Quote className="absolute top-6 right-6 w-10 h-10 text-slate-200" />
+
+      <div>
+        <div className="flex items-center gap-1 text-amber-400 mb-5">
+          {renderStars(item.rating)}
+          <span className="ml-2 text-xs font-bold text-slate-500">
+            {item.rating.toFixed(1)}
+          </span>
+        </div>
+
+        <p className="text-slate-600 text-base md:text-lg mb-8 leading-relaxed italic relative z-10 line-clamp-5">
+          &ldquo;{item.feedback}&rdquo;
+        </p>
+      </div>
+
+      <div className="flex items-center pt-4 border-t border-slate-200/80 mt-auto">
+        {item.avatar ? (
+          <img
+            src={item.avatar}
+            alt={item.name}
+            className="w-12 h-12 rounded-full object-cover mr-4 ring-2 ring-brand-orange/20 shadow-sm"
+          />
+        ) : (
+          <div className="w-12 h-12 rounded-full bg-brand-navy text-white mr-4 flex items-center justify-center font-bold text-lg uppercase shadow-sm">
+            {item.name.charAt(0)}
+          </div>
+        )}
+        <div className="min-w-0">
+          <h4 className="font-bold text-brand-navy truncate text-base">{item.name}</h4>
+          <p className="text-xs text-slate-500 truncate">{item.role}</p>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <section className="pt-16 pb-8 lg:pt-24 lg:pb-12 bg-white relative overflow-hidden">
@@ -152,8 +161,8 @@ export default function TestimonialsSection() {
             </p>
           </motion.div>
 
-          {/* Right: Rating Badge & Carousel Controls */}
-          <div className="flex flex-wrap items-center gap-3 sm:gap-4 justify-between lg:justify-end mt-4 lg:mt-0">
+          {/* Right: Rating Badge */}
+          <div className="flex items-center gap-3 sm:gap-4 mt-4 lg:mt-0">
             {/* Trust Pill */}
             <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-slate-50 border border-slate-200/80 shadow-sm">
               <div className="flex items-center text-amber-400">
@@ -165,80 +174,39 @@ export default function TestimonialsSection() {
               </div>
               <span className="text-xs font-bold text-brand-navy">4.9 / 5 Rating</span>
             </div>
-
-            {/* Carousel Navigation Arrows */}
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => handleScroll('left')}
-                disabled={!canScrollLeft}
-                aria-label="Scroll testimonials left"
-                className="w-11 h-11 rounded-full border border-slate-200 flex items-center justify-center text-brand-navy bg-white hover:bg-brand-orange hover:text-white hover:border-brand-orange transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed shadow-sm hover:shadow-md cursor-pointer"
-              >
-                <ChevronLeft size={20} />
-              </button>
-              <button
-                type="button"
-                onClick={() => handleScroll('right')}
-                disabled={!canScrollRight}
-                aria-label="Scroll testimonials right"
-                className="w-11 h-11 rounded-full border border-slate-200 flex items-center justify-center text-brand-navy bg-white hover:bg-brand-orange hover:text-white hover:border-brand-orange transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed shadow-sm hover:shadow-md cursor-pointer"
-              >
-                <ChevronRight size={20} />
-              </button>
-            </div>
           </div>
         </div>
 
-        {/* Horizontal Carousel Container */}
+        {/* Continuous Auto-Scrolling Testimonials (Pauses on Hover) */}
         <div
-          ref={scrollContainerRef}
-          className="flex gap-6 overflow-x-auto pb-8 pt-2 scroll-smooth snap-x snap-mandatory custom-scrollbar select-none"
-          style={{ scrollbarWidth: 'thin' }}
+          className="relative max-w-full overflow-hidden py-4 select-none"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => setIsPaused(false)}
         >
-          {allTestimonials.map((item, idx) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: Math.min(idx * 0.05, 0.3) }}
-              className="flex-shrink-0 w-[310px] sm:w-[380px] md:w-[420px] snap-start bg-slate-50/70 border border-slate-200/90 rounded-3xl p-7 md:p-9 relative shadow-[0_4px_20px_rgba(10,18,39,0.03)] hover:shadow-[0_16px_36px_rgba(10,18,39,0.08)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
-            >
-              <Quote className="absolute top-6 right-6 w-10 h-10 text-slate-200" />
+          {/* Subtle edge gradient fade masks */}
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-12 md:w-20 bg-gradient-to-r from-white to-transparent z-10" />
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 md:w-20 bg-gradient-to-l from-white to-transparent z-10" />
 
-              <div>
-                <div className="flex items-center gap-1 text-amber-400 mb-5">
-                  {renderStars(item.rating)}
-                  <span className="ml-2 text-xs font-bold text-slate-500">
-                    {item.rating.toFixed(1)}
-                  </span>
-                </div>
+          {/* Marquee Track */}
+          <div
+            className="flex animate-continuous-scroll w-max"
+            style={{
+              animationDuration: `${Math.max(35, allTestimonials.length * 7)}s`,
+              animationPlayState: isPaused ? 'paused' : 'running',
+            }}
+          >
+            {/* Primary Set */}
+            <div className="flex shrink-0 gap-6 pr-6">
+              {allTestimonials.map((item) => renderTestimonialCard(item, 'primary'))}
+            </div>
 
-                <p className="text-slate-600 text-base md:text-lg mb-8 leading-relaxed italic relative z-10 line-clamp-5">
-                  &ldquo;{item.feedback}&rdquo;
-                </p>
-              </div>
-
-              <div className="flex items-center pt-4 border-t border-slate-200/80 mt-auto">
-                {item.avatar ? (
-                  <img
-                    src={item.avatar}
-                    alt={item.name}
-                    className="w-12 h-12 rounded-full object-cover mr-4 ring-2 ring-brand-orange/20 shadow-sm"
-                  />
-                ) : (
-                  <div className="w-12 h-12 rounded-full bg-brand-navy text-white mr-4 flex items-center justify-center font-bold text-lg uppercase shadow-sm">
-                    {item.name.charAt(0)}
-                  </div>
-                )}
-                <div className="min-w-0">
-                  <h4 className="font-bold text-brand-navy truncate text-base">{item.name}</h4>
-                  <p className="text-xs text-slate-500 truncate">{item.role}</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+            {/* Seamless Duplicate Set for Infinite Continuous Scrolling */}
+            <div className="flex shrink-0 gap-6 pr-6" aria-hidden="true">
+              {allTestimonials.map((item) => renderTestimonialCard(item, 'duplicate'))}
+            </div>
+          </div>
         </div>
 
         {/* Feedback Submission Form */}
@@ -252,9 +220,6 @@ export default function TestimonialsSection() {
           <TestimonialForm
             onTestimonialSubmitted={(newTestimonial) => {
               setDynamicTestimonials((prev) => [newTestimonial, ...prev]);
-              if (scrollContainerRef.current) {
-                scrollContainerRef.current.scrollTo({ left: 0, behavior: 'smooth' });
-              }
             }}
           />
         </motion.div>
@@ -262,3 +227,4 @@ export default function TestimonialsSection() {
     </section>
   );
 }
+

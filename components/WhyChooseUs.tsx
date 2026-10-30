@@ -71,51 +71,40 @@ export default function WhyChooseUs() {
       <div className="absolute bottom-0 left-0 -mb-24 w-96 h-96 bg-brand-navy/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        {/* Section Header */}
-        <div className="mb-14 lg:mb-20 grid gap-8 lg:grid-cols-12 lg:items-end">
+        {/* Section Header (Centered & Balanced) */}
+        <div className="text-center max-w-3xl mx-auto mb-14 lg:mb-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="lg:col-span-7"
           >
             {/* Pill Eyebrow Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-orange/10 text-brand-orange text-xs font-bold uppercase tracking-wider mb-5 border border-brand-orange/15 shadow-sm">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-orange/10 text-brand-orange text-xs font-bold uppercase tracking-wider mb-4 border border-brand-orange/15 shadow-sm">
               <Sparkles size={14} className="shrink-0" />
               <span>The Blueprint Standard</span>
             </div>
 
             {/* Main Headline */}
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-brand-navy leading-[1.08]">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-brand-navy leading-[1.08] mb-5">
               Why Build With{' '}
               <span className="relative inline-block text-brand-orange">
                 Us?
                 <span className="absolute -bottom-1.5 left-0 w-full h-1.5 bg-brand-orange/25 rounded-full" />
               </span>
             </h2>
-          </motion.div>
 
-          {/* Right Column: Description & Trust Pills */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            className="lg:col-span-5 flex flex-col justify-end"
-          >
-            <div className="border-l-2 border-brand-orange/40 pl-5 mb-5">
-              <p className="text-base sm:text-lg leading-relaxed text-slate-600">
-                A better build starts with better decisions. We bring the people, process, and accountability needed to keep your project clear, confident, and on track from day one.
-              </p>
-            </div>
+            {/* Description */}
+            <p className="text-base sm:text-lg leading-relaxed text-slate-600 max-w-2xl mx-auto mb-6">
+              A better build starts with better decisions. We bring the people, process, and accountability needed to keep your project clear, confident, and on track from day one.
+            </p>
 
-            {/* Quick Trust Badges */}
-            <div className="flex flex-wrap gap-2.5 pl-5">
+            {/* Quick Trust Badges (Centered) */}
+            <div className="flex flex-wrap items-center justify-center gap-2.5">
               {highlights.map((item, i) => (
                 <span
                   key={i}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white border border-slate-200/80 text-xs font-semibold text-slate-700 shadow-sm"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700 shadow-sm"
                 >
                   <CheckCircle2 size={13} className="text-brand-orange shrink-0" />
                   {item}
