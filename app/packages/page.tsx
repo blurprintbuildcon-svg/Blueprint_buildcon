@@ -2,8 +2,8 @@ import PackagesSection from '@/components/PackagesSection';
 import PageHero from '@/components/PageHero';
 
 export const metadata = {
-  title: 'Construction Packages | BluePrint BuildCon',
-  description: 'Compare construction packages and request a tailored quote for your project with BluePrint BuildCon.',
+  title: 'Construction Packages | BluePrint Build-Con',
+  description: 'Compare construction packages and request a tailored quote for your project with BluePrint Build-Con.',
 };
 
 export default function PackagesPage() {

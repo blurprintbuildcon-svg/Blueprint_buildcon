@@ -352,7 +352,7 @@ export default function AdminReferralsPage() {
                       <div className="mt-1.5 space-y-1 text-xs text-slate-600">
                         <a
                           href={`https://wa.me/${ref.referrerPhone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-                            `Hello ${ref.referrerName}, thank you for referring ${ref.clientName} to BluePrint BuildCon. Here is an update on their project.`
+                            `Hello ${ref.referrerName}, thank you for referring ${ref.clientName} to BluePrint Build-Con. Here is an update on their project.`
                           )}`}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -472,7 +472,7 @@ export default function AdminReferralsPage() {
 
                         <a
                           href={`https://wa.me/${ref.clientPhone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-                            `Hello ${ref.clientName}, this is regarding your construction requirement referred by ${ref.referrerName} to BluePrint BuildCon.`
+                            `Hello ${ref.clientName}, this is regarding your construction requirement referred by ${ref.referrerName} to BluePrint Build-Con.`
                           )}`}
                           target="_blank"
                           rel="noopener noreferrer"

@@ -3,8 +3,8 @@ import PageHero from '@/components/PageHero';
 import { getPublicProjects } from '@/lib/public-content';
 
 export const metadata = {
-  title: 'Projects | BluePrint BuildCon',
-  description: 'Browse selected residential, commercial and renovation projects by BluePrint BuildCon.',
+  title: 'Projects | BluePrint Build-Con',
+  description: 'Browse selected residential, commercial and renovation projects by BluePrint Build-Con.',
 };
 
 export default async function ProjectsPage() {
@@ -14,7 +14,7 @@ export default async function ProjectsPage() {
       <PageHero
         eyebrow="Our work"
         title="Places built with purpose."
-        description="Explore a selection of residential, commercial, and renovation projects delivered by BluePrint BuildCon."
+        description="Explore a selection of residential, commercial, and renovation projects delivered by BluePrint Build-Con."
         image="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=85&w=2200"
         imageAlt="Modern office building exterior"
       />

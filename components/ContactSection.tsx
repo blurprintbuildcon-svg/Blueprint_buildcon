@@ -20,7 +20,7 @@ export default function ContactSection() {
   const [error, setError] = useState('');
 
   const triggerWhatsApp = (data = formData) => {
-    const text = `*New Contact Enquiry for BluePrint BuildCon*
+    const text = `*New Contact Enquiry for BluePrint Build-Con*
 ---------------------------------------
 • Name: ${data.name}
 • Phone: ${data.phone}
@@ -28,7 +28,7 @@ export default function ContactSection() {
 • City: ${data.city}
 • Project Type: ${data.projectType}
 ${data.message ? `• Message: ${data.message}\n` : ''}---------------------------------------
-_Sent via BluePrint BuildCon Website_`;
+_Sent via BluePrint Build-Con Website_`;
 
     openWhatsApp(text);
   };
@@ -96,7 +96,7 @@ _Sent via BluePrint BuildCon Website_`;
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h3 className="text-2xl font-bold text-brand-navy mb-8">BluePrint BuildCon</h3>
+            <h3 className="text-2xl font-bold text-brand-navy mb-8">BluePrint Build-Con</h3>
 
             <div className="space-y-8">
               <div className="flex items-start">

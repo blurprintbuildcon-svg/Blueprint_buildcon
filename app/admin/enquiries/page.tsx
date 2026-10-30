@@ -811,7 +811,7 @@ export default function AdminEnquiriesPage() {
                         <div className="flex items-center justify-end gap-1">
                           <a
                             href={`https://wa.me/${ref.clientPhone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-                              `Hello ${ref.clientName}, this is regarding your construction inquiry referred by ${ref.referrerName} to BluePrint BuildCon.`
+                              `Hello ${ref.clientName}, this is regarding your construction inquiry referred by ${ref.referrerName} to BluePrint Build-Con.`
                             )}`}
                             target="_blank"
                             rel="noopener noreferrer"

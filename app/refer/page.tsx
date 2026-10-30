@@ -10,9 +10,9 @@ import ReferralForm from '@/components/ReferralForm';
 import ReferralShareButton from '@/components/ReferralShareButton';
 
 export const metadata: Metadata = {
-  title: 'Refer & Earn Rewards | BluePrint BuildCon Construction Partner Program',
+  title: 'Refer & Earn Rewards | BluePrint Build-Con Construction Partner Program',
   description:
-    'Refer residential or commercial construction projects to BluePrint BuildCon and earn cash rewards from ₹10,000 to ₹1,00,000+. Transparent payouts and quality engineering.',
+    'Refer residential or commercial construction projects to BluePrint Build-Con and earn cash rewards from ₹10,000 to ₹1,00,000+. Transparent payouts and quality engineering.',
 };
 
 export default function ReferPage() {
@@ -61,7 +61,7 @@ export default function ReferPage() {
 
   const faqs = [
     {
-      q: 'Who can refer clients to BluePrint BuildCon?',
+      q: 'Who can refer clients to BluePrint Build-Con?',
       a: 'Anyone! Friends, family, real estate consultants, architects, interior designers, property brokers, and satisfied existing clients can all participate.',
     },
     {
@@ -86,7 +86,7 @@ export default function ReferPage() {
         title="Refer a Construction Project. Earn Up to ₹1,00,000+ in Cash Rewards!"
         description="Help friends, colleagues, or clients find Pune's most reliable, transparent, and quality-driven civil construction team. Get rewarded generously for every verified project."
         image="/services/residential.jpg"
-        imageAlt="Modern residential construction by BluePrint BuildCon"
+        imageAlt="Modern residential construction by BluePrint Build-Con"
       /> */}
 
       {/* Program Highlights Banner */}

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Phone, Mail, MapPin, Sparkles, ShieldCheck, Gift } from 'lucide-react';
+import { Phone, Mail, MapPin, ShieldCheck, Gift } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -21,8 +21,8 @@ export default function Footer() {
             <Link href="/" className="group inline-flex items-center gap-3.5">
               <div className="relative flex items-center justify-center w-13 h-13 rounded-2xl bg-white/10 ring-1 ring-white/20 p-2.5 backdrop-blur-md transition-all duration-300 group-hover:bg-white/15 group-hover:ring-brand-orange/60 group-hover:scale-105 shadow-lg shadow-black/20">
                 <Image
-                  src="/logo-mark.png"
-                  alt="BluePrint BuildCon"
+                  src="/LOGO%20SVG.svg"
+                  alt="BluePrint Build-Con"
                   width={46}
                   height={46}
                   className="w-full h-full object-contain filter drop-shadow"
@@ -30,19 +30,13 @@ export default function Footer() {
               </div>
               <div className="flex flex-col">
                 <span className="font-heading text-2xl sm:text-3xl font-extrabold tracking-tight text-white leading-tight">
-                  BluePrint<span className="text-brand-orange"> BuildCon</span>
+                  BluePrint<span className="ml-1.5 text-brand-orange">Build-Con</span>
                 </span>
                 <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.26em] text-blue-200/80 mt-0.5">
-                  Ideas • Structures • Reality
+                  Your vision our victory
                 </span>
               </div>
             </Link>
-
-            {/* Motto Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-orange/10 border border-brand-orange/20 text-brand-orange text-xs font-bold tracking-wide">
-              <Sparkles size={13} className="shrink-0" />
-              <span>From Blueprint to Reality</span>
-            </div>
 
             <p className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-xl">
               Providing complete, transparent, and high-quality construction solutions for residential and commercial projects.
@@ -128,7 +122,7 @@ export default function Footer() {
         <div className="border-t border-slate-800/80 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <p className="tracking-wide">
             &copy; {currentYear}{' '}
-            <span className="font-semibold text-white">BluePrint BuildCon</span>. All Rights Reserved.
+            <span className="font-semibold text-white">BluePrint Build-Con</span>. All Rights Reserved.
           </p>
 
           <div className="flex flex-wrap items-center gap-6">

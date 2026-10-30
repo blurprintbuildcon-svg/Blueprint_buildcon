@@ -80,7 +80,7 @@ export default function PrivacyPolicyPage() {
                 Privacy Policy
               </h1>
               <p className="mt-3 text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
-                <strong>BluePrint BuildCon</strong> (&quot;Company&quot;, &quot;we&quot;, &quot;us&quot;, or &quot;our&quot;).
+                <strong>BluePrint Build-Con</strong> (&quot;Company&quot;, &quot;we&quot;, &quot;us&quot;, or &quot;our&quot;).
               </p>
             </div>
 
@@ -135,7 +135,7 @@ export default function PrivacyPolicyPage() {
             </span>
             <span className="flex items-center gap-1.5">
               <Building size={14} className="text-slate-400" />
-              Entity: <strong>BluePrint BuildCon</strong>
+              Entity: <strong>BluePrint Build-Con</strong>
             </span>
             <span className="flex items-center gap-1.5">
               <ShieldCheck size={14} className="text-emerald-600" />
@@ -182,7 +182,7 @@ export default function PrivacyPolicyPage() {
                 In accordance with the DPDP Act, personal data concerns may be addressed to:
               </p>
               <div className="pt-1 border-t border-blue-100 font-medium text-slate-700 space-y-1">
-                <div>Office: <strong>Grievance Officer, BluePrint BuildCon</strong></div>
+                <div>Office: <strong>Grievance Officer, BluePrint Build-Con</strong></div>
                 <div>
                   Email:{' '}
                   <a
@@ -218,7 +218,7 @@ export default function PrivacyPolicyPage() {
             <section className="space-y-4 pb-8 border-b border-slate-100">
               <div className="prose prose-slate max-w-none text-slate-700 text-sm sm:text-base leading-relaxed space-y-4">
                 <p>
-                  This Privacy Policy describes how <strong>BluePrint BuildCon</strong> (&quot;Company&quot;, &quot;we&quot;, &quot;us&quot; or &quot;our&quot;), collects, uses, stores, discloses, and protects Personal Data of users in accordance with the <strong>Digital Personal Data Protection Act, 2023 (&quot;DPDP Act&quot;)</strong> and applicable Indian laws.
+                  This Privacy Policy describes how <strong>BluePrint Build-Con</strong> (&quot;Company&quot;, &quot;we&quot;, &quot;us&quot; or &quot;our&quot;), collects, uses, stores, discloses, and protects Personal Data of users in accordance with the <strong>Digital Personal Data Protection Act, 2023 (&quot;DPDP Act&quot;)</strong> and applicable Indian laws.
                 </p>
                 <p>
                   By accessing or using our website, mobile application, or services (collectively, the <strong>“Services”</strong>), you acknowledge that you have read and understood this Privacy Policy and consent to the processing of your Personal Data as described herein.
@@ -252,7 +252,7 @@ export default function PrivacyPolicyPage() {
                     “Data Fiduciary”
                   </dt>
                   <dd className="text-sm text-slate-700 leading-relaxed">
-                    means BluePrint BuildCon.
+                    means BluePrint Build-Con.
                   </dd>
                 </div>
 
@@ -339,7 +339,7 @@ export default function PrivacyPolicyPage() {
                   <span>Notice Concerning Channel &amp; Referral Partner Data</span>
                 </div>
                 <p>
-                  Where Personal Data is received by BluePrint BuildCon from third parties such as channel partners, referral partners, or other intermediaries, the Company relies on such third parties to have collected and shared the Personal Data in compliance with applicable data protection laws.
+                  Where Personal Data is received by BluePrint Build-Con from third parties such as channel partners, referral partners, or other intermediaries, the Company relies on such third parties to have collected and shared the Personal Data in compliance with applicable data protection laws.
                 </p>
                 <p>
                   The Company shall not be responsible for any unauthorised, excessive, or unlawful collection of Personal Data by such third parties prior to receipt by the Company. Upon receipt, the Company shall process such Personal Data in accordance with this Privacy Policy and applicable law.
@@ -470,7 +470,7 @@ export default function PrivacyPolicyPage() {
                   Such Data Processors may have limited access to Personal Data solely for performing services on our behalf and are contractually bound to process such data strictly in accordance with applicable data protection laws and our instructions.
                 </p>
                 <p>
-                  All Data Processors are required to implement appropriate technical and organisational safeguards and shall not use Personal Data for any purpose other than providing services to BluePrint BuildCon.
+                  All Data Processors are required to implement appropriate technical and organisational safeguards and shall not use Personal Data for any purpose other than providing services to BluePrint Build-Con.
                 </p>
               </div>
             </section>
@@ -573,7 +573,7 @@ export default function PrivacyPolicyPage() {
                 </div>
                 <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 flex items-start gap-2.5">
                   <CheckCircle2 size={16} className="text-emerald-600 shrink-0 mt-0.5" />
-                  <span>Register a grievance with BluePrint BuildCon</span>
+                  <span>Register a grievance with BluePrint Build-Con</span>
                 </div>
                 <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 flex items-start gap-2.5 sm:col-span-2">
                   <CheckCircle2 size={16} className="text-emerald-600 shrink-0 mt-0.5" />
@@ -626,7 +626,7 @@ export default function PrivacyPolicyPage() {
                 </div>
                 <div className="space-y-1">
                   <div className="text-lg font-bold text-white">
-                    Grievance Officer: Legal &amp; Compliance Cell, BluePrint BuildCon
+                    Grievance Officer: Legal &amp; Compliance Cell, BluePrint Build-Con
                   </div>
                   <div className="text-sm text-slate-300">
                     Email:{' '}
@@ -680,7 +680,7 @@ export default function PrivacyPolicyPage() {
                   <span>Affirmative User Consent Statement</span>
                 </div>
                 <p>
-                  By clicking <strong>“I Agree”</strong>, submitting your details, or using our Services, you consent to the collection and processing of your Personal Data by <strong>BluePrint BuildCon</strong> for the purposes stated in the Privacy Policy.
+                  By clicking <strong>“I Agree”</strong>, submitting your details, or using our Services, you consent to the collection and processing of your Personal Data by <strong>BluePrint Build-Con</strong> for the purposes stated in the Privacy Policy.
                 </p>
                 <p className="text-xs text-slate-600">
                   You may withdraw your consent at any time by writing to{' '}
