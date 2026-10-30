@@ -13,31 +13,20 @@ type NavLink =
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isBranchesSlide, setIsBranchesSlide] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isWorkMenuOpen, setIsWorkMenuOpen] = useState(false);
   const [isMobileWorkOpen, setIsMobileWorkOpen] = useState(false);
   const pathname = usePathname();
-  const isHomePage = pathname === '/';
-  const showDarkNav = isHomePage && isBranchesSlide;
-  const showSolidNav = isScrolled || !isHomePage || showDarkNav;
-  const useLightNavText = (!showSolidNav && isHomePage) || showDarkNav;
   const isActiveLink = (href: string) =>
     pathname === href || (href !== '/' && Boolean(pathname?.startsWith(`${href}/`)));
   const isWorkActive = isActiveLink('/process') || isActiveLink('/projects');
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    const handleBranchSlide = (event: Event) => {
-      setIsBranchesSlide((event as CustomEvent<boolean>).detail);
-    };
-
     handleScroll();
     window.addEventListener('scroll', handleScroll);
-    window.addEventListener('hero-branches-visibility', handleBranchSlide);
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('hero-branches-visibility', handleBranchSlide);
     };
   }, []);
 
@@ -60,25 +49,15 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 py-2.5 transition-colors duration-300 ${
-        showDarkNav
-          ? 'border-b border-white/10 bg-brand-navy shadow-lg shadow-slate-950/20'
-          : showSolidNav
-            ? 'border-b border-slate-200/80 bg-white/95 shadow-md shadow-slate-900/5 backdrop-blur-md'
-            : 'border-b border-white/10 bg-transparent'
+      className={`fixed top-0 left-0 right-0 z-50 py-2.5 transition-all duration-300 border-b border-slate-200/80 bg-white/95 backdrop-blur-md ${
+        isScrolled ? 'shadow-md shadow-slate-900/5' : 'shadow-sm'
       }`}
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
           {/* Logo & Brand Name */}
           <Link href="/" className="group flex min-w-0 items-center gap-2 sm:gap-3 flex-shrink-0">
-            <div
-              className={`relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl p-1.5 transition-all duration-300 group-hover:scale-105 sm:h-11 sm:w-11 ${
-                showSolidNav
-                  ? 'bg-gradient-to-br from-blue-50 to-white shadow-md shadow-blue-900/5 ring-1 ring-blue-500/20'
-                  : 'bg-white/95 shadow-lg shadow-black/20 ring-1 ring-white/60'
-              }`}
-            >
+            <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl p-1.5 transition-all duration-300 group-hover:scale-105 sm:h-11 sm:w-11 bg-gradient-to-br from-blue-50 to-white shadow-md shadow-blue-900/5 ring-1 ring-blue-500/20">
               <Image
                 src="/logo-mark.png"
                 alt="BluePrint BuildCon"
@@ -89,20 +68,10 @@ export default function Navbar() {
               />
             </div>
             <div className="flex flex-col">
-              <span
-                className={`text-base font-extrabold leading-none tracking-tight sm:text-xl ${
-                  useLightNavText ? 'text-white drop-shadow-sm' : 'text-brand-navy'
-                }`}
-              >
+              <span className="text-base font-extrabold leading-none tracking-tight sm:text-xl text-brand-navy">
                 BluePrint<span className="text-brand-orange"> BuildCon</span>
               </span>
-              <span
-                className={`mt-1 text-[7px] font-bold uppercase tracking-[0.16em] transition-colors sm:text-[8.5px] sm:tracking-[0.24em] ${
-                  useLightNavText
-                    ? 'text-blue-100/90 group-hover:text-white'
-                    : 'text-slate-400 group-hover:text-brand-orange'
-                }`}
-              >
+              <span className="mt-1 text-[7px] font-bold uppercase tracking-[0.16em] transition-colors sm:text-[8.5px] sm:tracking-[0.24em] text-slate-400 group-hover:text-brand-orange">
                 Ideas • Structures • Reality
               </span>
             </div>
@@ -129,12 +98,8 @@ export default function Navbar() {
                       onClick={() => setIsWorkMenuOpen(true)}
                       className={`inline-flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-brand-orange ${
                         isWorkActive
-                          ? `font-semibold underline decoration-2 underline-offset-8 ${
-                              showDarkNav ? 'text-sky-300' : 'text-brand-orange'
-                            }`
-                          : showSolidNav
-                            ? showDarkNav ? 'text-white' : 'text-brand-charcoal'
-                            : 'text-white'
+                          ? 'font-semibold underline decoration-2 underline-offset-8 text-brand-orange'
+                          : 'text-brand-charcoal'
                       }`}
                     >
                       {link.name}
@@ -173,12 +138,8 @@ export default function Navbar() {
                         ? 'inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-violet-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-600/20 transition hover:from-blue-700 hover:to-violet-700 hover:shadow-lg'
                         : `text-sm font-medium transition-colors hover:text-brand-orange inline-flex items-center gap-1.5 ${
                         isActiveLink(link.href)
-                          ? `font-semibold underline decoration-2 underline-offset-8 ${
-                              showDarkNav ? 'text-sky-300' : 'text-brand-orange'
-                            }`
-                          : showSolidNav
-                            ? showDarkNav ? 'text-white' : 'text-brand-charcoal'
-                            : 'text-white'
+                          ? 'font-semibold underline decoration-2 underline-offset-8 text-brand-orange'
+                          : 'text-brand-charcoal'
                       }`}
                     >
                       <span>{link.name}</span>
@@ -192,7 +153,7 @@ export default function Navbar() {
 
           {/* Mobile Menu Button */}
           <button
-            className={`p-2 lg:hidden ${useLightNavText ? 'text-white' : 'text-brand-navy'}`}
+            className="p-2 lg:hidden text-brand-navy"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={isMobileMenuOpen}
@@ -202,7 +163,7 @@ export default function Navbar() {
             ) : (
               <Menu
                 size={24}
-                className={useLightNavText ? 'text-white' : 'text-brand-navy'}
+                className="text-brand-navy"
               />
             )}
           </button>
