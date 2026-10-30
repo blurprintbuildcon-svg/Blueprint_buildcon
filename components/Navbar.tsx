@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -13,22 +13,32 @@ type NavLink =
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isBranchesSlide, setIsBranchesSlide] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isWorkMenuOpen, setIsWorkMenuOpen] = useState(false);
   const [isMobileWorkOpen, setIsMobileWorkOpen] = useState(false);
   const pathname = usePathname();
   const isHomePage = pathname === '/';
-  const showSolidNav = isScrolled || !isHomePage;
+  const showDarkNav = isHomePage && isBranchesSlide;
+  const showSolidNav = isScrolled || !isHomePage || showDarkNav;
+  const useLightNavText = (!showSolidNav && isHomePage) || showDarkNav;
   const isActiveLink = (href: string) =>
     pathname === href || (href !== '/' && Boolean(pathname?.startsWith(`${href}/`)));
   const isWorkActive = isActiveLink('/process') || isActiveLink('/projects');
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleBranchSlide = (event: Event) => {
+      setIsBranchesSlide((event as CustomEvent<boolean>).detail);
     };
+
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('hero-branches-visibility', handleBranchSlide);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('hero-branches-visibility', handleBranchSlide);
+    };
   }, []);
 
   const navLinks: NavLink[] = [
@@ -50,10 +60,12 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        showSolidNav
-          ? 'bg-white/95 backdrop-blur-md shadow-sm py-2.5'
-          : 'bg-transparent py-4'
+      className={`fixed top-0 left-0 right-0 z-50 py-2.5 transition-colors duration-300 ${
+        showDarkNav
+          ? 'border-b border-white/10 bg-brand-navy shadow-lg shadow-slate-950/20'
+          : showSolidNav
+            ? 'border-b border-slate-200/80 bg-white/95 shadow-md shadow-slate-900/5 backdrop-blur-md'
+            : 'border-b border-white/10 bg-transparent'
       }`}
     >
       <div className="container mx-auto px-4 md:px-6">
@@ -78,17 +90,17 @@ export default function Navbar() {
             </div>
             <div className="flex flex-col">
               <span
-                className={`text-base font-extrabold tracking-tight leading-none sm:text-xl ${
-                  showSolidNav ? 'text-brand-navy' : 'text-brand-navy lg:text-white'
+                className={`text-base font-extrabold leading-none tracking-tight sm:text-xl ${
+                  useLightNavText ? 'text-white drop-shadow-sm' : 'text-brand-navy'
                 }`}
               >
                 BluePrint<span className="text-brand-orange"> BuildCon</span>
               </span>
               <span
                 className={`mt-1 text-[7px] font-bold uppercase tracking-[0.16em] transition-colors sm:text-[8.5px] sm:tracking-[0.24em] ${
-                  showSolidNav
-                    ? 'text-slate-400 group-hover:text-brand-orange'
-                    : 'text-slate-500 lg:text-blue-100/80 group-hover:text-white'
+                  useLightNavText
+                    ? 'text-blue-100/90 group-hover:text-white'
+                    : 'text-slate-400 group-hover:text-brand-orange'
                 }`}
               >
                 Ideas • Structures • Reality
@@ -117,9 +129,11 @@ export default function Navbar() {
                       onClick={() => setIsWorkMenuOpen(true)}
                       className={`inline-flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-brand-orange ${
                         isWorkActive
-                          ? 'font-semibold text-brand-orange underline decoration-2 underline-offset-8'
+                          ? `font-semibold underline decoration-2 underline-offset-8 ${
+                              showDarkNav ? 'text-sky-300' : 'text-brand-orange'
+                            }`
                           : showSolidNav
-                            ? 'text-brand-charcoal'
+                            ? showDarkNav ? 'text-white' : 'text-brand-charcoal'
                             : 'text-white'
                       }`}
                     >
@@ -159,9 +173,11 @@ export default function Navbar() {
                         ? 'inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-violet-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-600/20 transition hover:from-blue-700 hover:to-violet-700 hover:shadow-lg'
                         : `text-sm font-medium transition-colors hover:text-brand-orange inline-flex items-center gap-1.5 ${
                         isActiveLink(link.href)
-                          ? 'font-semibold text-brand-orange underline decoration-2 underline-offset-8'
+                          ? `font-semibold underline decoration-2 underline-offset-8 ${
+                              showDarkNav ? 'text-sky-300' : 'text-brand-orange'
+                            }`
                           : showSolidNav
-                            ? 'text-brand-charcoal'
+                            ? showDarkNav ? 'text-white' : 'text-brand-charcoal'
                             : 'text-white'
                       }`}
                     >
@@ -176,7 +192,7 @@ export default function Navbar() {
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden p-2 text-brand-navy"
+            className={`p-2 lg:hidden ${useLightNavText ? 'text-white' : 'text-brand-navy'}`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={isMobileMenuOpen}
@@ -186,7 +202,7 @@ export default function Navbar() {
             ) : (
               <Menu
                 size={24}
-                className={showSolidNav ? 'text-brand-navy' : 'text-brand-navy lg:text-white'}
+                className={useLightNavText ? 'text-white' : 'text-brand-navy'}
               />
             )}
           </button>
