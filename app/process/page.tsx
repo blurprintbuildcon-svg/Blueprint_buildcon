@@ -2,8 +2,8 @@ import ProcessTimeline from '@/components/ProcessTimeline';
 import PageHero from '@/components/PageHero';
 
 export const metadata = {
-  title: 'Our Process | Blueprint Build Con',
-  description: 'See how Blueprint Build Con takes projects from consultation to handover.',
+  title: 'Our Process | BluePrint BuildCon',
+  description: 'See how BluePrint BuildCon takes projects from consultation to handover.',
 };
 
 export default function ProcessPage() {

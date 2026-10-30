@@ -52,7 +52,7 @@ export default function ProjectDetailsView({ project, relatedProjects }: Project
     try {
       if (navigator.share) {
         await navigator.share({
-          title: `${project.title} | Blueprint Build Con`,
+          title: `${project.title} | BluePrint BuildCon`,
           text: project.description,
           url: window.location.href,
         });

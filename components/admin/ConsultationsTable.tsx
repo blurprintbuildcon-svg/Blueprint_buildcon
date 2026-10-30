@@ -193,7 +193,7 @@ export default function ConsultationsTable({
                     <div className="flex items-center justify-end gap-1.5">
                       <a
                         href={`https://wa.me/${lead.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-                          `Hello ${lead.name}, this is BluePrint-BuildCon regarding your ${lead.projectType || 'construction'} enquiry in ${lead.location}.`
+                          `Hello ${lead.name}, this is BluePrint BuildCon regarding your ${lead.projectType || 'construction'} enquiry in ${lead.location}.`
                         )}`}
                         target="_blank"
                         rel="noopener noreferrer"

@@ -32,14 +32,14 @@ export default function ServiceEnquiryForm({
   };
 
   const triggerWhatsApp = (data = formData) => {
-    const text = `*New Service Enquiry for BluePrint-BuildCon*
+    const text = `*New Service Enquiry for BluePrint BuildCon*
 ---------------------------------------
 • Name: ${data.fullname}
 • Mobile: ${data.mobile}
 • Email: ${data.email}
 • Service: ${data.serviceInterestedIn}
 ${data.notes ? `• Requirements / Notes: ${data.notes}\n` : ''}---------------------------------------
-_Sent via BluePrint-BuildCon Website_`;
+_Sent via BluePrint BuildCon Website_`;
 
     openWhatsApp(text);
   };
@@ -234,7 +234,7 @@ _Sent via BluePrint-BuildCon Website_`;
             </button>
 
             <p className="text-[11px] text-center text-slate-400 leading-relaxed">
-              Your enquiry is saved securely and will also open in WhatsApp for immediate response from Blueprint Build Con.
+              Your enquiry is saved securely and will also open in WhatsApp for immediate response from BluePrint BuildCon.
             </p>
           </form>
       )}
