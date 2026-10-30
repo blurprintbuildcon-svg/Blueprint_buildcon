@@ -116,7 +116,7 @@ export default function ReferralForm({ isModal = false, onSuccess, onClose }: Re
   };
 
   const buildWhatsAppMessage = () => {
-    return `*New Construction Referral for BluePrint-BuildCon*
+    return `*New Construction Referral for BluePrint BuildCon*
 ---------------------------------------
 👤 *REFERRER DETAILS:*
 • Name: ${formData.referrerName || 'N/A'}
@@ -133,7 +133,7 @@ ${formData.estimatedArea ? `• Built-up / Plot Area: ${formData.estimatedArea}\
 • Expected Start: ${formData.timeline}
 • Requirements: ${formData.requirements || 'N/A'}
 ---------------------------------------
-_Submitted via BluePrint-BuildCon Referral Portal_`;
+_Submitted via BluePrint BuildCon Referral Portal_`;
   };
 
   const triggerWhatsApp = () => {
@@ -301,7 +301,7 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
           </div>
           <p className="mt-2 text-sm leading-relaxed text-slate-600">
             Know someone looking to build a residential home, villa, commercial building, or complete renovation? Refer them to{' '}
-            <strong className="text-brand-navy font-semibold">BluePrint-BuildCon</strong>. Our senior engineers will prepare customized architectural plans and estimates.
+            <strong className="text-brand-navy font-semibold">BluePrint BuildCon</strong>. Our senior engineers will prepare customized architectural plans and estimates.
           </p>
           <div className="mt-2.5 flex items-start gap-2 text-xs font-medium leading-relaxed text-slate-600">
             <span>🎁</span>
@@ -749,7 +749,7 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
                   className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-orange focus:ring-brand-orange"
                 />
                 <span className="text-xs text-slate-600 leading-relaxed">
-                  By submitting this form, you agree to be contacted by BluePrint-BuildCon on <strong>WhatsApp / SMS / Phone</strong> regarding this referral and reward tracking.
+                  By submitting this form, you agree to be contacted by BluePrint BuildCon on <strong>WhatsApp / SMS / Phone</strong> regarding this referral and reward tracking.
                 </span>
               </label>
 
@@ -763,7 +763,7 @@ _Submitted via BluePrint-BuildCon Referral Portal_`;
                   className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-orange focus:ring-brand-orange"
                 />
                 <span className="text-xs text-slate-600 leading-relaxed">
-                  <strong className="text-slate-800">Consent &amp; Client Permission <span className="text-red-500">*</span>:</strong> I confirm that I have informed the client and have their permission to share their project details. BluePrint-BuildCon will keep all information confidential and process it strictly in accordance with our{' '}
+                  <strong className="text-slate-800">Consent &amp; Client Permission <span className="text-red-500">*</span>:</strong> I confirm that I have informed the client and have their permission to share their project details. BluePrint BuildCon will keep all information confidential and process it strictly in accordance with our{' '}
                   <Link href="/privacy-policy" target="_blank" className="text-brand-orange font-semibold underline hover:text-blue-700">
                     Privacy Policy
                   </Link>{' '}

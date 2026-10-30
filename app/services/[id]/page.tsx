@@ -28,16 +28,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!service) {
     return {
-      title: 'Service Not Found | Blueprint Build Con',
+      title: 'Service Not Found | BluePrint BuildCon',
       description: 'The requested construction service could not be found.',
     };
   }
 
   return {
-    title: `${service.title} | Construction Services | Blueprint Build Con`,
+    title: `${service.title} | Construction Services | BluePrint BuildCon`,
     description: service.shortDescription || service.description.slice(0, 160),
     openGraph: {
-      title: `${service.title} - Blueprint Build Con`,
+      title: `${service.title} - BluePrint BuildCon`,
       description: service.shortDescription || service.description.slice(0, 160),
       images: [{ url: service.image }],
     },

@@ -32,16 +32,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!step) {
     return {
-      title: 'Process Step Not Found | Blueprint Build Con',
+      title: 'Process Step Not Found | BluePrint BuildCon',
       description: 'The requested construction process step could not be found.',
     };
   }
 
   return {
-    title: `Step ${step.number}: ${step.title} | Our Process | Blueprint Build Con`,
+    title: `Step ${step.number}: ${step.title} | Our Process | BluePrint BuildCon`,
     description: step.shortDescription,
     openGraph: {
-      title: `${step.title} - Blueprint Build Con Construction Process`,
+      title: `${step.title} - BluePrint BuildCon Construction Process`,
       description: step.shortDescription,
       images: [{ url: step.image }],
     },

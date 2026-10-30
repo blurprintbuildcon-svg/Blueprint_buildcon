@@ -44,7 +44,7 @@ export default function AboutHero() {
       <div className="container mx-auto w-full px-4 pb-20 md:px-6 lg:pb-28">
         <div className="max-w-3xl">
           <p className="mb-5 text-sm font-bold uppercase tracking-[0.28em] text-brand-orange">
-            About Blueprint Build Con
+            About BluePrint BuildCon
           </p>
           <h1 className="max-w-2xl text-5xl font-bold leading-[0.98] md:text-7xl">
             We build the places where life moves forward.

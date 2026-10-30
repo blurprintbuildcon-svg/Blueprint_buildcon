@@ -3,8 +3,8 @@ import FAQSection from '@/components/FAQSection';
 import PageHero from '@/components/PageHero';
 
 export const metadata = {
-  title: 'Contact Us | Blueprint Build Con',
-  description: 'Contact Blueprint Build Con to discuss your residential or commercial construction project.',
+  title: 'Contact Us | BluePrint BuildCon',
+  description: 'Contact BluePrint BuildCon to discuss your residential or commercial construction project.',
 };
 
 export default function ContactPage() {

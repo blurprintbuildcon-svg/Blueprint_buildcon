@@ -1,7 +1,7 @@
 export const packages = [
   {
     id: 'basic',
-    name: 'BASIC',
+    name: 'Basic Package',
     description: 'For budget-conscious construction projects.',
     features: [
       'Structural construction',
@@ -16,7 +16,7 @@ export const packages = [
   },
   {
     id: 'premium',
-    name: 'PREMIUM',
+    name: 'Premium Package',
     description: 'Our most popular comprehensive construction solution.',
     features: [
       'Complete construction',
@@ -32,7 +32,7 @@ export const packages = [
   },
   {
     id: 'luxury',
-    name: 'LUXURY',
+    name: 'Luxury Package',
     description: 'For premium homes and high-end projects.',
     features: [
       'Complete turnkey construction',

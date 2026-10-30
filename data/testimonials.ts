@@ -5,7 +5,7 @@ export const testimonials = [
     location: 'Mumbai',
     projectType: 'Residential Construction',
     rating: 5,
-    text: 'Blueprint Build Con delivered our dream home exactly as promised. The transparency in pricing and the regular updates made the whole process stress-free. The quality of materials used is exceptional.',
+    text: 'BluePrint BuildCon delivered our dream home exactly as promised. The transparency in pricing and the regular updates made the whole process stress-free. The quality of materials used is exceptional.',
     avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150&h=150',
   },
   {
@@ -32,7 +32,7 @@ export const testimonials = [
     location: 'Hyderabad',
     projectType: 'Renovation & Interior',
     rating: 5,
-    text: 'Transforming our old apartment felt like a daunting task, but Blueprint made it look easy. The interior finishing is premium, and the overall space planning has completely changed how we live.',
+    text: 'Transforming our old apartment felt like a daunting task, but BluePrint BuildCon made it look easy. The interior finishing is premium, and the overall space planning has completely changed how we live.',
     avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=150&h=150',
   },
 ];
