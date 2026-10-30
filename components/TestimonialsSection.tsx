@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion } from 'framer-motion';
@@ -116,7 +117,7 @@ export default function TestimonialsSection() {
   };
 
   return (
-    <section className="pt-16 pb-20 lg:pt-24 lg:pb-32 bg-white relative overflow-hidden">
+    <section className="pt-16 pb-8 lg:pt-24 lg:pb-12 bg-white relative overflow-hidden">
       {/* Background Decorative Accent */}
       <div className="absolute top-0 right-0 -mt-20 w-96 h-96 bg-brand-orange/5 rounded-full blur-3xl pointer-events-none" />
 

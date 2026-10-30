@@ -32,7 +32,7 @@ export default function FAQSection() {
     : `91${rawWhatsapp.replace(/[^0-9]/g, '')}`;
 
   return (
-    <section id="faq" className="py-20 lg:py-28 bg-slate-50/70 relative overflow-hidden">
+    <section id="faq" className="pt-6 pb-20 lg:pt-10 lg:pb-28 bg-slate-50/70 relative overflow-hidden">
       {/* Background Decorative Accent */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-brand-orange/5 rounded-full blur-3xl pointer-events-none" />
 
