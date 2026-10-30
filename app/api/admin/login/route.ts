@@ -11,10 +11,10 @@ export async function POST(request: Request) {
     if (!email || !password) return NextResponse.json({ success: false, message: 'Email and password are required' }, { status: 400 });
 
     const envEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
-    const envPassword = process.env.ADMIN_PASSWORD;
+    const envPassword = process.env.ADMIN_PASSWORD?.trim();
     const envName = process.env.ADMIN_NAME?.trim() || 'Blueprint Admin';
 
-    if (envEmail && envPassword && email === envEmail && password === envPassword) {
+    if (envEmail && envPassword && email === envEmail && (password === envPassword || password.trim() === envPassword)) {
       const response = NextResponse.json({ success: true, data: { name: envName, email: envEmail } });
       response.cookies.set(sessionCookie, createSession(envEmail, 'admin'), { httpOnly: true, sameSite: 'lax', secure: process.env.NODE_ENV === 'production', maxAge: 60 * 60 * 8, path: '/' });
       return response;
@@ -22,7 +22,8 @@ export async function POST(request: Request) {
 
     await connectToDatabase();
     const admin = await Admin.findOne({ email }).select('+password');
-    if (!admin || !(await comparePassword(password, admin.password))) return NextResponse.json({ success: false, message: 'Invalid credentials' }, { status: 401 });
+    const isPasswordValid = admin && (await comparePassword(password, admin.password) || (password.trim() !== password && await comparePassword(password.trim(), admin.password)));
+    if (!admin || !isPasswordValid) return NextResponse.json({ success: false, message: 'Invalid credentials' }, { status: 401 });
     const response = NextResponse.json({ success: true, data: { name: admin.name, email: admin.email } });
     response.cookies.set(sessionCookie, createSession(admin._id.toString(), admin.role), { httpOnly: true, sameSite: 'lax', secure: process.env.NODE_ENV === 'production', maxAge: 60 * 60 * 8, path: '/' });
     return response;
