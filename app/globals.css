@@ -15,7 +15,8 @@
   --color-foreground: var(--color-brand-charcoal);
 
   --font-sans: var(--font-body);
-  --font-heading: var(--font-body);
+  --font-heading: var(--font-display, var(--font-body));
+  --font-display: var(--font-display, var(--font-body));
 }
 
 @layer utilities {

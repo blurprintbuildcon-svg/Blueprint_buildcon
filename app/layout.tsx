@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
+import { DM_Sans, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -7,6 +7,12 @@ import FloatingActions from "@/components/FloatingActions";
 
 const mainFont = DM_Sans({
   variable: "--font-body",
+  subsets: ["latin"],
+  display: 'swap',
+});
+
+const displayFont = Plus_Jakarta_Sans({
+  variable: "--font-display",
   subsets: ["latin"],
   display: 'swap',
 });
@@ -36,7 +42,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${mainFont.variable} scroll-smooth antialiased`}
+      className={`${mainFont.variable} ${displayFont.variable} scroll-smooth antialiased`}
     >
       <body suppressHydrationWarning className="min-h-screen flex flex-col font-sans">
         <Navbar />
