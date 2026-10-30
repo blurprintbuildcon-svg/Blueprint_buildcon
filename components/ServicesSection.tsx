@@ -9,7 +9,7 @@ import type { PublicService } from '@/lib/public-content';
 export default function ServicesSection({ services: providedServices }: { services?: PublicService[] }) {
   const serviceData = providedServices ?? services;
   return (
-    <section id="services" className="py-20 lg:py-32 bg-white">
+    <section id="services" className="pt-20 pb-10 lg:pt-28 lg:pb-12 bg-white">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <motion.div
