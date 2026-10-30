@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence, Variants } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { ArrowLeft, ArrowRight, CheckCircle2, MapPin } from 'lucide-react';
 import Link from 'next/link';
@@ -28,156 +28,98 @@ const branchCities = [
   { name: 'Raipur', image: '/Raipur.png' },
 ];
 
-const houseImages = [
-  {
-    url: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=85',
-    title: 'Luxury Architectural Villa',
-    subtitle: 'Bespoke Residential Civil Engineering',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=2000&q=85',
-    title: 'Contemporary Modern Estate',
-    subtitle: 'Turnkey Luxury Living & Construction',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=85',
-    title: 'Premium Urban Architecture',
-    subtitle: 'Precision Blueprints & 3D Execution',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2000&q=85',
-    title: 'Modern Dream Residence',
-    subtitle: 'End-to-End Civil & Interior Handover',
-  },
-];
-
 export default function HeroSection() {
-  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(true);
   const [showingBranches, setShowingBranches] = useState(false);
-  const [currentHouseIndex, setCurrentHouseIndex] = useState(0);
   const [currentCityIndex, setCurrentCityIndex] = useState(0);
-  const [slideDirection, setSlideDirection] = useState(1);
+  const [isBranchSlideshowHovered, setIsBranchSlideshowHovered] = useState(false);
   const [cityImageUnavailable, setCityImageUnavailable] = useState(false);
 
+  const heroImages = [
+    {
+      url: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80',
+      alt: 'Luxury Modern Architecture and Construction',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=85&w=1600',
+      alt: 'Commercial Civil Engineering and Construction Site',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=1600',
+      alt: 'Contemporary Urban Residence Project',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1600',
+      alt: 'Bespoke Premium Villa and Landscaping',
+    },
+  ];
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const currentCity = branchCities[currentCityIndex];
 
-  // Slideshow: Cycles through all house slides, then shows all 18 branch cities, then loops back
   useEffect(() => {
-    // 5.5s per house slide, 3.2s per branch city so users can see each city clearly
-    const slideDuration = showingBranches ? 3200 : 5500;
+    window.dispatchEvent(new CustomEvent('hero-branches-visibility', { detail: showingBranches }));
 
-    const timer = setTimeout(() => {
+    return () => {
+      window.dispatchEvent(new CustomEvent('hero-branches-visibility', { detail: false }));
+    };
+  }, [showingBranches]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
       if (!showingBranches) {
-        if (currentHouseIndex >= houseImages.length - 1) {
-          setSlideDirection(1);
+        if (currentImageIndex === heroImages.length - 1) {
           setShowingBranches(true);
           setCurrentCityIndex(0);
           setCityImageUnavailable(false);
         } else {
-          setSlideDirection(1);
-          setCurrentHouseIndex((prev) => prev + 1);
+          setCurrentImageIndex((prev) => prev + 1);
         }
-      } else {
-        if (currentCityIndex >= branchCities.length - 1) {
-          // All 18 cities shown! Transition back to house slides at index 0
-          setSlideDirection(1);
+      } else if (!isBranchSlideshowHovered) {
+        if (currentCityIndex === branchCities.length - 1) {
           setShowingBranches(false);
-          setCurrentHouseIndex(0);
-          setCurrentCityIndex(0);
-          setCityImageUnavailable(false);
+          setCurrentImageIndex(0);
         } else {
-          // Advance to next city image (cycles from 0 through 17)
           setCurrentCityIndex((prev) => prev + 1);
           setCityImageUnavailable(false);
         }
       }
-    }, slideDuration);
+    }, showingBranches ? 5000 : 6000);
 
-    return () => clearTimeout(timer);
-  }, [currentCityIndex, currentHouseIndex, showingBranches]);
-
-  const goToHouse = (index: number) => {
-    if (showingBranches) {
-      setSlideDirection(-1);
-    } else {
-      setSlideDirection(index >= currentHouseIndex ? 1 : -1);
-    }
-    setCurrentHouseIndex(index);
-    setShowingBranches(false);
-  };
-
-  const goToBranches = () => {
-    setSlideDirection(1);
-    setCurrentCityIndex(0);
-    setCityImageUnavailable(false);
-    setShowingBranches(true);
-  };
-
-  const slideVariants: Variants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? '100%' : '-100%',
-      opacity: 1,
-    }),
-    center: {
-      x: '0%',
-      opacity: 1,
-      transition: {
-        x: { type: 'tween' as const, duration: 0.85, ease: [0.25, 1, 0.5, 1] },
-        opacity: { duration: 0.3 },
-      },
-    },
-    exit: (direction: number) => ({
-      x: direction > 0 ? '-100%' : '100%',
-      opacity: 1,
-      transition: {
-        x: { type: 'tween' as const, duration: 0.85, ease: [0.25, 1, 0.5, 1] },
-        opacity: { duration: 0.3 },
-      },
-    }),
-  };
+    return () => clearInterval(timer);
+  }, [currentCityIndex, currentImageIndex, heroImages.length, isBranchSlideshowHovered, showingBranches]);
 
   return (
     <section
       id="home"
-      className={`relative min-h-screen flex flex-col justify-between overflow-hidden transition-colors duration-500 pt-24 lg:pt-28 pb-12 select-none ${
-        showingBranches ? 'bg-slate-100 text-slate-900' : 'bg-slate-900 text-white'
+      className={`relative flex min-h-screen items-center overflow-hidden pt-20 ${
+        showingBranches ? 'bg-slate-100' : 'bg-brand-charcoal'
       }`}
     >
-      {/* =========================================================================
-          BACKGROUND: BRIGHT SLIDING HOUSE IMAGES (Shown when not showing branches)
-          ========================================================================= */}
-      {!showingBranches && (
-        <div className="absolute inset-0 z-0 overflow-hidden">
-          <AnimatePresence initial={false} custom={slideDirection}>
-            <motion.div
-              key={currentHouseIndex}
-              custom={slideDirection}
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              className="absolute inset-0 w-full h-full"
-            >
-              <img
-                src={houseImages[currentHouseIndex].url}
-                alt={houseImages[currentHouseIndex].title}
-                loading="eager"
-                className="w-full h-full object-cover object-center"
+      <div className="absolute inset-0 z-0">
+        {!showingBranches && (
+          <>
+            <div className="absolute inset-0 z-10 bg-brand-navy/70 mix-blend-multiply" />
+            {heroImages.map((img, idx) => (
+              <motion.img
+                key={img.url}
+                src={img.url}
+                alt={img.alt}
+                initial={{ opacity: 0, scale: 1.05 }}
+                animate={{
+                  opacity: currentImageIndex === idx ? 1 : 0,
+                  scale: currentImageIndex === idx ? 1 : 1.05,
+                }}
+                transition={{ duration: 1, ease: 'easeInOut' }}
+                className="absolute inset-0 h-full w-full object-cover"
               />
-            </motion.div>
-          </AnimatePresence>
+            ))}
+          </>
+        )}
+      </div>
 
-          {/* Natural, Balanced Contrast Overlays (Clean & Bright) */}
-          <div className="absolute inset-0 bg-gradient-to-r from-brand-navy/85 via-brand-navy/55 to-brand-navy/20" />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/80 via-transparent to-brand-navy/30" />
-        </div>
-      )}
-
-      {/* =========================================================================
-          CONTENT: SHOWING PLACES (Upcoming Branches) OR HERO SLIDESHOW
-          ========================================================================= */}
       {showingBranches ? (
-        <div className="container relative z-20 mx-auto px-4 py-8 md:px-6 md:py-10 my-auto">
+        <div className="container relative z-20 mx-auto px-4 py-8 md:px-6 md:py-10">
           <div className="mx-auto max-w-5xl">
             <header className="mb-5 text-center sm:mb-6">
               <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-sky-100 text-sky-600 sm:h-11 sm:w-11">
@@ -195,32 +137,23 @@ export default function HeroSection() {
             </header>
 
             <div
-              className="overflow-hidden rounded-2xl bg-white shadow-xl ring-1 ring-slate-200/80 sm:rounded-3xl"
+              className="overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-slate-200/80 sm:rounded-3xl"
               aria-roledescription="carousel"
               aria-label="Upcoming branch locations"
+              onMouseEnter={() => setIsBranchSlideshowHovered(true)}
+              onMouseLeave={() => setIsBranchSlideshowHovered(false)}
             >
               <div className="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-sky-200 via-blue-100 to-amber-100 sm:aspect-[2.6/1]">
                 {!cityImageUnavailable && (
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={currentCity.name}
-                      initial={{ opacity: 0.5, scale: 1.02 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0.5 }}
-                      transition={{ duration: 0.4, ease: 'easeInOut' }}
-                      className="absolute inset-0 w-full h-full"
-                    >
-                      <Image
-                        src={currentCity.image}
-                        alt={`${currentCity.name} city skyline`}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 1024px"
-                        className="object-cover"
-                        priority={currentCityIndex === 0}
-                        onError={() => setCityImageUnavailable(true)}
-                      />
-                    </motion.div>
-                  </AnimatePresence>
+                  <Image
+                    key={currentCity.image}
+                    src={currentCity.image}
+                    alt={`${currentCity.name} city skyline`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 1024px"
+                    className="object-cover"
+                    onError={() => setCityImageUnavailable(true)}
+                  />
                 )}
                 {cityImageUnavailable && (
                   <div
@@ -251,7 +184,7 @@ export default function HeroSection() {
                     setCityImageUnavailable(false);
                   }}
                   aria-label="Show previous city"
-                  className="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow transition hover:bg-white sm:left-5 sm:h-11 sm:w-11 cursor-pointer"
+                  className="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow transition hover:bg-white sm:left-5 sm:h-11 sm:w-11"
                 >
                   <ArrowLeft size={18} aria-hidden="true" />
                 </button>
@@ -262,7 +195,7 @@ export default function HeroSection() {
                     setCityImageUnavailable(false);
                   }}
                   aria-label="Show next city"
-                  className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow transition hover:bg-white sm:right-5 sm:h-11 sm:w-11 cursor-pointer"
+                  className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow transition hover:bg-white sm:right-5 sm:h-11 sm:w-11"
                 >
                   <ArrowRight size={18} aria-hidden="true" />
                 </button>
@@ -286,28 +219,6 @@ export default function HeroSection() {
                     Coming Soon · Stay Updated
                   </p>
                 </div>
-
-                <div className="flex items-center justify-between gap-3 sm:justify-end">
-                  <div className="flex max-w-[220px] flex-wrap items-center justify-end gap-1.5">
-                    {branchCities.map((city, index) => (
-                      <button
-                        key={city.name}
-                        type="button"
-                        onClick={() => {
-                          setCurrentCityIndex(index);
-                          setCityImageUnavailable(false);
-                        }}
-                        aria-label={`Show ${city.name}`}
-                        aria-current={currentCityIndex === index ? 'true' : undefined}
-                        className={`h-2.5 rounded-full transition-all cursor-pointer ${
-                          currentCityIndex === index
-                            ? 'w-6 bg-sky-500'
-                            : 'w-2.5 bg-slate-300 hover:bg-slate-400'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -323,65 +234,54 @@ export default function HeroSection() {
                 <ArrowRight size={15} aria-hidden="true" />
               </Link>
             </div>
+
           </div>
         </div>
       ) : (
-        <div className="container relative z-10 mx-auto px-4 md:px-6 my-auto">
-          <div className="max-w-3xl lg:max-w-4xl">
+      <div className="container relative z-20 mx-auto px-4 py-12 md:px-6 lg:py-24">
+        <div className="max-w-3xl">
+          {/* Hero Content */}
+          <div className="lg:col-span-7 text-white">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.08] text-white drop-shadow-md">
+              <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight mb-6 leading-tight">
                 Build Your Dream.<br />
                 <span className="text-brand-orange">We&apos;ll Build It Right.</span>
               </h1>
-
-              <p className="text-base sm:text-lg md:text-xl text-slate-100 mb-8 max-w-2xl leading-relaxed drop-shadow-sm font-normal">
+              <p className="text-lg md:text-xl text-slate-200 mb-8 max-w-2xl leading-relaxed">
                 End-to-end construction solutions designed around your vision, budget and timeline — from the first blueprint to the final handover.
               </p>
 
-              {/* Quick Project Consultation Accent Pill */}
-              <div className="mb-6">
-                <p className="text-xs font-bold uppercase tracking-wider text-amber-300 mb-1.5 flex items-center gap-2 drop-shadow-sm">
-                  <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-                  Quick Project Consultation
-                </p>
-                <p className="text-xs sm:text-sm text-slate-200 drop-shadow-sm">
-                  Transparent Estimation • Dedicated Civil Team • 400+ Quality Checks
-                </p>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-4 mb-10">
+              <div className="flex flex-wrap gap-4 mb-10">
                 <button
                   type="button"
                   onClick={() => setIsFormOpen(true)}
-                  className="px-8 py-3.5 bg-brand-orange text-white font-semibold rounded-full hover:bg-blue-700 transition-all shadow-xl hover:shadow-blue-500/30 flex items-center cursor-pointer group"
+                  className="px-8 py-3.5 bg-brand-orange text-white font-semibold rounded-full hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/30 flex items-center cursor-pointer"
                 >
                   Start Your Project
-                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="ml-2 w-5 h-5" />
                 </button>
-
                 <Link
                   href="/services"
-                  className="px-8 py-3.5 bg-white/20 text-white font-semibold rounded-full hover:bg-white/30 backdrop-blur-md transition-all border border-white/30 shadow-lg"
+                  className="px-8 py-3.5 bg-white/10 text-white font-semibold rounded-full hover:bg-white/20 backdrop-blur-sm transition-all border border-white/20"
                 >
                   Explore Our Services
                 </Link>
               </div>
 
               {/* Trust Indicators */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-white/25 max-w-3xl">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-white/20">
                 {[
                   'Transparent Pricing',
                   'Quality Construction',
                   'Professional Team',
                   'End-to-End Support',
                 ].map((item, idx) => (
-                  <div key={idx} className="flex items-center text-xs sm:text-sm font-semibold text-white drop-shadow-sm">
-                    <CheckCircle2 className="text-brand-orange w-4 h-4 mr-2 shrink-0 drop-shadow" />
+                  <div key={idx} className="flex items-center text-sm font-medium text-slate-200">
+                    <CheckCircle2 className="text-brand-orange w-4 h-4 mr-2 shrink-0" />
                     <span>{item}</span>
                   </div>
                 ))}
@@ -389,45 +289,10 @@ export default function HeroSection() {
             </motion.div>
           </div>
         </div>
+      </div>
       )}
 
-      {/* =========================================================================
-          BOTTOM SLIDER INDICATOR (Houses + Upcoming Places)
-          ========================================================================= */}
-      <div className="container relative z-10 mx-auto px-4 md:px-6 pb-2">
-        {/* Bottom Slide Indicators: House Slides + Upcoming Places */}
-        <div className="flex items-center justify-center gap-2">
-          {houseImages.map((house, idx) => (
-            <button
-              key={house.title}
-              type="button"
-              onClick={() => goToHouse(idx)}
-              aria-label={`Go to house slide ${idx + 1}: ${house.title}`}
-              className={`h-2.5 rounded-full transition-all duration-500 cursor-pointer ${
-                !showingBranches && currentHouseIndex === idx
-                  ? 'w-10 bg-brand-orange shadow-md shadow-brand-orange/50'
-                  : showingBranches
-                  ? 'w-2.5 bg-slate-300 hover:bg-slate-400'
-                  : 'w-2.5 bg-white/50 hover:bg-white/80'
-              }`}
-            />
-          ))}
-
-          {/* Indicator for Upcoming Places / Branches */}
-          <button
-            type="button"
-            onClick={goToBranches}
-            aria-label="Show upcoming branches (places)"
-            className={`h-2.5 rounded-full transition-all duration-500 cursor-pointer flex items-center justify-center ${
-              showingBranches
-                ? 'w-10 bg-sky-500 shadow-md shadow-sky-500/50'
-                : 'w-2.5 bg-white/50 hover:bg-white/80'
-            }`}
-          />
-        </div>
-      </div>
-
-      {/* Consultation Modal */}
+      {/* REPLACED MODAL FORM (MATCHES SCREENSHOT 1 & 2 UI WITH CIVIL CONSTRUCTION FIELDS) */}
       <ConsultationModal
         isOpen={isFormOpen}
         onClose={() => setIsFormOpen(false)}
