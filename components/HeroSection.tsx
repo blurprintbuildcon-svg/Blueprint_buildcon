@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { ArrowLeft, ArrowRight, CheckCircle2, MapPin, Pause, Play } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle2, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import ConsultationModal from '@/components/ConsultationModal';
 
@@ -32,7 +32,7 @@ export default function HeroSection() {
   const [isFormOpen, setIsFormOpen] = useState(true);
   const [showingBranches, setShowingBranches] = useState(false);
   const [currentCityIndex, setCurrentCityIndex] = useState(0);
-  const [isBranchSlideshowPaused, setIsBranchSlideshowPaused] = useState(false);
+  const [isBranchSlideshowHovered, setIsBranchSlideshowHovered] = useState(false);
   const [cityImageUnavailable, setCityImageUnavailable] = useState(false);
 
   const heroImages = [
@@ -75,7 +75,7 @@ export default function HeroSection() {
         } else {
           setCurrentImageIndex((prev) => prev + 1);
         }
-      } else if (!isBranchSlideshowPaused) {
+      } else if (!isBranchSlideshowHovered) {
         if (currentCityIndex === branchCities.length - 1) {
           setShowingBranches(false);
           setCurrentImageIndex(0);
@@ -87,7 +87,7 @@ export default function HeroSection() {
     }, showingBranches ? 5000 : 6000);
 
     return () => clearInterval(timer);
-  }, [currentCityIndex, currentImageIndex, heroImages.length, isBranchSlideshowPaused, showingBranches]);
+  }, [currentCityIndex, currentImageIndex, heroImages.length, isBranchSlideshowHovered, showingBranches]);
 
   return (
     <section
@@ -140,6 +140,8 @@ export default function HeroSection() {
               className="overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-slate-200/80 sm:rounded-3xl"
               aria-roledescription="carousel"
               aria-label="Upcoming branch locations"
+              onMouseEnter={() => setIsBranchSlideshowHovered(true)}
+              onMouseLeave={() => setIsBranchSlideshowHovered(false)}
             >
               <div className="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-sky-200 via-blue-100 to-amber-100 sm:aspect-[2.6/1]">
                 {!cityImageUnavailable && (
@@ -217,40 +219,6 @@ export default function HeroSection() {
                     Coming Soon · Stay Updated
                   </p>
                 </div>
-
-                <div className="flex items-center justify-between gap-3 sm:justify-end">
-                  <button
-                    type="button"
-                    onClick={() => setIsBranchSlideshowPaused((paused) => !paused)}
-                    aria-label={isBranchSlideshowPaused ? 'Play city slideshow' : 'Pause city slideshow'}
-                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition hover:border-slate-300 hover:bg-slate-50"
-                  >
-                    {isBranchSlideshowPaused ? (
-                      <Play size={15} aria-hidden="true" />
-                    ) : (
-                      <Pause size={15} aria-hidden="true" />
-                    )}
-                  </button>
-                  <div className="flex max-w-[220px] flex-wrap items-center justify-end gap-1.5">
-                    {branchCities.map((city, index) => (
-                      <button
-                        key={city.name}
-                        type="button"
-                        onClick={() => {
-                          setCurrentCityIndex(index);
-                          setCityImageUnavailable(false);
-                        }}
-                        aria-label={`Show ${city.name}`}
-                        aria-current={currentCityIndex === index ? 'true' : undefined}
-                        className={`h-2.5 rounded-full transition-all ${
-                          currentCityIndex === index
-                            ? 'w-6 bg-sky-500'
-                            : 'w-2.5 bg-slate-300 hover:bg-slate-400'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -267,30 +235,6 @@ export default function HeroSection() {
               </Link>
             </div>
 
-            <div className="mt-4 flex items-center justify-center gap-2" aria-label="Hero slide navigation">
-              {heroImages.map((_, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  aria-label={`Go to hero slide ${index + 1}`}
-                  onClick={() => {
-                    setCurrentImageIndex(index);
-                    setShowingBranches(false);
-                  }}
-                  className="h-2 w-2 rounded-full bg-slate-300 transition hover:bg-slate-500"
-                />
-              ))}
-              <button
-                type="button"
-                aria-label="Show upcoming branches"
-                aria-current="true"
-                onClick={() => {
-                  setCurrentCityIndex(0);
-                  setCityImageUnavailable(false);
-                }}
-                className="h-2 w-8 rounded-full bg-brand-orange"
-              />
-            </div>
           </div>
         </div>
       ) : (
@@ -340,32 +284,6 @@ export default function HeroSection() {
                     <CheckCircle2 className="text-brand-orange w-4 h-4 mr-2 shrink-0" />
                     <span>{item}</span>
                   </div>
-                ))}
-              </div>
-
-              {/* Slide Indicators */}
-              <div className="flex items-center gap-2 pt-6">
-                {Array.from({ length: heroImages.length + 1 }, (_, dotIdx) => (
-                  <button
-                    key={dotIdx}
-                    type="button"
-                    aria-label={dotIdx === heroImages.length ? 'Show upcoming branches' : `Go to slide ${dotIdx + 1}`}
-                    onClick={() => {
-                      if (dotIdx === heroImages.length) {
-                        setCurrentCityIndex(0);
-                        setCityImageUnavailable(false);
-                        setShowingBranches(true);
-                      } else {
-                        setCurrentImageIndex(dotIdx);
-                      }
-                    }}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      (showingBranches && dotIdx === heroImages.length) ||
-                      (!showingBranches && currentImageIndex === dotIdx)
-                        ? 'w-8 bg-brand-orange'
-                        : 'w-2 bg-white/40 hover:bg-white/70'
-                    }`}
-                  />
                 ))}
               </div>
             </motion.div>
