@@ -26,7 +26,7 @@ export default function Footer() {
                   BluePrint<span className="text-brand-orange"> BuildCon</span>
                 </span>
                 <span className="text-[9.5px] font-semibold uppercase tracking-[0.24em] text-blue-200/80">
-                  Ideas | Structures | Reality
+                  Ideas • Structures • Reality
                 </span>
               </div>
             </Link>

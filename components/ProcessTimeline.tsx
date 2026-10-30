@@ -12,7 +12,7 @@ export default function ProcessTimeline() {
 
   const processImages = [
     {
-      src: 'https://images.unsplash.com/photo-1503387762-59252a7b3c6a?auto=format&fit=crop&q=85&w=1600',
+      src: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=85&w=1600',
       alt: 'Architectural plans spread across a worktable',
       label: '01 / Planning',
       title: 'Every strong build starts with a clear plan.',

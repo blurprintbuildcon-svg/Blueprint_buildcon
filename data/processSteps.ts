@@ -132,7 +132,7 @@ export const processSteps: ProcessStep[] = [
     shortDescription:
       'Every stage is carefully inspected to ensure that the work meets required quality standards.',
     fullDescription:
-      'Quality is non-negotiable at Blueprint Build Con. Our dedicated Quality Assurance & Quality Control (QA/QC) cell conducts over 400+ distinct checks spanning structural density, waterproofing integrity, alignment accuracy, electrical load balances, and acoustic performance.',
+      'Quality is non-negotiable at BluePrint BuildCon. Our dedicated Quality Assurance & Quality Control (QA/QC) cell conducts over 400+ distinct checks spanning structural density, waterproofing integrity, alignment accuracy, electrical load balances, and acoustic performance.',
     image:
       'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=80',
     duration: '2 – 3 Weeks',

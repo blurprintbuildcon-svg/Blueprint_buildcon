@@ -3,8 +3,8 @@ import PageHero from '@/components/PageHero';
 import { getPublicServices } from '@/lib/public-content';
 
 export const metadata = {
-  title: 'Construction Services | Blueprint Build Con',
-  description: 'Explore residential, commercial, renovation, interior and project management services.',
+  title: 'Construction Services | BluePrint BuildCon',
+  description: 'Explore residential, commercial, renovation, interior and project management services by BluePrint BuildCon.',
 };
 
 export default async function ServicesPage() {

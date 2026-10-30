@@ -67,7 +67,7 @@ export default function WhyChooseUs() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.28em] text-brand-orange">The BluePrint standard</p>
+            <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.28em] text-brand-orange">The BluePrint BuildCon Standard</p>
             <h2 className="max-w-lg text-4xl font-bold leading-[0.95] tracking-[-0.05em] md:text-5xl lg:text-6xl">
               Why Build With Us?
             </h2>

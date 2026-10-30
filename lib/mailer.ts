@@ -5,7 +5,7 @@ const SMTP_PORT = parseInt(process.env.SMTP_PORT || '465', 10);
 const SMTP_SECURE = process.env.SMTP_SECURE === 'true' || SMTP_PORT === 465;
 const SMTP_USER = process.env.SMTP_USER || 'project@blueprintbuildcon.homes';
 const SMTP_PASS = process.env.SMTP_PASS || 'qn0UrqXk3YZs';
-const FROM_NAME = process.env.SMTP_FROM_NAME || 'Blueprint Buildcon';
+const FROM_NAME = process.env.SMTP_FROM_NAME || 'BluePrint BuildCon';
 const FROM_EMAIL = process.env.SMTP_FROM_EMAIL || SMTP_USER;
 const RECEIVER_EMAIL = process.env.ENQUIRY_RECEIVER_EMAIL || 'project@blueprintbuildcon.homes';
 
@@ -60,14 +60,14 @@ function emailWrapper(title: string, badge: string, contentHtml: string): string
   <div class="wrapper">
     <div class="header">
       <div class="badge">${badge}</div>
-      <h1>Blueprint Buildcon</h1>
+      <h1>BluePrint BuildCon</h1>
       <p>${title}</p>
     </div>
     <div class="body">
       ${contentHtml}
     </div>
     <div class="footer">
-      <p style="margin: 0;">This email was sent automatically from <strong>Blueprint Buildcon</strong> Web Portal.</p>
+      <p style="margin: 0;">This email was sent automatically from <strong>BluePrint BuildCon</strong> Web Portal.</p>
       <p style="margin: 4px 0 0;">Recipient: <strong>${RECEIVER_EMAIL}</strong> | Timestamp: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST</p>
     </div>
   </div>

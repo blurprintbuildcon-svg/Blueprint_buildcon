@@ -81,7 +81,7 @@ export default function TermsAndConditionsPage() {
                 Terms &amp; Conditions
               </h1>
               <p className="mt-3 text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
-                Rules, commitments, payment milestones, and service standards governing your architectural and construction engagement with <strong>Blueprint Buildcon</strong>.
+                Rules, commitments, payment milestones, and service standards governing your architectural and construction engagement with <strong>BluePrint BuildCon</strong>.
               </p>
             </div>
 
@@ -136,7 +136,7 @@ export default function TermsAndConditionsPage() {
             </span>
             <span className="flex items-center gap-1.5">
               <Building size={14} className="text-slate-400" />
-              Operating Entity: <strong>Blueprint Buildcon</strong>
+              Operating Entity: <strong>BluePrint BuildCon</strong>
             </span>
             <span className="flex items-center gap-1.5">
               <Scale size={14} className="text-emerald-600" />
@@ -217,7 +217,7 @@ export default function TermsAndConditionsPage() {
             {/* INTRO */}
             <section className="space-y-4 pb-8 border-b border-slate-100">
               <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
-                Welcome to <strong>Blueprint Buildcon</strong>. These Terms and Conditions (&quot;Terms&quot;) constitute a legally binding agreement between you (&quot;Client&quot;, &quot;User&quot;, &quot;Partner&quot;, or &quot;You&quot;) and Blueprint Buildcon regarding your access to and use of our website, mobile interfaces, architectural blueprinting, site consultation, turnkey civil construction services, and referral partner programs.
+                Welcome to <strong>BluePrint BuildCon</strong>. These Terms and Conditions (&quot;Terms&quot;) constitute a legally binding agreement between you (&quot;Client&quot;, &quot;User&quot;, &quot;Partner&quot;, or &quot;You&quot;) and BluePrint BuildCon regarding your access to and use of our website, mobile interfaces, architectural blueprinting, site consultation, turnkey civil construction services, and referral partner programs.
               </p>
               <p className="text-sm text-slate-600 leading-relaxed">
                 By browsing our platform, booking a site inspection, submitting a construction inquiry, enrolling in the referral program, or executing a construction work order, you acknowledge that you have read, understood, and agreed to be bound by these Terms and our Privacy Policy.
@@ -236,7 +236,7 @@ export default function TermsAndConditionsPage() {
               </div>
               <div className="space-y-3 text-sm text-slate-700 leading-relaxed">
                 <p>
-                  These Terms govern all interactions with Blueprint Buildcon, including digital interfaces, offline consultations, architectural blueprint deliveries, structural calculations, site supervision, material procurement, and general turnkey building execution.
+                  These Terms govern all interactions with BluePrint BuildCon, including digital interfaces, offline consultations, architectural blueprint deliveries, structural calculations, site supervision, material procurement, and general turnkey building execution.
                 </p>
                 <p>
                   If you are entering into these Terms on behalf of a company, partnership, society, or other legal entity, you represent and warrant that you possess the full legal authority to bind such entity to these obligations.
@@ -256,7 +256,7 @@ export default function TermsAndConditionsPage() {
               </div>
               <div className="space-y-3 text-sm text-slate-700 leading-relaxed">
                 <p>
-                  Blueprint Buildcon provides comprehensive architectural and civil construction services, including but not limited to:
+                  BluePrint BuildCon provides comprehensive architectural and civil construction services, including but not limited to:
                 </p>
                 <ul className="list-disc list-inside space-y-1.5 pl-2 text-slate-600">
                   <li><strong>Architectural Design &amp; 3D Elevation:</strong> Conceptual floor layouts, 3D modeling, Vastu-compliant blueprints, and MEP (Mechanical, Electrical, Plumbing) designs.</li>
@@ -359,7 +359,7 @@ export default function TermsAndConditionsPage() {
               </div>
               <div className="space-y-3 text-sm text-slate-700 leading-relaxed">
                 <p>
-                  Under the Blueprint Buildcon <strong>Refer &amp; Earn Program</strong>, channel partners, existing clients, and individuals may earn referral cash rewards ranging from <strong>₹10,000 to ₹1,00,000+</strong> per successful project:
+                  Under the BluePrint BuildCon <strong>Refer &amp; Earn Program</strong>, channel partners, existing clients, and individuals may earn referral cash rewards ranging from <strong>₹10,000 to ₹1,00,000+</strong> per successful project:
                 </p>
                 <div className="p-4 rounded-xl bg-amber-50/70 border border-amber-200/80 text-xs sm:text-sm text-amber-950 space-y-2">
                   <div className="font-bold text-amber-900 flex items-center gap-1.5">
@@ -418,7 +418,7 @@ export default function TermsAndConditionsPage() {
               </div>
               <div className="space-y-2.5 text-sm text-slate-700 leading-relaxed">
                 <p>
-                  Blueprint Buildcon is committed to on-time handover as committed in the master schedule. However, timelines will be reasonably extended without liability in cases of <strong>Force Majeure</strong>:
+                  BluePrint BuildCon is committed to on-time handover as committed in the master schedule. However, timelines will be reasonably extended without liability in cases of <strong>Force Majeure</strong>:
                 </p>
                 <ul className="list-disc list-inside space-y-1 pl-2 text-xs text-slate-600">
                   <li>Acts of God, unseasonal severe weather, floods, earthquakes, pandemics, or government-imposed construction halts (e.g. NGT pollution bans).</li>
@@ -474,7 +474,7 @@ export default function TermsAndConditionsPage() {
                 </h2>
               </div>
               <p className="text-sm text-slate-700 leading-relaxed">
-                All 2D floor plans, 3D renderings, structural blueprints, design layouts, and technical documentation produced by Blueprint Buildcon remain the intellectual property of the Company. The client is granted an exclusive, non-transferable license to construct the specific project on the designated plot. Resale or commercial reuse of plans on other sites is prohibited.
+                All 2D floor plans, 3D renderings, structural blueprints, design layouts, and technical documentation produced by BluePrint BuildCon remain the intellectual property of the Company. The client is granted an exclusive, non-transferable license to construct the specific project on the designated plot. Resale or commercial reuse of plans on other sites is prohibited.
               </p>
             </section>
 
@@ -533,7 +533,7 @@ export default function TermsAndConditionsPage() {
                   Official Communication &amp; Legal Notices
                 </div>
                 <div className="space-y-1.5 text-slate-300">
-                  <div><strong>Company:</strong> Blueprint Buildcon</div>
+                  <div><strong>Company:</strong> BluePrint BuildCon</div>
                   <div>
                     <strong>Email:</strong>{' '}
                     <a href="mailto:project@blueprintbuildcon.homes" className="text-brand-cyan hover:underline font-semibold">
