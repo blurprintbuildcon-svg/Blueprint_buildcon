@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { Referral } from '@/models/Referral';
+import { sendReferralEmail } from '@/lib/mailer';
 
 // POST: Public submission of a new referral
 export async function POST(req: Request) {
@@ -77,6 +78,29 @@ export async function POST(req: Request) {
       consentClientPermission: true,
       status: 'pending',
     });
+
+    // Send email notification to project@blueprintbuildcon.homes
+    try {
+      await sendReferralEmail({
+        referrerName: referral.referrerName,
+        referrerPhone: referral.referrerPhone,
+        referrerEmail: referral.referrerEmail,
+        referrerUpi: referral.referrerUpi,
+        referrerRelation: referral.referrerRelation,
+        clientName: referral.clientName,
+        clientPhone: referral.clientPhone,
+        clientEmail: referral.clientEmail,
+        clientCity: referral.clientCity,
+        serviceRequired: referral.serviceRequired,
+        propertyStatus: referral.propertyStatus,
+        estimatedArea: referral.estimatedArea,
+        projectBudget: referral.projectBudget,
+        timeline: referral.timeline,
+        requirements: referral.requirements,
+      });
+    } catch (mailErr) {
+      console.error('Failed sending referral email:', mailErr);
+    }
 
     return NextResponse.json(
       {

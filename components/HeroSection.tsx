@@ -30,7 +30,10 @@ const branchCities = [
 
 export default function HeroSection() {
   const [isFormOpen, setIsFormOpen] = useState(true);
-  const [isBranchCarouselPaused, setIsBranchCarouselPaused] = useState(false);
+  const [showingBranches, setShowingBranches] = useState(false);
+  const [currentCityIndex, setCurrentCityIndex] = useState(0);
+  const [isBranchSlideshowPaused, setIsBranchSlideshowPaused] = useState(false);
+  const [cityImageUnavailable, setCityImageUnavailable] = useState(false);
 
   const heroImages = [
     {
@@ -51,32 +54,50 @@ export default function HeroSection() {
     },
   ];
 
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [currentCityIndex, setCurrentCityIndex] = useState(0);
-  const isBranchesSlide = currentSlide === heroImages.length;
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const currentCity = branchCities[currentCityIndex];
 
   useEffect(() => {
+    window.dispatchEvent(new CustomEvent('hero-branches-visibility', { detail: showingBranches }));
+
+    return () => {
+      window.dispatchEvent(new CustomEvent('hero-branches-visibility', { detail: false }));
+    };
+  }, [showingBranches]);
+
+  useEffect(() => {
     const timer = setInterval(() => {
-      if (currentSlide < heroImages.length) {
-        setCurrentSlide((prev) => prev + 1);
-      } else if (!isBranchCarouselPaused) {
-        setCurrentCityIndex((prev) => (prev + 1) % branchCities.length);
+      if (!showingBranches) {
+        if (currentImageIndex === heroImages.length - 1) {
+          setShowingBranches(true);
+          setCurrentCityIndex(0);
+          setCityImageUnavailable(false);
+        } else {
+          setCurrentImageIndex((prev) => prev + 1);
+        }
+      } else if (!isBranchSlideshowPaused) {
+        if (currentCityIndex === branchCities.length - 1) {
+          setShowingBranches(false);
+          setCurrentImageIndex(0);
+        } else {
+          setCurrentCityIndex((prev) => prev + 1);
+          setCityImageUnavailable(false);
+        }
       }
-    }, 6000);
+    }, showingBranches ? 5000 : 6000);
 
     return () => clearInterval(timer);
-  }, [currentSlide, currentCityIndex, isBranchCarouselPaused, heroImages.length]);
+  }, [currentCityIndex, currentImageIndex, heroImages.length, isBranchSlideshowPaused, showingBranches]);
 
   return (
     <section
       id="home"
       className={`relative flex min-h-screen items-center overflow-hidden pt-20 ${
-        isBranchesSlide ? 'bg-slate-100' : 'bg-brand-charcoal'
+        showingBranches ? 'bg-slate-100' : 'bg-brand-charcoal'
       }`}
     >
       <div className="absolute inset-0 z-0">
-        {!isBranchesSlide && (
+        {!showingBranches && (
           <>
             <div className="absolute inset-0 z-10 bg-brand-navy/70 mix-blend-multiply" />
             {heroImages.map((img, idx) => (
@@ -86,8 +107,8 @@ export default function HeroSection() {
                 alt={img.alt}
                 initial={{ opacity: 0, scale: 1.05 }}
                 animate={{
-                  opacity: currentSlide === idx ? 1 : 0,
-                  scale: currentSlide === idx ? 1 : 1.05,
+                  opacity: currentImageIndex === idx ? 1 : 0,
+                  scale: currentImageIndex === idx ? 1 : 1.05,
                 }}
                 transition={{ duration: 1, ease: 'easeInOut' }}
                 className="absolute inset-0 h-full w-full object-cover"
@@ -97,20 +118,20 @@ export default function HeroSection() {
         )}
       </div>
 
-      {isBranchesSlide ? (
-        <div className="container relative z-20 mx-auto px-4 py-10 md:px-6 md:py-14">
+      {showingBranches ? (
+        <div className="container relative z-20 mx-auto px-4 py-8 md:px-6 md:py-10">
           <div className="mx-auto max-w-5xl">
-            <header className="mb-8 text-center">
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-sky-100 text-sky-600">
-                <MapPin size={23} aria-hidden="true" />
+            <header className="mb-5 text-center sm:mb-6">
+              <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-sky-100 text-sky-600 sm:h-11 sm:w-11">
+                <MapPin size={21} aria-hidden="true" />
               </div>
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-amber-600">
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-amber-600">
                 Pan-India Expansion
               </p>
-              <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-brand-navy sm:text-5xl">
+              <h1 className="mt-1 text-3xl font-extrabold tracking-tight text-brand-navy sm:text-4xl">
                 Upcoming Branches
               </h1>
-              <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg">
+              <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-slate-600 sm:text-base">
                 We&apos;re growing across India. Explore the cities where we&apos;re planning to welcome you next.
               </p>
             </header>
@@ -120,78 +141,105 @@ export default function HeroSection() {
               aria-roledescription="carousel"
               aria-label="Upcoming branch locations"
             >
-              <div className="relative aspect-[16/10] sm:aspect-[2.1/1]">
-                <Image
-                  src={currentCity.image}
-                  alt={`${currentCity.name} city skyline`}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 1024px"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/10 to-transparent" />
+              <div className="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-sky-200 via-blue-100 to-amber-100 sm:aspect-[2.6/1]">
+                {!cityImageUnavailable && (
+                  <Image
+                    key={currentCity.image}
+                    src={currentCity.image}
+                    alt={`${currentCity.name} city skyline`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 1024px"
+                    className="object-cover"
+                    onError={() => setCityImageUnavailable(true)}
+                  />
+                )}
+                {cityImageUnavailable && (
+                  <div
+                    className="absolute inset-0 flex items-end justify-center gap-2 px-8 pt-12"
+                    aria-label={`${currentCity.name} branch image`}
+                    role="img"
+                  >
+                    {[28, 44, 34, 58, 40, 68, 46, 55, 33, 48, 62, 38, 52].map((height, index) => (
+                      <div
+                        key={`${currentCity.name}-${index}`}
+                        className="w-full max-w-14 rounded-t-md border border-white/50 bg-sky-800/70 shadow-sm"
+                        style={{ height: `${height}%` }}
+                      />
+                    ))}
+                    <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-slate-700/50 to-transparent" />
+                  </div>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/5 to-transparent" />
 
-                <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm sm:left-6 sm:top-6">
+                <span className="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm sm:left-5 sm:top-5">
                   {currentCityIndex + 1} / {branchCities.length} cities
                 </span>
 
                 <button
                   type="button"
-                  onClick={() =>
-                    setCurrentCityIndex((prev) => (prev - 1 + branchCities.length) % branchCities.length)
-                  }
+                  onClick={() => {
+                    setCurrentCityIndex((index) => (index - 1 + branchCities.length) % branchCities.length);
+                    setCityImageUnavailable(false);
+                  }}
                   aria-label="Show previous city"
-                  className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow transition hover:bg-white sm:left-5 sm:h-12 sm:w-12"
+                  className="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow transition hover:bg-white sm:left-5 sm:h-11 sm:w-11"
                 >
-                  <ArrowLeft size={20} aria-hidden="true" />
+                  <ArrowLeft size={18} aria-hidden="true" />
                 </button>
                 <button
                   type="button"
-                  onClick={() => setCurrentCityIndex((prev) => (prev + 1) % branchCities.length)}
+                  onClick={() => {
+                    setCurrentCityIndex((index) => (index + 1) % branchCities.length);
+                    setCityImageUnavailable(false);
+                  }}
                   aria-label="Show next city"
-                  className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow transition hover:bg-white sm:right-5 sm:h-12 sm:w-12"
+                  className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow transition hover:bg-white sm:right-5 sm:h-11 sm:w-11"
                 >
-                  <ArrowRight size={20} aria-hidden="true" />
+                  <ArrowRight size={18} aria-hidden="true" />
                 </button>
 
-                <div className="absolute inset-x-0 bottom-0 px-6 pb-6 text-center text-white sm:pb-8">
-                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/85">
+                <div className="absolute inset-x-0 bottom-0 px-6 pb-5 text-center text-white sm:pb-6">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/85 sm:text-xs">
                     Expanding Across India
                   </p>
                   <p className="mt-1 text-3xl font-extrabold sm:text-5xl">{currentCity.name}</p>
                 </div>
               </div>
 
-              <div className="flex flex-col gap-5 p-5 sm:flex-row sm:items-center sm:justify-between sm:px-7 sm:py-5">
+              <div className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-4">
                 <div>
-                  <h2 className="text-2xl font-bold text-brand-navy">{currentCity.name}</h2>
-                  <p className="mt-1 flex items-center gap-1.5 text-sm text-slate-500">
-                    <MapPin size={15} aria-hidden="true" />
+                  <h2 className="text-xl font-bold text-brand-navy sm:text-2xl">{currentCity.name}</h2>
+                  <p className="mt-0.5 flex items-center gap-1.5 text-xs text-slate-500 sm:text-sm">
+                    <MapPin size={14} aria-hidden="true" />
                     {currentCity.name}, India
                   </p>
-                  <p className="mt-2 text-sm font-semibold text-amber-700">
+                  <p className="mt-1 text-xs font-semibold text-amber-700 sm:text-sm">
                     Coming Soon · Stay Updated
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between gap-4 sm:justify-end">
+                <div className="flex items-center justify-between gap-3 sm:justify-end">
                   <button
                     type="button"
-                    onClick={() => setIsBranchCarouselPaused((paused) => !paused)}
-                    aria-label={isBranchCarouselPaused ? 'Play city slideshow' : 'Pause city slideshow'}
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition hover:border-slate-300 hover:bg-slate-50"
+                    onClick={() => setIsBranchSlideshowPaused((paused) => !paused)}
+                    aria-label={isBranchSlideshowPaused ? 'Play city slideshow' : 'Pause city slideshow'}
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition hover:border-slate-300 hover:bg-slate-50"
                   >
-                    {isBranchCarouselPaused ? (
-                      <Play size={16} aria-hidden="true" />
+                    {isBranchSlideshowPaused ? (
+                      <Play size={15} aria-hidden="true" />
                     ) : (
-                      <Pause size={16} aria-hidden="true" />
+                      <Pause size={15} aria-hidden="true" />
                     )}
                   </button>
-                  <div className="flex max-w-[240px] flex-wrap items-center justify-end gap-1.5">
+                  <div className="flex max-w-[220px] flex-wrap items-center justify-end gap-1.5">
                     {branchCities.map((city, index) => (
                       <button
                         key={city.name}
                         type="button"
-                        onClick={() => setCurrentCityIndex(index)}
+                        onClick={() => {
+                          setCurrentCityIndex(index);
+                          setCityImageUnavailable(false);
+                        }}
                         aria-label={`Show ${city.name}`}
                         aria-current={currentCityIndex === index ? 'true' : undefined}
                         className={`h-2.5 rounded-full transition-all ${
@@ -206,17 +254,42 @@ export default function HeroSection() {
               </div>
             </div>
 
-            <div className="mt-6 text-center">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-600">
-                Pan-India Expansion · {branchCities.length} Cities · Stay Updated
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-600 sm:text-xs">
+                Pan-India Expansion · {branchCities.length} Cities
               </p>
               <Link
                 href="/contact"
-                className="mt-5 inline-flex items-center gap-2 rounded-xl bg-sky-500 px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-sky-600"
+                className="inline-flex items-center gap-1.5 rounded-full bg-sky-500 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-sky-600 sm:text-sm"
               >
                 Contact Us
-                <ArrowRight size={18} aria-hidden="true" />
+                <ArrowRight size={15} aria-hidden="true" />
               </Link>
+            </div>
+
+            <div className="mt-4 flex items-center justify-center gap-2" aria-label="Hero slide navigation">
+              {heroImages.map((_, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  aria-label={`Go to hero slide ${index + 1}`}
+                  onClick={() => {
+                    setCurrentImageIndex(index);
+                    setShowingBranches(false);
+                  }}
+                  className="h-2 w-2 rounded-full bg-slate-300 transition hover:bg-slate-500"
+                />
+              ))}
+              <button
+                type="button"
+                aria-label="Show upcoming branches"
+                aria-current="true"
+                onClick={() => {
+                  setCurrentCityIndex(0);
+                  setCityImageUnavailable(false);
+                }}
+                className="h-2 w-8 rounded-full bg-brand-orange"
+              />
             </div>
           </div>
         </div>
@@ -277,8 +350,18 @@ export default function HeroSection() {
                     key={dotIdx}
                     type="button"
                     aria-label={dotIdx === heroImages.length ? 'Show upcoming branches' : `Go to slide ${dotIdx + 1}`}
-                    onClick={() => setCurrentSlide(dotIdx)}
-                    className={`h-2 rounded-full transition-all duration-300 ${currentSlide === dotIdx
+                    onClick={() => {
+                      if (dotIdx === heroImages.length) {
+                        setCurrentCityIndex(0);
+                        setCityImageUnavailable(false);
+                        setShowingBranches(true);
+                      } else {
+                        setCurrentImageIndex(dotIdx);
+                      }
+                    }}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      (showingBranches && dotIdx === heroImages.length) ||
+                      (!showingBranches && currentImageIndex === dotIdx)
                         ? 'w-8 bg-brand-orange'
                         : 'w-2 bg-white/40 hover:bg-white/70'
                     }`}
@@ -288,8 +371,8 @@ export default function HeroSection() {
             </motion.div>
           </div>
         </div>
-        </div>
-        )}
+      </div>
+      )}
 
       {/* REPLACED MODAL FORM (MATCHES SCREENSHOT 1 & 2 UI WITH CIVIL CONSTRUCTION FIELDS) */}
       <ConsultationModal

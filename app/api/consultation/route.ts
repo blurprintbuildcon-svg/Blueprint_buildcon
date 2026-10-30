@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { Consultation } from '@/models/Consultation';
+import { sendConsultationEmail } from '@/lib/mailer';
 
 const requiredFields = ['name', 'phone'] as const;
 
@@ -29,6 +30,24 @@ export async function POST(request: Request) {
 
     await connectToDatabase();
     const created = await Consultation.create(consultation);
+
+    // Send email notification to project@blueprintbuildcon.homes
+    try {
+      await sendConsultationEmail({
+        name: consultation.name,
+        phone: consultation.phone,
+        email: consultation.email,
+        projectType: consultation.projectType,
+        location: consultation.location,
+        propertyStatus: consultation.propertyStatus,
+        budget: consultation.budget,
+        service: consultation.service,
+        message: consultation.message,
+        joinReferralProgram: consultation.joinReferralProgram,
+      });
+    } catch (mailErr) {
+      console.error('Failed sending consultation email:', mailErr);
+    }
 
     return NextResponse.json(
       {
