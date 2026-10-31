@@ -36,8 +36,8 @@ export default function AboutHero() {
     <section ref={heroRef} className="relative isolate flex min-h-[560px] items-end overflow-hidden bg-brand-navy pt-32 text-white lg:min-h-[680px]">
       <img
         ref={imageRef}
-        src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=85&w=2200"
-        alt="Construction team reviewing plans on a building site"
+        src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=85&w=2200"
+        alt="Bespoke luxury architectural villa project by BluePrint BuildCon"
         className="absolute inset-0 -z-20 h-full w-full scale-110 object-cover will-change-transform"
       />
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(10,18,39,0.94)_0%,rgba(10,18,39,0.72)_42%,rgba(10,18,39,0.18)_100%)]" />
