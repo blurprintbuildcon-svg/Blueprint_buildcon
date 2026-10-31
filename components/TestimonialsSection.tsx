@@ -132,7 +132,7 @@ export default function TestimonialsSection() {
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         {/* Styled Section Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12 sm:mb-16">
+        <div className="mb-12 sm:mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -160,21 +160,6 @@ export default function TestimonialsSection() {
               Real stories and feedback from homeowners and commercial partners who trusted us with their build.
             </p>
           </motion.div>
-
-          {/* Right: Rating Badge */}
-          <div className="flex items-center gap-3 sm:gap-4 mt-4 lg:mt-0">
-            {/* Trust Pill */}
-            <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-slate-50 border border-slate-200/80 shadow-sm">
-              <div className="flex items-center text-amber-400">
-                <Star size={16} fill="currentColor" />
-                <Star size={16} fill="currentColor" />
-                <Star size={16} fill="currentColor" />
-                <Star size={16} fill="currentColor" />
-                <Star size={16} fill="currentColor" />
-              </div>
-              <span className="text-xs font-bold text-brand-navy">4.9 / 5 Rating</span>
-            </div>
-          </div>
         </div>
 
         {/* Continuous Auto-Scrolling Testimonials (Pauses on Hover) */}

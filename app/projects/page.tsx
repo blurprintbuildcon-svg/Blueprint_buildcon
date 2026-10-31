@@ -15,8 +15,8 @@ export default async function ProjectsPage() {
         eyebrow="Our work"
         title="Places built with purpose."
         description="Explore a selection of residential, commercial, and renovation projects delivered by BluePrint BuildCon."
-        image="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=85&w=2200"
-        imageAlt="Modern office building exterior"
+        image="https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&q=85&w=2200"
+        imageAlt="Award-winning luxury architectural projects by BluePrint BuildCon"
       />
       <ProjectsGallery projects={projects} />
     </>

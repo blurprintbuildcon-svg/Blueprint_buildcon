@@ -15,8 +15,8 @@ export default async function ServicesPage() {
         eyebrow="What we do"
         title="Construction expertise, shaped around your vision."
         description="From residential builds to commercial spaces, our integrated team keeps every detail moving in the right direction."
-        image="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=85&w=2200"
-        imageAlt="Construction workers on a building site"
+        image="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=85&w=2200"
+        imageAlt="Contemporary luxury estate and modern architectural construction"
       />
       <ServicesSection services={services} />
     </>

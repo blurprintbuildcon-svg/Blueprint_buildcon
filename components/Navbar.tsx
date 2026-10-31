@@ -8,7 +8,7 @@ import { ChevronDown, Gift, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type NavLink =
-  | { type: 'link'; name: string; href: string; highlight?: boolean }
+  | { type: 'link'; name: string; href: string; hasGiftIcon?: boolean }
   | { type: 'dropdown'; name: string; submenu: { name: string; href: string }[] };
 
 export default function Navbar() {
@@ -43,7 +43,6 @@ export default function Navbar() {
       ],
     },
     { type: 'link', name: 'Why Us', href: '/why-us' },
-    { type: 'link', name: 'Refer & Earn', href: '/refer', highlight: true },
     { type: 'link', name: 'Contact Us', href: '/contact' },
   ];
 
@@ -134,21 +133,32 @@ export default function Navbar() {
                     <Link
                       href={link.href}
                       aria-current={isActiveLink(link.href) ? 'page' : undefined}
-                      className={link.highlight
-                        ? 'inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-violet-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-600/20 transition hover:from-blue-700 hover:to-violet-700 hover:shadow-lg'
-                        : `text-sm font-medium transition-colors hover:text-brand-orange inline-flex items-center gap-1.5 ${
+                      className={`text-sm font-medium transition-colors hover:text-brand-orange inline-flex items-center gap-1.5 ${
                         isActiveLink(link.href)
                           ? 'font-semibold underline decoration-2 underline-offset-8 text-brand-orange'
                           : 'text-brand-charcoal'
                       }`}
                     >
                       <span>{link.name}</span>
-                      {link.highlight && <Gift size={15} aria-hidden="true" className="text-amber-200" />}
+                      {'hasGiftIcon' in link && link.hasGiftIcon && (
+                        <Gift size={15} aria-hidden="true" className="text-amber-500" />
+                      )}
                     </Link>
                   </li>
                 )
               )}
             </ul>
+
+            {/* Primary Action Button - Refer & Earn */}
+            <Link
+              href="/refer"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-600/20 transition-all duration-300 hover:from-blue-700 hover:via-indigo-700 hover:to-violet-700 hover:shadow-lg hover:shadow-indigo-600/30 hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <span>Refer & Earn</span>
+              <span className="flex items-center justify-center rounded-full bg-amber-400/20 p-1 text-amber-300 ring-1 ring-amber-400/30 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
+                <Gift size={15} className="text-amber-300 fill-amber-300/20" />
+              </span>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -231,19 +241,31 @@ export default function Navbar() {
                     href={link.href}
                     onClick={() => setIsMobileMenuOpen(false)}
                     aria-current={isActiveLink(link.href) ? 'page' : undefined}
-                    className={link.highlight
-                      ? 'flex items-center justify-between rounded-lg bg-gradient-to-r from-blue-600 to-violet-600 px-4 py-2.5 font-semibold text-white shadow-sm'
-                      : `flex items-center justify-between px-4 py-2.5 rounded-lg transition-colors ${
-                        isActiveLink(link.href)
-                          ? 'bg-blue-50 font-semibold text-brand-orange'
-                          : 'font-medium text-brand-charcoal hover:bg-brand-gray'
-                      }`}
+                    className={`flex items-center justify-between px-4 py-2.5 rounded-lg transition-colors ${
+                      isActiveLink(link.href)
+                        ? 'bg-blue-50 font-semibold text-brand-orange'
+                        : 'font-medium text-brand-charcoal hover:bg-brand-gray'
+                    }`}
                   >
                     <span>{link.name}</span>
-                    {link.highlight && <Gift size={17} aria-hidden="true" className="text-amber-200" />}
+                    {'hasGiftIcon' in link && link.hasGiftIcon && (
+                      <Gift size={17} aria-hidden="true" className="text-amber-500" />
+                    )}
                   </Link>
                 )
               )}
+
+              {/* Mobile Refer & Earn Button */}
+              <Link
+                href="/refer"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="mt-2 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 py-3 font-semibold text-white shadow-md shadow-blue-600/20 transition hover:from-blue-700 hover:to-violet-700"
+              >
+                <span>Refer & Earn</span>
+                <span className="flex items-center justify-center rounded-full bg-amber-400/20 p-1 text-amber-300 ring-1 ring-amber-400/30">
+                  <Gift size={16} className="text-amber-300" />
+                </span>
+              </Link>
             </div>
           </motion.div>
         )}
