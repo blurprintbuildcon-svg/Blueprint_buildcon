@@ -19,14 +19,14 @@ const displayFont = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://blueprintbuildcon.com'),
-  title: "BluePrint BuildCon | Ideas • Structures • Reality",
-  description: "BluePrint BuildCon provides reliable end-to-end residential and commercial construction services with transparent pricing, professional project management and quality-focused execution.",
+  title: "BluePrint Build-Con | Your vision our victory",
+  description: "BluePrint Build-Con provides reliable end-to-end residential and commercial construction services with transparent pricing, professional project management and quality-focused execution.",
   icons: {
-    icon: '/logo.jpg',
+    icon: '/LOGO%20SVG.svg',
     apple: '/logo.jpg',
   },
   openGraph: {
-    title: "BluePrint BuildCon | Ideas • Structures • Reality",
+    title: "BluePrint Build-Con | Your vision our victory",
     description: "End-to-end residential and commercial construction services. From blueprint to reality.",
     type: "website",
     images: ['/logo.jpg'],

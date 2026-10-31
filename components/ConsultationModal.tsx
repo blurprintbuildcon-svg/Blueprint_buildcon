@@ -105,7 +105,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
   };
 
   const buildWhatsAppMessage = () => {
-    return `*New Construction Enquiry - BluePrint BuildCon*
+    return `*New Construction Enquiry - BluePrint Build-Con*
 ---------------------------------------
 👤 *CLIENT INFORMATION:*
 • Name: ${formData.name || 'N/A'}
@@ -120,7 +120,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
 • Referral Program Partner: ${formData.joinReferralProgram}
 • Project Notes: ${formData.message || 'Ready for site inspection / blueprint review'}
 ---------------------------------------
-_Submitted via BluePrint BuildCon Web Portal_`;
+_Submitted via BluePrint Build-Con Web Portal_`;
   };
 
   const handleFormAction = async (e: React.FormEvent, openInWhatsApp: boolean) => {
@@ -451,7 +451,7 @@ _Submitted via BluePrint BuildCon Web Portal_`;
                     className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-orange focus:ring-brand-orange"
                   />
                   <span className="text-xs text-slate-600 leading-relaxed">
-                    By submitting this form, you agree to be contacted by BluePrint BuildCon on <strong>WhatsApp / SMS / Email / Phone</strong> regarding your enquiry.
+                    By submitting this form, you agree to be contacted by BluePrint Build-Con on <strong>WhatsApp / SMS / Email / Phone</strong> regarding your enquiry.
                   </span>
                 </label>
 
@@ -465,7 +465,7 @@ _Submitted via BluePrint BuildCon Web Portal_`;
                     className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-orange focus:ring-brand-orange"
                   />
                   <span className="text-xs text-slate-600 leading-relaxed">
-                    <strong className="text-slate-800">Consent &amp; Data Privacy <span className="text-red-500">*</span>:</strong> I agree to the collection and use of the information I provide in accordance with BluePrint BuildCon&apos;s{' '}
+                    <strong className="text-slate-800">Consent &amp; Data Privacy <span className="text-red-500">*</span>:</strong> I agree to the collection and use of the information I provide in accordance with BluePrint Build-Con&apos;s{' '}
                     <Link href="/privacy-policy" target="_blank" className="text-brand-orange font-semibold underline hover:text-blue-700">
                       Privacy Policy
                     </Link>{' '}

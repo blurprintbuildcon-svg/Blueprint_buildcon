@@ -52,7 +52,7 @@ export default function ProjectDetailsView({ project, relatedProjects }: Project
     try {
       if (navigator.share) {
         await navigator.share({
-          title: `${project.title} | BluePrint BuildCon`,
+          title: `${project.title} | BluePrint Build-Con`,
           text: project.description,
           url: window.location.href,
         });
@@ -75,7 +75,7 @@ export default function ProjectDetailsView({ project, relatedProjects }: Project
   };
 
   const whatsappMessage = encodeURIComponent(
-    `Hello Blueprint BuildCon team, I am interested in knowing more about your project "${project.title}" (${project.location}) and would like to discuss a similar construction requirement.`
+    `Hello Blueprint Build-Con team, I am interested in knowing more about your project "${project.title}" (${project.location}) and would like to discuss a similar construction requirement.`
   );
 
   return (
@@ -360,7 +360,7 @@ export default function ProjectDetailsView({ project, relatedProjects }: Project
                     </div>
                     <div>
                       <p className="font-semibold text-brand-navy text-sm sm:text-base">{item}</p>
-                      <p className="text-xs text-slate-500 mt-0.5">Executed to Blueprint BuildCon specifications</p>
+                      <p className="text-xs text-slate-500 mt-0.5">Executed to Blueprint Build-Con specifications</p>
                     </div>
                   </div>
                 ))}

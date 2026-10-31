@@ -28,16 +28,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!service) {
     return {
-      title: 'Service Not Found | BluePrint BuildCon',
+      title: 'Service Not Found | BluePrint Build-Con',
       description: 'The requested construction service could not be found.',
     };
   }
 
   return {
-    title: `${service.title} | Construction Services | BluePrint BuildCon`,
+    title: `${service.title} | Construction Services | BluePrint Build-Con`,
     description: service.shortDescription || service.description.slice(0, 160),
     openGraph: {
-      title: `${service.title} - BluePrint BuildCon`,
+      title: `${service.title} - BluePrint Build-Con`,
       description: service.shortDescription || service.description.slice(0, 160),
       images: [{ url: service.image }],
     },
@@ -230,7 +230,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
                     <span>Call +91 9028346900</span>
                   </a>
                   <a
-                    href="https://wa.me/919028346900?text=Hi%20Blueprint%20BuildCon,%20I%20would%20like%20to%20inquire%20about%20your%20services"
+                    href="https://wa.me/919028346900?text=Hi%20Blueprint%20Build-Con,%20I%20would%20like%20to%20inquire%20about%20your%20services"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-[#25D366] hover:bg-emerald-600 text-white font-bold rounded-xl text-sm transition-colors shadow-sm"
