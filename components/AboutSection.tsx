@@ -18,20 +18,22 @@ export default function AboutSection() {
     <section id="about" className="py-16 lg:py-24 bg-white overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-stretch">
-          
           {/* Left: Image matching text height */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="relative w-full h-full min-h-[320px] sm:min-h-[380px] lg:min-h-full flex"
+            className="relative w-full h-full min-h-[360px] sm:min-h-[420px] lg:min-h-full flex"
           >
-            <div className="relative w-full h-full min-h-[320px] sm:min-h-[380px] lg:min-h-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl ring-1 ring-slate-900/10 bg-slate-100">
+            <div className="relative w-full h-full min-h-[360px] sm:min-h-[420px] lg:min-h-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl ring-1 ring-slate-900/10 bg-slate-100">
               <img
-                src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=85&w=1200"
-                alt="BluePrint Build-Con Modern Architectural Building Project"
-                className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                src="/Interior%20Design.jpg?v=3"
+                alt="BluePrint Build-Con Interior & Architectural Construction"
+                loading="eager"
+                decoding="sync"
+                className="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-105"
+                style={{ imageRendering: '-webkit-optimize-contrast' }}
               />
             </div>
           </motion.div>
@@ -51,7 +53,7 @@ export default function AboutSection() {
               Building More Than Structures.<br />
               <span className="text-brand-orange">Building Trust.</span>
             </h2>
-            
+
             <p className="text-slate-600 text-base sm:text-lg mb-8 leading-relaxed">
               BluePrint Build-Con provides complete construction solutions for residential and commercial projects. Our experienced team brings together planning, architecture, engineering, construction, quality control and project management under one roof.
             </p>
@@ -75,7 +77,6 @@ export default function AboutSection() {
               </Link>
             </div>
           </motion.div>
-
         </div>
       </div>
     </section>

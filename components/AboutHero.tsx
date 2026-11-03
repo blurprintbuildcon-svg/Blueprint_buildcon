@@ -36,7 +36,7 @@ export default function AboutHero() {
     <section ref={heroRef} className="relative isolate flex min-h-[560px] items-end overflow-hidden bg-brand-navy pt-32 text-white lg:min-h-[680px]">
       <img
         ref={imageRef}
-        src="/about-hero.jpg"
+        src="/Interior%20Design.jpg"
         alt="BluePrint BuildCon commercial and residential building construction site"
         className="absolute inset-0 -z-20 h-full w-full scale-110 object-cover will-change-transform"
       />
