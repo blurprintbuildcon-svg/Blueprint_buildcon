@@ -14,6 +14,18 @@ if (process.platform === "win32") {
 }
 
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
+    ],
+  },
   env: {
     NEXT_PUBLIC_WHATSAPP_NUMBER:
       process.env.Whatsup_Number || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "9561186693",

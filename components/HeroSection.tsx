@@ -1,298 +1,78 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
-import { ArrowLeft, ArrowRight, CheckCircle2, MapPin } from 'lucide-react';
-import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 import ConsultationModal from '@/components/ConsultationModal';
 
-const branchCities = [
-  { name: 'Ahmedabad', image: '/Ahmedabad.png' },
-  { name: 'Bengaluru', image: '/Bengaluru.png' },
-  { name: 'Bhubaneswar', image: '/Bhubaneswar.png' },
-  { name: 'Chennai', image: '/Chennai.png' },
-  { name: 'Goa', image: '/Goa.png' },
-  { name: 'Guwahati', image: '/Guwahati.png' },
-  { name: 'Hyderabad', image: '/Hyderabad.png' },
-  { name: 'Indore', image: '/Indore.png' },
-  { name: 'Jaipur', image: '/Jaipur.png' },
-  { name: 'Kochi', image: '/Kochi.png' },
-  { name: 'Kolkata', image: '/Kolkata.png' },
-  { name: 'Lucknow', image: '/Lucknow.png' },
-  { name: 'Mumbai', image: '/Mumbai.png' },
-  { name: 'New Delhi', image: '/New Delhi.png' },
-  { name: 'Surat', image: '/surat.png' },
-  { name: 'Patna', image: '/patna.png' },
-  { name: 'Pune', image: '/pune.png' },
-  { name: 'Raipur', image: '/Raipur.png' },
-];
-
 export default function HeroSection() {
-  const [isFormOpen, setIsFormOpen] = useState(true);
-  const [showingBranches, setShowingBranches] = useState(false);
-  const [currentCityIndex, setCurrentCityIndex] = useState(0);
-  const [isBranchSlideshowHovered, setIsBranchSlideshowHovered] = useState(false);
-  const [cityImageUnavailable, setCityImageUnavailable] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  const heroImages = [
-    {
-      url: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80',
-      alt: 'Luxury Modern Architecture and Construction',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=85&w=1600',
-      alt: 'Commercial Civil Engineering and Construction Site',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=1600',
-      alt: 'Contemporary Urban Residence Project',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1600',
-      alt: 'Bespoke Premium Villa and Landscaping',
-    },
-  ];
-
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const currentCity = branchCities[currentCityIndex];
-
+  // Ensure autoplay on mount across all browsers and devices
   useEffect(() => {
-    window.dispatchEvent(new CustomEvent('hero-branches-visibility', { detail: showingBranches }));
-
-    return () => {
-      window.dispatchEvent(new CustomEvent('hero-branches-visibility', { detail: false }));
-    };
-  }, [showingBranches]);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      if (!showingBranches) {
-        if (currentImageIndex === heroImages.length - 1) {
-          setShowingBranches(true);
-          setCurrentCityIndex(0);
-          setCityImageUnavailable(false);
-        } else {
-          setCurrentImageIndex((prev) => prev + 1);
-        }
-      } else if (!isBranchSlideshowHovered) {
-        if (currentCityIndex === branchCities.length - 1) {
-          setShowingBranches(false);
-          setCurrentImageIndex(0);
-        } else {
-          setCurrentCityIndex((prev) => prev + 1);
-          setCityImageUnavailable(false);
-        }
-      }
-    }, showingBranches ? 5000 : 6000);
-
-    return () => clearInterval(timer);
-  }, [currentCityIndex, currentImageIndex, heroImages.length, isBranchSlideshowHovered, showingBranches]);
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {
+        // Autoplay may be restricted by device power saving mode
+      });
+    }
+  }, []);
 
   return (
     <section
       id="home"
-      className={`relative flex min-h-screen items-center overflow-hidden pt-20 ${
-        showingBranches ? 'bg-slate-100' : 'bg-brand-charcoal'
-      }`}
+      onClick={() => setIsFormOpen(true)}
+      role="button"
+      tabIndex={0}
+      aria-label="Click to open free consultation enquiry"
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          setIsFormOpen(true);
+        }
+      }}
+      className="relative flex min-h-[75vh] sm:min-h-[85vh] lg:min-h-screen items-end justify-center overflow-hidden bg-brand-navy pb-12 sm:pb-16 lg:pb-20 pt-20 cursor-pointer group select-none"
     >
-      <div className="absolute inset-0 z-0">
-        {!showingBranches && (
-          <>
-            <div className="absolute inset-0 z-10 bg-brand-navy/70 mix-blend-multiply" />
-            {heroImages.map((img, idx) => (
-              <motion.img
-                key={img.url}
-                src={img.url}
-                alt={img.alt}
-                initial={{ opacity: 0, scale: 1.05 }}
-                animate={{
-                  opacity: currentImageIndex === idx ? 1 : 0,
-                  scale: currentImageIndex === idx ? 1 : 1.05,
-                }}
-                transition={{ duration: 1, ease: 'easeInOut' }}
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-            ))}
-          </>
-        )}
+      {/* Background Video */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <video
+          ref={videoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          className="h-full w-full object-cover"
+        >
+          <source src="/hero-video.mp4" type="video/mp4" />
+        </video>
+
+        {/* Soft bottom vignette to enhance bottom text contrast while keeping upper video clear */}
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/75 via-black/25 to-black/15 pointer-events-none" />
       </div>
 
-      {showingBranches ? (
-        <div className="container relative z-20 mx-auto px-4 py-8 md:px-6 md:py-10">
-          <div className="mx-auto max-w-5xl">
-            <header className="mb-5 text-center sm:mb-6">
-              <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-sky-100 text-sky-600 sm:h-11 sm:w-11">
-                <MapPin size={21} aria-hidden="true" />
-              </div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-amber-600">
-                Pan-India Expansion
-              </p>
-              <h1 className="mt-1 text-3xl font-extrabold tracking-tight text-brand-navy sm:text-4xl">
-                Upcoming Branches
-              </h1>
-              <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-slate-600 sm:text-base">
-                We&apos;re growing across India. Explore the cities where we&apos;re planning to welcome you next.
-              </p>
-            </header>
+      {/* Hero Headline - Positioned Below with Compact Line Spacing */}
+      <div className="container relative z-20 mx-auto px-4 md:px-6 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          className="mx-auto max-w-5xl"
+        >
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.12] sm:leading-[1.15] drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
+            India’s Most Trusted Tech-Driven Construction Partner for
+            <span className="block">
+              Homes <span className="text-sky-400">and Commercial Spaces</span>
+            </span>
+          </h1>
 
-            <div
-              className="overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-slate-200/80 sm:rounded-3xl"
-              aria-roledescription="carousel"
-              aria-label="Upcoming branch locations"
-              onMouseEnter={() => setIsBranchSlideshowHovered(true)}
-              onMouseLeave={() => setIsBranchSlideshowHovered(false)}
-            >
-              <div className="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-sky-200 via-blue-100 to-amber-100 sm:aspect-[2.6/1]">
-                {!cityImageUnavailable && (
-                  <Image
-                    key={currentCity.image}
-                    src={currentCity.image}
-                    alt={`${currentCity.name} city skyline`}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 1024px"
-                    className="object-cover"
-                    onError={() => setCityImageUnavailable(true)}
-                  />
-                )}
-                {cityImageUnavailable && (
-                  <div
-                    className="absolute inset-0 flex items-end justify-center gap-2 px-8 pt-12"
-                    aria-label={`${currentCity.name} branch image`}
-                    role="img"
-                  >
-                    {[28, 44, 34, 58, 40, 68, 46, 55, 33, 48, 62, 38, 52].map((height, index) => (
-                      <div
-                        key={`${currentCity.name}-${index}`}
-                        className="w-full max-w-14 rounded-t-md border border-white/50 bg-sky-800/70 shadow-sm"
-                        style={{ height: `${height}%` }}
-                      />
-                    ))}
-                    <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-slate-700/50 to-transparent" />
-                  </div>
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/5 to-transparent" />
-
-                <span className="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm sm:left-5 sm:top-5">
-                  {currentCityIndex + 1} / {branchCities.length} cities
-                </span>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setCurrentCityIndex((index) => (index - 1 + branchCities.length) % branchCities.length);
-                    setCityImageUnavailable(false);
-                  }}
-                  aria-label="Show previous city"
-                  className="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow transition hover:bg-white sm:left-5 sm:h-11 sm:w-11"
-                >
-                  <ArrowLeft size={18} aria-hidden="true" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setCurrentCityIndex((index) => (index + 1) % branchCities.length);
-                    setCityImageUnavailable(false);
-                  }}
-                  aria-label="Show next city"
-                  className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow transition hover:bg-white sm:right-5 sm:h-11 sm:w-11"
-                >
-                  <ArrowRight size={18} aria-hidden="true" />
-                </button>
-
-                <div className="absolute inset-x-0 bottom-0 px-6 pb-5 text-center text-white sm:pb-6">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/85 sm:text-xs">
-                    Expanding Across India
-                  </p>
-                  <p className="mt-1 text-3xl font-extrabold sm:text-5xl">{currentCity.name}</p>
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-4">
-                <div>
-                  <h2 className="text-xl font-bold text-brand-navy sm:text-2xl">{currentCity.name}</h2>
-                  <p className="mt-0.5 flex items-center gap-1.5 text-xs text-slate-500 sm:text-sm">
-                    <MapPin size={14} aria-hidden="true" />
-                    {currentCity.name}, India
-                  </p>
-                  <p className="mt-1 text-xs font-semibold text-amber-700 sm:text-sm">
-                    Coming Soon · Stay Updated
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-600 sm:text-xs">
-                Pan-India Expansion · {branchCities.length} Cities
-              </p>
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-1.5 rounded-full bg-sky-500 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-sky-600 sm:text-sm"
-              >
-                Contact Us
-                <ArrowRight size={15} aria-hidden="true" />
-              </Link>
-            </div>
-
+          {/* Interactive Click Indicator */}
+          <div className="mt-4 sm:mt-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/40 px-4 py-1.5 sm:px-5 sm:py-2 text-xs sm:text-sm font-semibold text-white backdrop-blur-md transition-all group-hover:bg-brand-orange group-hover:border-brand-orange group-hover:scale-105 shadow-lg">
+            <span>Click anywhere to start consultation</span>
+            <ArrowRight size={14} className="text-sky-300 group-hover:text-white transition-colors" />
           </div>
-        </div>
-      ) : (
-      <div className="container relative z-20 mx-auto px-4 py-12 md:px-6 lg:py-24">
-        <div className="max-w-3xl">
-          {/* Hero Content */}
-          <div className="lg:col-span-7 text-white">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight mb-6 leading-tight">
-                Build Your Dream.<br />
-                <span className="text-brand-orange">We&apos;ll Build It Right.</span>
-              </h1>
-              <p className="text-lg md:text-xl text-slate-200 mb-8 max-w-2xl leading-relaxed">
-                End-to-end construction solutions designed around your vision, budget and timeline — from the first blueprint to the final handover.
-              </p>
-
-              <div className="flex flex-wrap gap-4 mb-10">
-                <button
-                  type="button"
-                  onClick={() => setIsFormOpen(true)}
-                  className="px-8 py-3.5 bg-brand-orange text-white font-semibold rounded-full hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/30 flex items-center cursor-pointer"
-                >
-                  Start Your Project
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </button>
-                <Link
-                  href="/services"
-                  className="px-8 py-3.5 bg-white/10 text-white font-semibold rounded-full hover:bg-white/20 backdrop-blur-sm transition-all border border-white/20"
-                >
-                  Explore Our Services
-                </Link>
-              </div>
-
-              {/* Trust Indicators */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-white/20">
-                {[
-                  'Transparent Pricing',
-                  'Quality Construction',
-                  'Professional Team',
-                  'End-to-End Support',
-                ].map((item, idx) => (
-                  <div key={idx} className="flex items-center text-sm font-medium text-slate-200">
-                    <CheckCircle2 className="text-brand-orange w-4 h-4 mr-2 shrink-0" />
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </div>
+        </motion.div>
       </div>
-      )}
 
-      {/* REPLACED MODAL FORM (MATCHES SCREENSHOT 1 & 2 UI WITH CIVIL CONSTRUCTION FIELDS) */}
       <ConsultationModal
         isOpen={isFormOpen}
         onClose={() => setIsFormOpen(false)}

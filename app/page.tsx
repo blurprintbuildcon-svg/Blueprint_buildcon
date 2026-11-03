@@ -1,4 +1,5 @@
 import HeroSection from '@/components/HeroSection';
+import CityExpansionSection from '@/components/CityExpansionSection';
 import StatsSection from '@/components/StatsSection';
 import AboutSection from '@/components/AboutSection';
 import ServicesSection from '@/components/ServicesSection';
@@ -16,6 +17,7 @@ export default function Home() {
   return (
     <>
       <HeroSection />
+      <CityExpansionSection />
       <StatsSection />
       <AboutSection />
       <ServicesSection />
