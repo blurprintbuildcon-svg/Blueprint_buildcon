@@ -99,7 +99,7 @@ export const CITIES_DATA: Record<string, CityDetail> = {
     homesCount: '8,400+ Homes',
     citiesCount: '10+ Cities',
     warranty: '10-Year Structural Warranty',
-    heroImage: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1400&q=80',
+    heroImage: '/about-hero.jpg',
     landmarkImage: '/Chennai.png',
     localities: [
       'OMR (Old Mahabalipuram)',
