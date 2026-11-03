@@ -29,8 +29,8 @@ export default function Footer() {
                 />
               </div>
               <div className="flex flex-col">
-                <span className="font-heading text-2xl sm:text-3xl font-extrabold tracking-tight text-white leading-tight">
-                  BluePrint<span className="ml-1.5 text-brand-orange">Build-Con</span>
+                <span className="font-heading text-2xl sm:text-3xl font-black tracking-tight text-white leading-tight">
+                  <span className="text-[#0275F8]">Blue</span>Print <span className="text-[#0275F8]">Build</span>-Con
                 </span>
                 <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.26em] text-blue-200/80 mt-0.5">
                   Your vision our victory

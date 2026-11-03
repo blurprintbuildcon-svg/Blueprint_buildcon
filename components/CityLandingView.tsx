@@ -1,431 +1,424 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
-  ShieldCheck,
-  CheckCircle2,
-  Clock,
-  Sparkles,
-  ChevronDown,
-  HelpCircle,
-  Home,
-  ReceiptText,
-  Layers3,
-  HardHat,
-  BadgeCheck,
-  Star,
-  ChevronsUpDown,
-  Building2,
-  ArrowRight,
-  PhoneCall,
+  Phone,
+  User,
   MapPin,
+  CheckCircle2,
+  AlertCircle,
+  MessageCircle,
+  ShieldCheck,
+  Building,
+  Sparkles,
+  ArrowRight,
+  Loader2,
+  Award,
+  Check,
 } from 'lucide-react';
 import { CityDetail } from '@/data/cityData';
-import CityHero from '@/components/CityHero';
-import CityLocalitiesSection from '@/components/CityLocalitiesSection';
-import ConstructionJourneySection from '@/components/ConstructionJourneySection';
+import { openWhatsApp } from '@/lib/whatsapp';
 
-interface CityLandingViewProps {
+interface CityHeroProps {
   city: CityDetail;
+  onLocalitySelect?: (locality: string) => void;
+  selectedLocality?: string;
 }
 
-export default function CityLandingView({ city }: CityLandingViewProps) {
-  const [selectedLocality, setSelectedLocality] = useState<string>('');
-  const [openFaqs, setOpenFaqs] = useState<number[]>([0]);
+export default function CityHero({ city, selectedLocality = '' }: CityHeroProps) {
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    location: selectedLocality || city.name,
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  // Sync city selection with navbar and localStorage
+  // Update form location if parent updates selectedLocality
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('blueprint_selected_city', city.name);
-      window.dispatchEvent(new CustomEvent('city-selected', { detail: city.name }));
+    if (selectedLocality) {
+      setFormData((prev) => ({ ...prev, location: selectedLocality }));
     }
-  }, [city.name]);
+  }, [selectedLocality]);
 
-  const handleLocalitySelect = (locality: string) => {
-    setSelectedLocality(locality);
-  };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMessage('');
 
-  const toggleFaq = (index: number) => {
-    setOpenFaqs((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
-  };
+    if (!formData.name.trim()) {
+      setErrorMessage('Please enter your full name');
+      return;
+    }
+    if (!formData.phone.trim() || formData.phone.trim().length < 10) {
+      setErrorMessage('Please enter a valid 10-digit mobile number');
+      return;
+    }
 
-  const cityFaqs = [
-    {
-      q: `What is the average cost of house construction in ${city.name}?`,
-      a: `In ${city.name}, turnkey construction starts from approximately ${city.avgPrice}. The final price depends on your chosen package (Classic, Premium, or Royale Luxury), soil structure, elevation complexity, and custom interior finishes. We provide an exact itemized Bill of Quantities (BOQ) with zero hidden variations before construction begins.`,
-    },
-    {
-      q: `Do you manage municipal plan sanctions and approvals in ${city.name}?`,
-      a: `Yes! Our in-house legal and architectural team coordinates the complete approval process with local civic authorities and municipal bodies in ${city.name}, including structural stability certifications, layout sanctions, electricity and water connections.`,
-    },
-    {
-      q: `How do you ensure construction quality on site in ${city.name}?`,
-      a: `Every project goes through 430+ digital quality checks covering excavation, steel rebar tensile testing, concrete cube crushing tests, brickwork alignment, electrical conduits, and anti-leakage waterproofing. You get daily 4K photo and video updates directly on our mobile client portal.`,
-    },
-    {
-      q: `What warranty is provided after project handover?`,
-      a: `We provide an industry-leading 10-Year Structural Warranty against cracks, soil settlement, and structural defects, plus 10-year waterproofing guarantees and complimentary scheduled post-handover maintenance visits.`,
-    },
-    {
-      q: `Are payments milestone-based and protected?`,
-      a: `Absolutely. You never pay upfront sums for incomplete work. Payments are broken down into transparent milestones tied strictly to physical work completed and verified on your site. You approve each stage before funds are released.`,
-    },
-  ];
+    setIsSubmitting(true);
 
-  const allFaqsOpen = openFaqs.length === cityFaqs.length;
-  const toggleAllFaqs = () => {
-    if (allFaqsOpen) {
-      setOpenFaqs([]);
-    } else {
-      setOpenFaqs(cityFaqs.map((_, i) => i));
+    try {
+      const payload = {
+        name: formData.name.trim(),
+        phone: formData.phone.trim(),
+        location: `${formData.location}, ${city.name}`,
+        projectType: 'Turnkey Residential / Villa Construction',
+        propertyStatus: 'Plot Owned / Exploring Construction',
+        budget: '₹30 Lakhs – ₹1 Crore',
+        service: 'End-to-End Civil & Architectural Construction',
+        message: `Booked free consultation from ${city.name} landing page. Preferred locality: ${formData.location}`,
+      };
+
+      const res = await fetch('/api/consultation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to submit enquiry. Please try again.');
+      }
+
+      setIsSuccess(true);
+    } catch (err: any) {
+      setErrorMessage(err.message || 'Something went wrong. Please try again or WhatsApp us.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const trustCards = [
-    {
-      title: 'Rigorous Quality Checks',
-      subtitle: '430+ digital checks across excavation, steel, concrete cube tests, and anti-leakage waterproofing.',
-      icon: BadgeCheck,
-      badge: 'Certified',
-    },
-    {
-      title: 'Escrow Price Guarantee',
-      subtitle: 'Zero cost escalation with transparent itemized BOQ contracts and milestone-based escrow payments.',
-      icon: ReceiptText,
-      badge: 'Protected',
-    },
-    {
-      title: '10-Year Warranty',
-      subtitle: 'Comprehensive 10-year structural guarantee, damp-proofing protection, and scheduled post-handover care.',
-      icon: ShieldCheck,
-      badge: 'Guaranteed',
-    },
-    {
-      title: 'In-House Experts',
-      subtitle: 'Full-time licensed architects, structural engineers, and site supervisors — zero contractor outsourcing.',
-      icon: HardHat,
-      badge: 'Dedicated',
-    },
-  ];
+  const handleWhatsAppChat = () => {
+    const text = `Hi BluePrint BuildCon! I am interested in building a home in ${city.name} (${formData.location || city.name}). Please share cost estimation and consultation details. Name: ${formData.name || 'Client'}, Phone: ${formData.phone || 'N/A'}`;
+    openWhatsApp(text);
+  };
 
   return (
-    <div className="bg-white text-slate-800">
-      {/* City Breadcrumb */}
-      <div className="bg-slate-50/80 border-b border-slate-200/60 py-3 px-4 sm:px-6">
-        <div className="container mx-auto max-w-6xl flex items-center gap-2 text-xs text-slate-500 font-medium">
-          <Link href="/" className="hover:text-brand-navy transition-colors flex items-center gap-1">
-            <Home size={13} className="text-slate-400" />
-            <span>Home</span>
-          </Link>
-          <span className="text-slate-300">/</span>
-          <span className="text-slate-500">Locations</span>
-          <span className="text-slate-300">/</span>
-          <span className="text-brand-orange font-bold flex items-center gap-1">
-            <MapPin size={12} />
-            {city.name}
-          </span>
-        </div>
+    <section className="relative w-full min-h-[660px] lg:min-h-[740px] overflow-hidden flex items-center py-12 lg:py-20 border-b border-slate-200/80 bg-brand-gray/50">
+      {/* Background Architectural Photo with Refined Multi-Stop Vignette */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <Image
+          src={city.heroImage || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=85'}
+          alt={`Construction Company in ${city.name}`}
+          fill
+          priority
+          unoptimized
+          sizes="100vw"
+          className="object-cover object-center lg:object-[center_35%]"
+        />
+
+        {/* Soft multi-layered gradient backdrop for perfect legibility */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-white/40 md:via-white/85 md:to-transparent lg:from-white/98 lg:via-white/80 lg:to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white/40 lg:from-white/60" />
+
+        {/* Subtle warm architectural ambient blur matching overall website */}
+        <div className="absolute top-1/4 left-10 w-96 h-96 bg-brand-orange/10 rounded-full blur-3xl pointer-events-none" />
       </div>
 
-      {/* 1. Hero Section */}
-      <CityHero
-        city={city}
-        selectedLocality={selectedLocality}
-        onLocalitySelect={handleLocalitySelect}
-      />
-
-      {/* 2. Localities Grid Section */}
-      <CityLocalitiesSection
-        city={city}
-        onSelectLocality={handleLocalitySelect}
-      />
-
-      {/* 3. The Construction Journey (Dark Obsidian Section) */}
-      <ConstructionJourneySection cityName={city.name} />
-
-      {/* 4. Why Choose BluePrint BuildCon in this City */}
-      <section className="py-20 sm:py-28 bg-gradient-to-b from-white via-slate-50/70 to-white border-b border-slate-200/80 relative overflow-hidden">
-        {/* Subtle Ambient Decorative Glows */}
-        <div className="absolute top-0 right-0 -mt-20 w-96 h-96 bg-brand-orange/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 -mb-20 w-96 h-96 bg-brand-navy/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
-          {/* Header */}
-          <div className="text-center max-w-3xl mx-auto mb-14 lg:mb-16">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-orange/10 text-brand-orange text-xs font-bold uppercase tracking-wider mb-4 border border-brand-orange/15 shadow-sm">
-                <Sparkles size={14} className="shrink-0" />
-                <span>The Blueprint Standard</span>
-              </div>
-
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-brand-navy leading-[1.12] mb-4">
-                Why Homeowners in {city.name}{' '}
-                <span className="relative inline-block text-brand-orange">
-                  Trust Us
-                  <span className="absolute -bottom-1.5 left-0 w-full h-1.5 bg-brand-orange/25 rounded-full" />
-                </span>
-              </h2>
-
-              <p className="text-base sm:text-lg leading-relaxed text-slate-600 max-w-2xl mx-auto">
-                Guaranteed quality, zero delays, and transparent contracts with every home we build.
-              </p>
-            </motion.div>
-          </div>
-
-          {/* 4 Trust Feature Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
-            {trustCards.map((card, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: idx * 0.08 }}
-                className="group relative flex flex-col justify-between rounded-2xl border border-slate-200/90 bg-white p-6 sm:p-7 shadow-[0_4px_20px_rgba(10,18,39,0.03)] transition-all duration-300 hover:-translate-y-1.5 hover:border-brand-orange/50 hover:shadow-[0_16px_36px_rgba(10,18,39,0.08)]"
-              >
-                {/* Top Accent Line on Hover */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-orange to-amber-500 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                <div>
-                  <div className="mb-6 flex items-center justify-between">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-orange/10 text-brand-orange transition-all duration-300 group-hover:bg-brand-orange group-hover:text-white group-hover:scale-105 shadow-sm">
-                      <card.icon size={22} strokeWidth={2} />
-                    </div>
-                    <span className="font-mono text-xs font-bold tracking-wider text-slate-300 transition-colors group-hover:text-brand-orange">
-                      0{idx + 1}
-                    </span>
-                  </div>
-
-                  <h3 className="text-lg font-bold text-brand-navy mb-2 group-hover:text-brand-orange transition-colors">
-                    {card.title}
-                  </h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    {city.features[idx] || card.subtitle}
-                  </p>
-                </div>
-
-                <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                    {card.badge}
-                  </span>
-                  <CheckCircle2 size={16} className="text-emerald-500" />
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* City Stats Snapshot Ribbon */}
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-14 rounded-3xl bg-gradient-to-r from-[#0a1227] via-[#0f1a38] to-[#0a1227] text-white p-7 sm:p-10 border border-slate-800 shadow-2xl relative overflow-hidden"
-          >
-            {/* Ambient Background Glows inside Ribbon */}
-            <div className="absolute top-0 left-1/4 w-72 h-36 bg-brand-orange/15 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute bottom-0 right-1/4 w-72 h-36 bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
-
-            <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-slate-800">
-              <div className="pt-4 md:pt-0">
-                <p className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-orange tracking-tight">
-                  {city.projectsCompleted}
-                </p>
-                <p className="text-xs sm:text-sm font-semibold text-slate-300 mt-2">
-                  Homes Completed
-                </p>
-                <p className="text-[11px] text-slate-400 mt-0.5">Across {city.name}</p>
-              </div>
-
-              <div className="pt-4 md:pt-0 md:pl-6">
-                <div className="flex items-center justify-center gap-1.5">
-                  <p className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
-                    {city.rating.split(' ')[0]}
-                  </p>
-                  <Star size={24} className="text-amber-400 fill-amber-400" />
-                </div>
-                <p className="text-xs sm:text-sm font-semibold text-slate-300 mt-2">
-                  Verified Rating
-                </p>
-                <p className="text-[11px] text-slate-400 mt-0.5">{city.rating.split('(')[1]?.replace(')', '') || 'Google Verified'}</p>
-              </div>
-
-              <div className="pt-4 md:pt-0 md:pl-6">
-                <p className="text-3xl sm:text-4xl lg:text-5xl font-black text-emerald-400 tracking-tight">
-                  10-Year
-                </p>
-                <p className="text-xs sm:text-sm font-semibold text-slate-300 mt-2">
-                  Structural Warranty
-                </p>
-                <p className="text-[11px] text-slate-400 mt-0.5">Legal Guarantee Bond</p>
-              </div>
-
-              <div className="pt-4 md:pt-0 md:pl-6">
-                <p className="text-3xl sm:text-4xl lg:text-5xl font-black text-cyan-400 tracking-tight">
-                  430+
-                </p>
-                <p className="text-xs sm:text-sm font-semibold text-slate-300 mt-2">
-                  Quality Audit Points
-                </p>
-                <p className="text-[11px] text-slate-400 mt-0.5">Tracked on Mobile App</p>
-              </div>
-            </div>
-          </motion.div>
-
-        </div>
-      </section>
-
-      {/* 5. City Specific Frequently Asked Questions */}
-      <section className="py-20 sm:py-28 bg-white relative overflow-hidden">
-        {/* Subtle Decorative Ambient Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-brand-orange/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl relative z-10">
-          
-          {/* Header */}
-          <div className="text-center mb-12 sm:mb-14">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-orange/10 text-brand-orange text-xs font-bold uppercase tracking-wider mb-4 border border-brand-orange/15 shadow-sm">
-                <HelpCircle size={14} className="shrink-0" />
-                <span>Clear &amp; Transparent Answers</span>
-              </div>
-
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-brand-navy tracking-tight mb-4">
-                Frequently Asked Questions in {city.name}
-              </h2>
-              <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto">
-                Clear answers regarding pricing, approvals, soil testing, and construction timelines.
-              </p>
-
-              {/* Expand / Collapse All Button */}
-              <div className="mt-6 flex justify-center">
-                <button
-                  type="button"
-                  onClick={toggleAllFaqs}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold text-slate-600 bg-slate-50 border border-slate-200 hover:border-brand-orange/40 hover:text-brand-orange transition-all shadow-xs cursor-pointer"
-                >
-                  <ChevronsUpDown size={14} />
-                  <span>{allFaqsOpen ? 'Collapse All Questions' : 'Expand All Questions'}</span>
-                </button>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* FAQ Accordion Items */}
-          <div className="space-y-4">
-            {cityFaqs.map((faq, i) => {
-              const isOpen = openFaqs.includes(i);
-              return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.35, delay: i * 0.05 }}
-                  className={`rounded-2xl border transition-all duration-300 overflow-hidden bg-white ${
-                    isOpen
-                      ? 'border-brand-orange/60 shadow-md ring-1 ring-brand-orange/20'
-                      : 'border-slate-200/90 hover:border-slate-300 shadow-xs'
-                  }`}
-                >
-                  <button
-                    type="button"
-                    onClick={() => toggleFaq(i)}
-                    className="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 cursor-pointer font-bold text-brand-navy text-base sm:text-lg group"
-                  >
-                    <span className="group-hover:text-brand-orange transition-colors">
-                      {faq.q}
-                    </span>
-                    <div
-                      className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ${
-                        isOpen
-                          ? 'bg-brand-orange text-white rotate-180 shadow-sm'
-                          : 'bg-slate-100 text-slate-500 group-hover:bg-brand-orange/10 group-hover:text-brand-orange'
-                      }`}
-                    >
-                      <ChevronDown size={18} />
-                    </div>
-                  </button>
-
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3, ease: 'easeInOut' }}
-                        className="overflow-hidden"
-                      >
-                        <div className="px-5 sm:px-6 pb-6 text-sm sm:text-base text-slate-600 leading-relaxed border-t border-slate-100 pt-4 bg-slate-50/40">
-                          {faq.a}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              );
-            })}
-          </div>
-
-          {/* Quick CTA Bottom Box */}
+          {/* Left Column: Heading, Badges, Metrics & Value Props */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="mt-14 text-center p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-brand-orange/10 via-orange-50/40 to-slate-50 border border-brand-orange/25 shadow-sm relative overflow-hidden"
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="lg:col-span-7 flex flex-col justify-center"
           >
-            {/* Top decorative gradient bar */}
-            <div className="absolute top-0 left-12 right-12 h-1 bg-gradient-to-r from-transparent via-brand-orange to-transparent" />
-
-            <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-brand-navy tracking-tight">
-              Still have questions about building in {city.name}?
-            </h3>
-            <p className="text-sm sm:text-base text-slate-600 mt-2.5 max-w-lg mx-auto leading-relaxed">
-              Our {city.name} project managers and architects are available Monday through Saturday for customized estimates, floor plan ideas, and free site surveys.
-            </p>
+            {/* Top Tag Badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.1, duration: 0.4 }}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-orange/10 text-brand-orange text-xs sm:text-sm font-bold uppercase tracking-wider mb-4 border border-brand-orange/20 shadow-xs backdrop-blur-md w-fit"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-orange opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-orange" />
+              </span>
+              <MapPin size={14} className="text-brand-orange" />
+              <span>Top-Rated Construction Company in {city.name}</span>
+            </motion.div>
             
-            <div className="mt-7 flex flex-wrap items-center justify-center gap-3.5">
-              <button
-                type="button"
-                onClick={() => {
-                  const formElement = document.getElementById('expert-consultation-card');
-                  if (formElement) formElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }}
-                className="group relative overflow-hidden px-7 py-3.5 rounded-xl bg-gradient-to-r from-brand-orange to-brand-orange-hover text-white font-bold text-sm sm:text-base shadow-lg shadow-brand-orange/25 hover:shadow-brand-orange/35 transition-all duration-300 active:scale-[0.99] flex items-center gap-2 cursor-pointer"
+            {/* Main Headline */}
+            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-[56px] font-extrabold text-brand-navy tracking-tight leading-[1.12]">
+              Construction Company <br className="hidden sm:inline" />
+              <span className="text-brand-orange">in {city.name}</span>
+            </h1>
+
+            {/* Sub-headline stats badge */}
+            <div className="mt-4 flex items-center gap-3">
+              <span className="text-xl sm:text-2xl md:text-3xl font-extrabold text-brand-navy tracking-tight">
+                {city.homesCount}
+              </span>
+              <span className="text-slate-300 font-light text-2xl">|</span>
+              <span className="text-xl sm:text-2xl md:text-3xl font-extrabold text-brand-navy tracking-tight">
+                {city.citiesCount}
+              </span>
+            </div>
+
+            {/* Subtitle description */}
+            <p className="mt-3.5 text-sm sm:text-base md:text-lg text-slate-600 max-w-xl font-normal leading-relaxed">
+              India’s trusted tech-driven construction partner. End-to-end turnkey civil construction, 3D architectural design, and 430+ digital quality checks.
+            </p>
+
+            {/* 3 Value Cards */}
+            <div className="mt-7 grid grid-cols-2 sm:grid-cols-3 gap-3.5 max-w-xl">
+              <motion.div
+                whileHover={{ y: -3, transition: { duration: 0.2 } }}
+                className="bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-200/90 shadow-xs hover:border-emerald-300 hover:shadow-md transition-all group"
               >
-                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer pointer-events-none" />
-                <PhoneCall size={16} />
-                <span>Talk to Our {city.name} Expert</span>
-                <ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-1" />
-              </button>
-              
-              <Link
-                href="/contact"
-                className="px-7 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-brand-navy font-bold text-sm sm:text-base border border-slate-300 shadow-xs hover:border-brand-navy/40 transition-all duration-200"
+                <div className="flex items-center gap-2 text-emerald-600 mb-1.5">
+                  <div className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                    <ShieldCheck size={16} />
+                  </div>
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-slate-600">On-Time</span>
+                </div>
+                <p className="text-sm font-extrabold text-brand-navy">100% Guaranteed</p>
+                <p className="text-[11px] text-slate-500 mt-0.5">Delay penalty clause</p>
+              </motion.div>
+
+              <motion.div
+                whileHover={{ y: -3, transition: { duration: 0.2 } }}
+                className="bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-200/90 shadow-xs hover:border-brand-orange/40 hover:shadow-md transition-all group"
               >
-                Visit Our Office
-              </Link>
+                <div className="flex items-center gap-2 text-brand-orange mb-1.5">
+                  <div className="p-1.5 rounded-lg bg-brand-orange/10 text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-colors">
+                    <Award size={16} />
+                  </div>
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-slate-600">Warranty</span>
+                </div>
+                <p className="text-sm font-extrabold text-brand-navy">10-Year Quality</p>
+                <p className="text-[11px] text-slate-500 mt-0.5">Structural & damp-proof</p>
+              </motion.div>
+
+              <motion.div
+                whileHover={{ y: -3, transition: { duration: 0.2 } }}
+                className="bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all col-span-2 sm:col-span-1 group"
+              >
+                <div className="flex items-center gap-2 text-blue-600 mb-1.5">
+                  <div className="p-1.5 rounded-lg bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                    <Sparkles size={16} />
+                  </div>
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-slate-600">Live Tracking</span>
+                </div>
+                <p className="text-sm font-extrabold text-brand-navy">430+ Checks</p>
+                <p className="text-[11px] text-slate-500 mt-0.5">{city.activeSites}</p>
+              </motion.div>
+            </div>
+
+            {/* Quick trust markers row */}
+            <div className="mt-5 flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-600">
+              <span className="inline-flex items-center gap-1.5">
+                <Check size={14} className="text-emerald-600" />
+                Zero Cost Escalation
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <Check size={14} className="text-emerald-600" />
+                Milestone Escrow Security
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <Check size={14} className="text-emerald-600" />
+                Free Soil & Site Survey
+              </span>
+            </div>
+          </motion.div>
+
+          {/* Right Column: "Talk to Our Expert" Form Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
+            className="lg:col-span-5 w-full"
+          >
+            <div
+              id="expert-consultation-card"
+              className="relative bg-white/98 backdrop-blur-xl rounded-3xl p-6 sm:p-8 shadow-[0_20px_60px_-15px_rgba(10,18,39,0.14)] border border-white/90 ring-1 ring-slate-900/5 transition-all duration-300"
+            >
+              {/* Top brand accent bar */}
+              <div className="absolute top-0 left-8 right-8 h-1 bg-gradient-to-r from-transparent via-brand-orange to-transparent rounded-full" />
+
+              {/* Card Header */}
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-2xl sm:text-[28px] font-extrabold text-brand-navy tracking-tight">
+                  Talk to Our Expert
+                </h2>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200/80 shadow-xs">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                  </span>
+                  Online
+                </span>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-500 mb-5 leading-relaxed">
+                Get an instant estimate, floor plan ideas, and dedicated engineer callback within 20 minutes.
+              </p>
+
+              {isSuccess ? (
+                <div className="py-8 text-center space-y-4">
+                  <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center animate-bounce">
+                    <CheckCircle2 size={36} />
+                  </div>
+                  <h3 className="text-xl font-bold text-brand-navy">Consultation Booked!</h3>
+                  <p className="text-sm text-slate-600 max-w-sm mx-auto">
+                    Thank you, <span className="font-semibold text-brand-navy">{formData.name}</span>. Our senior {city.name} project expert will call you on <span className="font-semibold text-brand-navy">{formData.phone}</span> within 20 minutes.
+                  </p>
+                  
+                  <div className="pt-2 flex flex-col gap-2.5">
+                    <button
+                      type="button"
+                      onClick={handleWhatsAppChat}
+                      className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm transition-all shadow-md shadow-emerald-600/20 active:scale-[0.99] cursor-pointer"
+                    >
+                      <MessageCircle size={18} />
+                      <span>Chat on WhatsApp Directly</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsSuccess(false);
+                        setFormData({ name: '', phone: '', location: city.name });
+                      }}
+                      className="text-xs text-slate-500 hover:text-slate-800 underline underline-offset-2 cursor-pointer pt-1"
+                    >
+                      Book another consultation
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  {errorMessage && (
+                    <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs sm:text-sm flex items-start gap-2">
+                      <AlertCircle size={16} className="shrink-0 mt-0.5" />
+                      <span>{errorMessage}</span>
+                    </div>
+                  )}
+
+                  {/* Input: Name */}
+                  <div>
+                    <label htmlFor="client-name" className="sr-only">
+                      Name
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                        <User size={18} />
+                      </div>
+                      <input
+                        id="client-name"
+                        type="text"
+                        required
+                        placeholder="Name"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className="w-full pl-10 pr-4 py-3.5 rounded-xl border border-slate-300/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-orange/30 focus:border-brand-orange text-sm sm:text-base font-medium transition-all bg-slate-50/70 hover:bg-white"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Input: +91 Phone Number */}
+                  <div>
+                    <label htmlFor="client-phone" className="sr-only">
+                      Phone Number
+                    </label>
+                    <div className="relative flex rounded-xl border border-slate-300/90 overflow-hidden focus-within:ring-2 focus-within:ring-brand-orange/30 focus-within:border-brand-orange transition-all bg-slate-50/70 hover:bg-white">
+                      <div className="flex items-center gap-1.5 px-3.5 bg-slate-100/90 border-r border-slate-200 text-slate-700 text-sm font-semibold select-none">
+                        <span className="text-base">🇮🇳</span>
+                        <span>+91</span>
+                      </div>
+                      <input
+                        id="client-phone"
+                        type="tel"
+                        required
+                        maxLength={10}
+                        placeholder="Phone Number"
+                        value={formData.phone}
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/\D/g, '');
+                          setFormData({ ...formData, phone: val });
+                        }}
+                        className="w-full px-3.5 py-3.5 text-slate-900 placeholder:text-slate-400 focus:outline-none text-sm sm:text-base font-medium bg-transparent"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Input: Location of your Plot - City* */}
+                  <div>
+                    <label htmlFor="client-location" className="block text-xs font-semibold text-slate-600 mb-1">
+                      Location of your Plot - City*
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                        <MapPin size={18} />
+                      </div>
+                      <select
+                        id="client-location"
+                        value={formData.location}
+                        onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                        className="w-full pl-10 pr-8 py-3.5 rounded-xl border border-slate-300/90 text-slate-900 text-sm sm:text-base font-medium bg-slate-50/70 hover:bg-white focus:outline-none focus:ring-2 focus:ring-brand-orange/30 focus:border-brand-orange transition-all appearance-none cursor-pointer"
+                      >
+                        <option value={city.name}>{city.name} (All Regions)</option>
+                        {city.localities.map((loc) => (
+                          <option key={loc} value={`${loc}, ${city.name}`}>
+                            {loc}, {city.name}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
+                        <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                          <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Submit Button */}
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="group relative w-full overflow-hidden py-4 px-6 rounded-xl bg-gradient-to-r from-brand-orange via-orange-500 to-brand-orange-hover hover:from-brand-orange-hover hover:to-orange-700 text-white font-bold text-base sm:text-lg transition-all duration-300 shadow-lg shadow-brand-orange/30 hover:shadow-brand-orange/40 active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
+                    >
+                      {/* Button shimmer light reflection */}
+                      <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer pointer-events-none" />
+
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 size={20} className="animate-spin" />
+                          <span>Submitting Details...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Book Free Consultation</span>
+                          <ArrowRight size={18} className="transition-transform duration-200 group-hover:translate-x-1" />
+                        </>
+                      )}
+                    </button>
+                  </div>
+
+                  {/* Privacy & Guarantee Disclaimers */}
+                  <div className="pt-1 text-center space-y-1.5">
+                    <p className="text-[11px] text-slate-500">
+                      🔒 100% Privacy Guarantee • Zero Spam • Free Plot Inspection
+                    </p>
+                    <p className="text-[10px] text-slate-400 leading-relaxed">
+                      By submitting, you agree to our{' '}
+                      <Link href="/privacy-policy" className="text-brand-orange underline hover:text-brand-orange-hover">
+                        privacy policy
+                      </Link>
+                      , allowing us to use your information as outlined.
+                    </p>
+                  </div>
+                </form>
+              )}
             </div>
           </motion.div>
 
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }
