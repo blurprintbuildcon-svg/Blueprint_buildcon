@@ -16,6 +16,7 @@ import { getWhatsAppNumber, openWhatsApp } from '@/lib/whatsapp';
 export type ConsultationModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  initialLocation?: string;
 };
 
 const PROJECT_TYPES = [
@@ -52,7 +53,7 @@ const SERVICES_OFFERED = [
   'Complete Home Renovation & Strengthening',
 ];
 
-export default function ConsultationModal({ isOpen, onClose }: ConsultationModalProps) {
+export default function ConsultationModal({ isOpen, onClose, initialLocation }: ConsultationModalProps) {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -66,6 +67,12 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
     agreeContact: true,
     agreePrivacy: true,
   });
+
+  useEffect(() => {
+    if (initialLocation && isOpen) {
+      setFormData((prev) => ({ ...prev, location: initialLocation }));
+    }
+  }, [initialLocation, isOpen]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitType, setSubmitType] = useState<'whatsapp' | 'save'>('whatsapp');
@@ -188,6 +195,7 @@ _Submitted via BluePrint Build-Con Web Portal_`;
       role="dialog"
       aria-modal="true"
       aria-labelledby="consultation-modal-title"
+      onClick={(e) => e.stopPropagation()}
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}

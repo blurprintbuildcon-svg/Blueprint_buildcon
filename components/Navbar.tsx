@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { ChevronDown, Gift, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import LocationSelector from './LocationSelector';
 
 type NavLink =
   | { type: 'link'; name: string; href: string; hasGiftIcon?: boolean }
@@ -149,6 +150,11 @@ export default function Navbar() {
               )}
             </ul>
 
+            {/* Location Selector (Moved beside Refer & Earn) */}
+            <div className="hidden lg:block">
+              <LocationSelector />
+            </div>
+
             {/* Primary Action Button - Refer & Earn */}
             <Link
               href="/refer"
@@ -161,22 +167,27 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="p-2 lg:hidden text-brand-navy"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            aria-expanded={isMobileMenuOpen}
-          >
-            {isMobileMenuOpen ? (
-              <X size={24} />
-            ) : (
-              <Menu
-                size={24}
-                className="text-brand-navy"
-              />
-            )}
-          </button>
+          {/* Mobile Controls: Location Selector + Menu Button */}
+          <div className="flex items-center gap-1.5 lg:hidden">
+            <div className="md:hidden">
+              <LocationSelector />
+            </div>
+            <button
+              className="p-2 text-brand-navy"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={isMobileMenuOpen}
+            >
+              {isMobileMenuOpen ? (
+                <X size={24} />
+              ) : (
+                <Menu
+                  size={24}
+                  className="text-brand-navy"
+                />
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -254,6 +265,11 @@ export default function Navbar() {
                   </Link>
                 )
               )}
+
+              {/* Location Selector between Contact Us and Refer & Earn */}
+              <div className="pt-2 pb-1 px-1">
+                <LocationSelector />
+              </div>
 
               {/* Mobile Refer & Earn Button */}
               <Link
