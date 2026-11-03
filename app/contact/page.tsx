@@ -14,8 +14,8 @@ export default function ContactPage() {
         eyebrow="Start a conversation"
         title="Let’s talk about what you’re building."
         description="Tell us what you have in mind and our team will help you find the clearest next step for your project."
-        image="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=85&w=2200"
-        imageAlt="Construction team discussing a project together"
+        image="/H.jpg"
+        imageAlt="BluePrint Build-Con architectural and construction consultation"
       />
       <ContactSection />
       <FAQSection />
