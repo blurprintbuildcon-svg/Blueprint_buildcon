@@ -20,9 +20,9 @@ export default function CityLocalitiesSection({ city, onSelectLocality }: CityLo
     if (formElement) {
       formElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
       // Flash highlight the card
-      formElement.classList.add('ring-4', 'ring-[#F95700]/50');
+      formElement.classList.add('ring-4', 'ring-[#0052FF]/50');
       setTimeout(() => {
-        formElement.classList.remove('ring-4', 'ring-[#F95700]/50');
+        formElement.classList.remove('ring-4', 'ring-[#0052FF]/50');
       }, 1500);
     }
   };
@@ -46,17 +46,17 @@ export default function CityLocalitiesSection({ city, onSelectLocality }: CityLo
             <div
               key={locality}
               onClick={() => handleLocalityClick(locality)}
-              className="group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/90 hover:border-[#F95700]/60 shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer select-none"
+              className="group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/90 hover:border-[#0052FF]/60 shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer select-none"
             >
               <div className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-slate-300 group-hover:bg-[#F95700] transition-colors" />
+                <div className="w-2 h-2 rounded-full bg-slate-300 group-hover:bg-[#0052FF] transition-colors" />
                 <span className="text-base sm:text-lg font-bold text-slate-800 group-hover:text-slate-900 transition-colors">
                   {locality}
                 </span>
               </div>
 
               {/* Circular Orange Arrow Button (matching reference Image 2) */}
-              <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-orange-50 text-[#F95700] border border-orange-100/80 transition-all duration-200 group-hover:bg-[#F95700] group-hover:text-white group-hover:scale-110 shrink-0">
+              <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-blue-50 text-[#0052FF] border border-blue-100/80 transition-all duration-200 group-hover:bg-[#0052FF] group-hover:text-white group-hover:scale-110 shrink-0">
                 <ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-0.5" />
               </div>
             </div>
@@ -66,7 +66,7 @@ export default function CityLocalitiesSection({ city, onSelectLocality }: CityLo
         {/* Bottom banner note */}
         <div className="mt-8 p-4 rounded-2xl bg-slate-50 border border-slate-200/70 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div className="flex items-center gap-2.5">
-            <MapPin size={18} className="text-[#F95700] shrink-0" />
+            <MapPin size={18} className="text-[#0052FF] shrink-0" />
             <p className="text-xs sm:text-sm text-slate-600 font-medium">
               Building in another locality in {city.name} or suburbs? We cover all registered municipal & suburban development plots.
             </p>
@@ -74,7 +74,7 @@ export default function CityLocalitiesSection({ city, onSelectLocality }: CityLo
           <button
             type="button"
             onClick={() => handleLocalityClick(city.name)}
-            className="text-xs sm:text-sm font-bold text-[#F95700] hover:text-[#E04E00] whitespace-nowrap underline underline-offset-4 cursor-pointer"
+            className="text-xs sm:text-sm font-bold text-[#0052FF] hover:text-[#E04E00] whitespace-nowrap underline underline-offset-4 cursor-pointer"
           >
             Check My Specific Location &rarr;
           </button>

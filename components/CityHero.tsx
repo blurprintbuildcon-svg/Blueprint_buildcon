@@ -119,16 +119,30 @@ export default function CityHero({ city, selectedLocality = '' }: CityHeroProps)
           
           {/* Left Column: Heading, Subtitle & Value Badges */}
           <div className="lg:col-span-7 flex flex-col justify-center">
+            {/* Brand Logo & Name matching official logo image */}
+            <div className="flex flex-wrap items-center gap-2.5 mb-3.5">
+              <span className="text-2xl sm:text-3xl font-black tracking-tight">
+                <span className="bg-gradient-to-r from-[#0042EC] to-[#0275F8] bg-clip-text text-transparent">Blue</span>
+                <span className="text-black">Print</span>{' '}
+                <span className="bg-gradient-to-r from-[#0042EC] to-[#0275F8] bg-clip-text text-transparent">Build</span>
+                <span className="text-black">-Con</span>
+              </span>
+              <span className="hidden sm:inline text-slate-300 font-light">|</span>
+              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
+                Your vision our victory
+              </span>
+            </div>
+
             {/* City Tag Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100/90 border border-orange-200 text-orange-700 text-xs sm:text-sm font-semibold mb-3.5 backdrop-blur-xs w-fit">
-              <MapPin size={14} className="text-[#F95700]" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50/90 border border-blue-200 text-blue-800 text-xs sm:text-sm font-semibold mb-3.5 backdrop-blur-xs w-fit">
+              <MapPin size={14} className="text-[#0052FF]" />
               <span>Premier Construction in {city.name}, {city.state}</span>
             </div>
             
             {/* Main Title (matching reference Image 1) */}
             <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-[56px] font-black text-slate-900 tracking-tight leading-[1.12]">
               Construction Company <br className="hidden sm:inline" />
-              <span className="text-[#F95700]">in {city.name}</span>
+              <span className="text-[#0052FF]">in {city.name}</span>
             </h1>
 
             {/* Sub-headline stats badge (matching reference Image 1) */}
@@ -154,7 +168,7 @@ export default function CityHero({ city, selectedLocality = '' }: CityHeroProps)
               </div>
 
               <div className="bg-white/90 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/80 shadow-xs">
-                <div className="flex items-center gap-2 text-[#F95700] mb-1">
+                <div className="flex items-center gap-2 text-[#0052FF] mb-1">
                   <Sparkles size={18} />
                   <span className="text-xs font-bold uppercase tracking-wider text-slate-700">Quality</span>
                 </div>
@@ -247,7 +261,7 @@ export default function CityHero({ city, selectedLocality = '' }: CityHeroProps)
                         placeholder="Name"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full pl-10 pr-4 py-3.5 rounded-xl border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#F95700]/30 focus:border-[#F95700] text-sm sm:text-base font-medium transition-all bg-slate-50/70 hover:bg-white"
+                        className="w-full pl-10 pr-4 py-3.5 rounded-xl border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0052FF]/30 focus:border-[#0052FF] text-sm sm:text-base font-medium transition-all bg-slate-50/70 hover:bg-white"
                       />
                     </div>
                   </div>
@@ -291,7 +305,7 @@ export default function CityHero({ city, selectedLocality = '' }: CityHeroProps)
                         id="client-location"
                         value={formData.location}
                         onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                        className="w-full pl-10 pr-8 py-3.5 rounded-xl border border-slate-300 text-slate-900 text-sm sm:text-base font-medium bg-slate-50/70 hover:bg-white focus:outline-none focus:ring-2 focus:ring-[#F95700]/30 focus:border-[#F95700] transition-all appearance-none cursor-pointer"
+                        className="w-full pl-10 pr-8 py-3.5 rounded-xl border border-slate-300 text-slate-900 text-sm sm:text-base font-medium bg-slate-50/70 hover:bg-white focus:outline-none focus:ring-2 focus:ring-[#0052FF]/30 focus:border-[#0052FF] transition-all appearance-none cursor-pointer"
                       >
                         <option value={city.name}>{city.name} (All Regions)</option>
                         {city.localities.map((loc) => (
@@ -313,7 +327,7 @@ export default function CityHero({ city, selectedLocality = '' }: CityHeroProps)
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full py-4 px-6 rounded-xl bg-[#F95700] hover:bg-[#E04E00] text-white font-bold text-base sm:text-lg transition-all duration-200 shadow-lg shadow-orange-500/25 hover:shadow-orange-500/35 active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
+                      className="w-full py-4 px-6 rounded-xl bg-[#0052FF] hover:bg-[#0042EC] text-white font-bold text-base sm:text-lg transition-all duration-200 shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30 active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
                     >
                       {isSubmitting ? (
                         <>
@@ -329,7 +343,7 @@ export default function CityHero({ city, selectedLocality = '' }: CityHeroProps)
                   {/* Privacy Policy Disclaimer (matching reference Image 1) */}
                   <p className="text-[11px] sm:text-xs text-slate-500 text-center leading-relaxed">
                     By submitting, you agree to our{' '}
-                    <Link href="/privacy-policy" className="text-orange-600 underline hover:text-orange-700">
+                    <Link href="/privacy-policy" className="text-blue-600 underline hover:text-blue-800">
                       privacy policy
                     </Link>
                     , allowing us to use your information as outlined.

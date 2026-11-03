@@ -137,12 +137,12 @@ export default function CityExpansionSection() {
 
               {/* City Name with Right Chevron below card */}
               <div className="mt-3 flex items-center gap-1 px-1">
-                <span className="text-base sm:text-lg font-bold text-amber-600 transition-colors group-hover:text-amber-700">
+                <span className="text-base sm:text-lg font-bold text-slate-900 transition-colors group-hover:text-[#0052FF]">
                   {city.name}
                 </span>
                 <ChevronRight
                   size={18}
-                  className="text-amber-600 transition-transform duration-300 group-hover:translate-x-1"
+                  className="text-[#0052FF] transition-transform duration-300 group-hover:translate-x-1"
                 />
               </div>
             </div>
