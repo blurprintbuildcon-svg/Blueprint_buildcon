@@ -36,15 +36,15 @@ export default function AboutHero() {
     <section ref={heroRef} className="relative isolate flex min-h-[560px] items-end overflow-hidden bg-brand-navy pt-32 text-white lg:min-h-[680px]">
       <img
         ref={imageRef}
-        src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=85&w=2200"
-        alt="Bespoke luxury architectural villa project by BluePrint BuildCon"
+        src="/about-hero.jpg"
+        alt="BluePrint BuildCon commercial and residential building construction site"
         className="absolute inset-0 -z-20 h-full w-full scale-110 object-cover will-change-transform"
       />
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(10,18,39,0.94)_0%,rgba(10,18,39,0.72)_42%,rgba(10,18,39,0.18)_100%)]" />
       <div className="container mx-auto w-full px-4 pb-20 md:px-6 lg:pb-28">
         <div className="max-w-3xl">
-          <p className="mb-5 text-sm font-bold uppercase tracking-[0.28em] text-brand-orange">
-            About BluePrint Build-Con
+          <p className="mb-5 text-sm font-bold uppercase tracking-[0.28em]">
+            About <span className="text-white">BluePrint</span><span className="text-[#1360e2]">Build-Con</span>
           </p>
           <h1 className="max-w-2xl text-5xl font-bold leading-[0.98] md:text-7xl">
             We build the places where life moves forward.

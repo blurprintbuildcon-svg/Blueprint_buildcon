@@ -68,10 +68,13 @@ export default function Navbar() {
               />
             </div>
             <div className="flex flex-col">
-              <span className="text-base font-extrabold leading-none tracking-tight sm:text-xl text-brand-navy">
-                BluePrint<span className="ml-1 text-brand-orange">Build-Con</span>
+              <span className="text-base font-black leading-none tracking-tight sm:text-xl">
+                <span className="bg-gradient-to-r from-[#0042EC] to-[#0275F8] bg-clip-text text-transparent">Blue</span>
+                <span className="text-black">Print</span>{' '}
+                <span className="bg-gradient-to-r from-[#0042EC] to-[#0275F8] bg-clip-text text-transparent">Build</span>
+                <span className="text-black">-Con</span>
               </span>
-              <span className="mt-1 text-[7px] font-bold uppercase tracking-[0.16em] transition-colors sm:text-[8.5px] sm:tracking-[0.24em] text-slate-400 group-hover:text-brand-orange">
+              <span className="mt-1 text-[7px] font-bold uppercase tracking-[0.16em] transition-colors sm:text-[8.5px] sm:tracking-[0.24em] text-slate-500 group-hover:text-[#0042EC]">
                 Your vision our victory
               </span>
             </div>

@@ -22,6 +22,7 @@ import { CityDetail } from '@/data/cityData';
 import CityHero from '@/components/CityHero';
 import CityLocalitiesSection from '@/components/CityLocalitiesSection';
 import ConstructionJourneySection from '@/components/ConstructionJourneySection';
+import CityPackagesSection from '@/components/CityPackagesSection';
 
 interface CityLandingViewProps {
   city: CityDetail;
@@ -78,7 +79,7 @@ export default function CityLandingView({ city }: CityLandingViewProps) {
           <span>/</span>
           <span className="text-slate-500">Locations</span>
           <span>/</span>
-          <span className="text-[#F95700] font-bold">{city.name}</span>
+          <span className="text-[#0052FF] font-bold">{city.name}</span>
         </div>
       </div>
 
@@ -89,7 +90,10 @@ export default function CityLandingView({ city }: CityLandingViewProps) {
         onLocalitySelect={handleLocalitySelect}
       />
 
-      {/* 2. Localities Grid Section (matching reference Image 2) */}
+      {/* 2. Packages & Pricing Section (matching reference image) */}
+      <CityPackagesSection currentCityName={city.name} />
+
+      {/* 3. Localities Grid Section (matching reference Image 2) */}
       <CityLocalitiesSection
         city={city}
         onSelectLocality={handleLocalitySelect}
@@ -116,7 +120,7 @@ export default function CityLandingView({ city }: CityLandingViewProps) {
                 key={idx}
                 className="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-xs hover:shadow-md transition-shadow"
               >
-                <div className="w-12 h-12 rounded-xl bg-orange-50 text-[#F95700] flex items-center justify-center font-bold text-lg mb-4">
+                <div className="w-12 h-12 rounded-xl bg-blue-50 text-[#0052FF] flex items-center justify-center font-bold text-lg mb-4">
                   0{idx + 1}
                 </div>
                 <h3 className="text-base font-bold text-slate-900 mb-2">
@@ -133,7 +137,7 @@ export default function CityLandingView({ city }: CityLandingViewProps) {
           {/* City Stats Snapshot */}
           <div className="mt-12 rounded-3xl bg-slate-900 text-white p-6 sm:p-10 flex flex-wrap items-center justify-around gap-6 border border-slate-800">
             <div className="text-center">
-              <p className="text-3xl sm:text-4xl font-black text-[#F95700]">{city.projectsCompleted}</p>
+              <p className="text-3xl sm:text-4xl font-black text-[#0052FF]">{city.projectsCompleted}</p>
               <p className="text-xs sm:text-sm text-slate-400 mt-1">Homes Completed</p>
             </div>
             <div className="text-center">
@@ -180,7 +184,7 @@ export default function CityLandingView({ city }: CityLandingViewProps) {
                     <span>{faq.q}</span>
                     <ChevronDown
                       size={20}
-                      className={`text-[#F95700] shrink-0 transition-transform duration-200 ${
+                      className={`text-[#0052FF] shrink-0 transition-transform duration-200 ${
                         isOpen ? 'rotate-180' : ''
                       }`}
                     />
@@ -196,7 +200,7 @@ export default function CityLandingView({ city }: CityLandingViewProps) {
           </div>
 
           {/* Quick CTA Bottom */}
-          <div className="mt-12 text-center p-8 rounded-3xl bg-orange-50 border border-orange-200">
+          <div className="mt-12 text-center p-8 rounded-3xl bg-blue-50 border border-blue-200">
             <h3 className="text-xl sm:text-2xl font-bold text-slate-900">
               Still have questions about building in {city.name}?
             </h3>
@@ -210,7 +214,7 @@ export default function CityLandingView({ city }: CityLandingViewProps) {
                   const formElement = document.getElementById('expert-consultation-card');
                   if (formElement) formElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }}
-                className="px-6 py-3 rounded-xl bg-[#F95700] hover:bg-[#E04E00] text-white font-bold text-sm sm:text-base shadow-md transition-colors"
+                className="px-6 py-3 rounded-xl bg-[#0052FF] hover:bg-[#0042EC] text-white font-bold text-sm sm:text-base shadow-md transition-colors"
               >
                 Talk to Our {city.name} Expert
               </button>

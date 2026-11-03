@@ -56,9 +56,9 @@ export default function ConstructionJourneySection({
     const formElement = document.getElementById('expert-consultation-card');
     if (formElement) {
       formElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      formElement.classList.add('ring-4', 'ring-[#F95700]/50');
+      formElement.classList.add('ring-4', 'ring-[#0052FF]/50');
       setTimeout(() => {
-        formElement.classList.remove('ring-4', 'ring-[#F95700]/50');
+        formElement.classList.remove('ring-4', 'ring-[#0052FF]/50');
       }, 1500);
     }
   };
@@ -69,7 +69,7 @@ export default function ConstructionJourneySection({
         {/* Header Row: Title & Subtitle on Left, Left/Right Navigation Buttons on Right */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 sm:mb-12">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-orange-400 text-xs sm:text-sm font-semibold mb-3 border border-white/15">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-blue-400 text-xs sm:text-sm font-semibold mb-3 border border-white/15">
               <Sparkles size={14} />
               <span>The Transparent Blueprint Process</span>
             </div>
@@ -119,7 +119,7 @@ export default function ConstructionJourneySection({
           className="flex gap-5 sm:gap-6 overflow-x-auto pb-6 pt-2 scrollbar-none scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
           {/* STEP 01 */}
-          <div className="shrink-0 w-[290px] sm:w-[330px] md:w-[350px] group rounded-3xl bg-[#0F141E] border border-white/10 overflow-hidden flex flex-col justify-between p-6 sm:p-7 transition-all duration-300 hover:border-orange-500/50 hover:shadow-2xl hover:shadow-orange-500/10">
+          <div className="shrink-0 w-[290px] sm:w-[330px] md:w-[350px] group rounded-3xl bg-[#0F141E] border border-white/10 overflow-hidden flex flex-col justify-between p-6 sm:p-7 transition-all duration-300 hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10">
             <div>
               <span className="text-4xl sm:text-5xl font-black text-white tracking-wider block mb-2 font-mono">
                 01
@@ -153,7 +153,7 @@ export default function ConstructionJourneySection({
                     <span>{cityName}</span>
                     <ChevronRight size={9} className="text-slate-500" />
                   </div>
-                  <div className="h-6 rounded-md bg-[#F95700] text-white flex items-center justify-center text-[8px] font-bold shadow-xs">
+                  <div className="h-6 rounded-md bg-[#0052FF] text-white flex items-center justify-center text-[8px] font-bold shadow-xs">
                     Book Free Consultation
                   </div>
                 </div>
@@ -162,7 +162,7 @@ export default function ConstructionJourneySection({
           </div>
 
           {/* STEP 02 */}
-          <div className="shrink-0 w-[290px] sm:w-[330px] md:w-[350px] group rounded-3xl bg-[#0F141E] border border-white/10 overflow-hidden flex flex-col justify-between p-6 sm:p-7 transition-all duration-300 hover:border-orange-500/50 hover:shadow-2xl hover:shadow-orange-500/10">
+          <div className="shrink-0 w-[290px] sm:w-[330px] md:w-[350px] group rounded-3xl bg-[#0F141E] border border-white/10 overflow-hidden flex flex-col justify-between p-6 sm:p-7 transition-all duration-300 hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10">
             <div>
               <span className="text-4xl sm:text-5xl font-black text-white tracking-wider block mb-2 font-mono">
                 02
@@ -187,7 +187,7 @@ export default function ConstructionJourneySection({
                 <span className="text-[11px] font-semibold text-slate-200 bg-black/60 backdrop-blur-md px-2 py-0.5 rounded border border-white/10">
                   Architectural Review
                 </span>
-                <span className="text-[11px] font-bold text-orange-400 bg-orange-950/80 px-2 py-0.5 rounded border border-orange-500/30">
+                <span className="text-[11px] font-bold text-blue-400 bg-blue-950/80 px-2 py-0.5 rounded border border-blue-500/30">
                   Instant Quote
                 </span>
               </div>
@@ -195,7 +195,7 @@ export default function ConstructionJourneySection({
           </div>
 
           {/* STEP 03 */}
-          <div className="shrink-0 w-[290px] sm:w-[330px] md:w-[350px] group rounded-3xl bg-[#0F141E] border border-white/10 overflow-hidden flex flex-col justify-between p-6 sm:p-7 transition-all duration-300 hover:border-orange-500/50 hover:shadow-2xl hover:shadow-orange-500/10">
+          <div className="shrink-0 w-[290px] sm:w-[330px] md:w-[350px] group rounded-3xl bg-[#0F141E] border border-white/10 overflow-hidden flex flex-col justify-between p-6 sm:p-7 transition-all duration-300 hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10">
             <div>
               <span className="text-4xl sm:text-5xl font-black text-white tracking-wider block mb-2 font-mono">
                 03
@@ -207,8 +207,8 @@ export default function ConstructionJourneySection({
 
             {/* Step 03 Graphic: Phone mockup with verified payment & calendar badge */}
             <div className="mt-6 relative pt-4 flex justify-center">
-              <div className="relative w-[210px] sm:w-[220px] rounded-t-[30px] bg-gradient-to-b from-[#1C1613] to-slate-950 border-t-[5px] border-x-[5px] border-[#F95700]/40 shadow-2xl p-4 pb-8 text-center">
-                <div className="absolute -top-2.5 -right-1.5 bg-[#F95700] text-white p-2 rounded-xl shadow-lg border-2 border-white/20 animate-pulse">
+              <div className="relative w-[210px] sm:w-[220px] rounded-t-[30px] bg-gradient-to-b from-[#1C1613] to-slate-950 border-t-[5px] border-x-[5px] border-[#0052FF]/40 shadow-2xl p-4 pb-8 text-center">
+                <div className="absolute -top-2.5 -right-1.5 bg-[#0052FF] text-white p-2 rounded-xl shadow-lg border-2 border-white/20 animate-pulse">
                   <Calendar size={15} />
                 </div>
 
@@ -226,7 +226,7 @@ export default function ConstructionJourneySection({
           </div>
 
           {/* STEP 04 */}
-          <div className="shrink-0 w-[290px] sm:w-[330px] md:w-[350px] group rounded-3xl bg-[#0F141E] border border-white/10 overflow-hidden flex flex-col justify-between p-6 sm:p-7 transition-all duration-300 hover:border-orange-500/50 hover:shadow-2xl hover:shadow-orange-500/10">
+          <div className="shrink-0 w-[290px] sm:w-[330px] md:w-[350px] group rounded-3xl bg-[#0F141E] border border-white/10 overflow-hidden flex flex-col justify-between p-6 sm:p-7 transition-all duration-300 hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10">
             <div>
               <span className="text-4xl sm:text-5xl font-black text-white tracking-wider block mb-2 font-mono">
                 04
@@ -259,7 +259,7 @@ export default function ConstructionJourneySection({
           </div>
 
           {/* STEP 05 */}
-          <div className="shrink-0 w-[290px] sm:w-[330px] md:w-[350px] group rounded-3xl bg-[#0F141E] border border-white/10 overflow-hidden flex flex-col justify-between p-6 sm:p-7 transition-all duration-300 hover:border-orange-500/50 hover:shadow-2xl hover:shadow-orange-500/10">
+          <div className="shrink-0 w-[290px] sm:w-[330px] md:w-[350px] group rounded-3xl bg-[#0F141E] border border-white/10 overflow-hidden flex flex-col justify-between p-6 sm:p-7 transition-all duration-300 hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10">
             <div>
               <span className="text-4xl sm:text-5xl font-black text-white tracking-wider block mb-2 font-mono">
                 05
@@ -274,7 +274,7 @@ export default function ConstructionJourneySection({
               <div className="bg-slate-100 text-slate-900 rounded-xl p-3 shadow-xl border-t-4 border-slate-700">
                 <div className="flex items-center justify-between border-b border-slate-300 pb-1.5 mb-1.5">
                   <div className="flex items-center gap-1">
-                    <FileText size={12} className="text-[#F95700]" />
+                    <FileText size={12} className="text-[#0052FF]" />
                     <span className="text-[10px] font-black tracking-wider uppercase text-slate-800">
                       Contract Agreement
                     </span>
@@ -290,7 +290,7 @@ export default function ConstructionJourneySection({
                 </div>
                 <div className="mt-2 pt-1 border-t border-slate-200 flex items-center justify-between text-[8px] text-slate-500 italic">
                   <span>Signature: Verified ✓</span>
-                  <span className="font-bold text-[#F95700]">BluePrint</span>
+                  <span className="font-bold text-[#0052FF]">BluePrint</span>
                 </div>
               </div>
 
@@ -302,7 +302,7 @@ export default function ConstructionJourneySection({
           </div>
 
           {/* STEP 06 */}
-          <div className="shrink-0 w-[290px] sm:w-[330px] md:w-[350px] group rounded-3xl bg-[#0F141E] border border-white/10 overflow-hidden flex flex-col justify-between p-6 sm:p-7 transition-all duration-300 hover:border-orange-500/50 hover:shadow-2xl hover:shadow-orange-500/10">
+          <div className="shrink-0 w-[290px] sm:w-[330px] md:w-[350px] group rounded-3xl bg-[#0F141E] border border-white/10 overflow-hidden flex flex-col justify-between p-6 sm:p-7 transition-all duration-300 hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10">
             <div>
               <span className="text-4xl sm:text-5xl font-black text-white tracking-wider block mb-2 font-mono">
                 06
@@ -412,7 +412,7 @@ export default function ConstructionJourneySection({
           <button
             type="button"
             onClick={scrollToForm}
-            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#F95700] hover:bg-[#E04E00] text-white font-bold text-sm sm:text-base transition-colors shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2 cursor-pointer shrink-0"
+            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#0052FF] hover:bg-[#0042EC] text-white font-bold text-sm sm:text-base transition-colors shadow-lg shadow-blue-600/25 flex items-center justify-center gap-2 cursor-pointer shrink-0"
           >
             <span>Book Free Consultation</span>
             <ArrowRight size={16} />
