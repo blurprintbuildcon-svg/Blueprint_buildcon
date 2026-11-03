@@ -115,7 +115,7 @@ export default function CityHero({ city, selectedLocality = '' }: CityHeroProps)
         <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white/40 lg:from-white/60" />
 
         {/* Subtle warm architectural ambient blur matching overall website */}
-        <div className="absolute top-1/4 left-10 w-96 h-96 bg-brand-orange/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-1/4 left-10 w-96 h-96 bg-blue-50 rounded-full blur-3xl pointer-events-none" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -133,20 +133,20 @@ export default function CityHero({ city, selectedLocality = '' }: CityHeroProps)
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.1, duration: 0.4 }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-orange/10 text-brand-orange text-xs sm:text-sm font-bold uppercase tracking-wider mb-4 border border-brand-orange/20 shadow-xs backdrop-blur-md w-fit"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0042EC] text-xs sm:text-sm font-bold uppercase tracking-wider mb-4 border border-blue-200 shadow-xs backdrop-blur-md w-fit"
             >
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-orange opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-orange" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0042EC] opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#0042EC]" />
               </span>
-              <MapPin size={14} className="text-brand-orange" />
+              <MapPin size={14} className="text-[#0042EC]" />
               <span>Top-Rated Construction Company in {city.name}</span>
             </motion.div>
             
             {/* Main Headline */}
             <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-[56px] font-extrabold text-brand-navy tracking-tight leading-[1.12]">
               Construction Company <br className="hidden sm:inline" />
-              <span className="text-brand-orange">in {city.name}</span>
+              <span className="text-[#0042EC]">in {city.name}</span>
             </h1>
 
             {/* Sub-headline stats badge */}
@@ -183,10 +183,10 @@ export default function CityHero({ city, selectedLocality = '' }: CityHeroProps)
 
               <motion.div
                 whileHover={{ y: -3, transition: { duration: 0.2 } }}
-                className="bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-200/90 shadow-xs hover:border-brand-orange/40 hover:shadow-md transition-all group"
+                className="bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-200/90 shadow-xs hover:border-blue-400 hover:shadow-md transition-all group"
               >
-                <div className="flex items-center gap-2 text-brand-orange mb-1.5">
-                  <div className="p-1.5 rounded-lg bg-brand-orange/10 text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-colors">
+                <div className="flex items-center gap-2 text-[#0042EC] mb-1.5">
+                  <div className="p-1.5 rounded-lg bg-blue-50 text-[#0042EC] group-hover:bg-[#0042EC] group-hover:text-white transition-colors">
                     <Award size={16} />
                   </div>
                   <span className="text-[11px] font-bold uppercase tracking-wider text-slate-600">Warranty</span>
@@ -239,7 +239,7 @@ export default function CityHero({ city, selectedLocality = '' }: CityHeroProps)
               className="relative bg-white/98 backdrop-blur-xl rounded-3xl p-6 sm:p-8 shadow-[0_20px_60px_-15px_rgba(10,18,39,0.14)] border border-white/90 ring-1 ring-slate-900/5 transition-all duration-300"
             >
               {/* Top brand accent bar */}
-              <div className="absolute top-0 left-8 right-8 h-1 bg-gradient-to-r from-transparent via-brand-orange to-transparent rounded-full" />
+              <div className="absolute top-0 left-8 right-8 h-1 bg-gradient-to-r from-transparent via-[#0042EC] to-transparent rounded-full" />
 
               {/* Card Header */}
               <div className="flex items-center justify-between mb-2">
@@ -314,7 +314,7 @@ export default function CityHero({ city, selectedLocality = '' }: CityHeroProps)
                         placeholder="Name"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full pl-10 pr-4 py-3.5 rounded-xl border border-slate-300/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-orange/30 focus:border-brand-orange text-sm sm:text-base font-medium transition-all bg-slate-50/70 hover:bg-white"
+                        className="w-full pl-10 pr-4 py-3.5 rounded-xl border border-slate-300/90 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0042EC]/30 focus:border-[#0042EC] text-sm sm:text-base font-medium transition-all bg-slate-50/70 hover:bg-white"
                       />
                     </div>
                   </div>
@@ -324,7 +324,7 @@ export default function CityHero({ city, selectedLocality = '' }: CityHeroProps)
                     <label htmlFor="client-phone" className="sr-only">
                       Phone Number
                     </label>
-                    <div className="relative flex rounded-xl border border-slate-300/90 overflow-hidden focus-within:ring-2 focus-within:ring-brand-orange/30 focus-within:border-brand-orange transition-all bg-slate-50/70 hover:bg-white">
+                    <div className="relative flex rounded-xl border border-slate-300/90 overflow-hidden focus-within:ring-2 focus-within:ring-[#0042EC]/30 focus-within:border-[#0042EC] transition-all bg-slate-50/70 hover:bg-white">
                       <div className="flex items-center gap-1.5 px-3.5 bg-slate-100/90 border-r border-slate-200 text-slate-700 text-sm font-semibold select-none">
                         <span className="text-base">🇮🇳</span>
                         <span>+91</span>
@@ -358,7 +358,7 @@ export default function CityHero({ city, selectedLocality = '' }: CityHeroProps)
                         id="client-location"
                         value={formData.location}
                         onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                        className="w-full pl-10 pr-8 py-3.5 rounded-xl border border-slate-300/90 text-slate-900 text-sm sm:text-base font-medium bg-slate-50/70 hover:bg-white focus:outline-none focus:ring-2 focus:ring-brand-orange/30 focus:border-brand-orange transition-all appearance-none cursor-pointer"
+                        className="w-full pl-10 pr-8 py-3.5 rounded-xl border border-slate-300/90 text-slate-900 text-sm sm:text-base font-medium bg-slate-50/70 hover:bg-white focus:outline-none focus:ring-2 focus:ring-[#0042EC]/30 focus:border-[#0042EC] transition-all appearance-none cursor-pointer"
                       >
                         <option value={city.name}>{city.name} (All Regions)</option>
                         {city.localities.map((loc) => (
@@ -380,7 +380,7 @@ export default function CityHero({ city, selectedLocality = '' }: CityHeroProps)
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="group relative w-full overflow-hidden py-4 px-6 rounded-xl bg-gradient-to-r from-brand-orange via-orange-500 to-brand-orange-hover hover:from-brand-orange-hover hover:to-orange-700 text-white font-bold text-base sm:text-lg transition-all duration-300 shadow-lg shadow-brand-orange/30 hover:shadow-brand-orange/40 active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
+                      className="group relative w-full overflow-hidden py-4 px-6 rounded-xl bg-gradient-to-r from-[#0042EC] to-[#0275F8] hover:from-[#0038C8] hover:to-[#0160CC] text-white font-bold text-base sm:text-lg transition-all duration-300 shadow-lg shadow-blue-600/25 hover:shadow-blue-600/35 active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
                     >
                       {/* Button shimmer light reflection */}
                       <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer pointer-events-none" />
@@ -406,7 +406,7 @@ export default function CityHero({ city, selectedLocality = '' }: CityHeroProps)
                     </p>
                     <p className="text-[10px] text-slate-400 leading-relaxed">
                       By submitting, you agree to our{' '}
-                      <Link href="/privacy-policy" className="text-brand-orange underline hover:text-brand-orange-hover">
+                      <Link href="/privacy-policy" className="text-[#0042EC] underline hover:text-blue-800">
                         privacy policy
                       </Link>
                       , allowing us to use your information as outlined.

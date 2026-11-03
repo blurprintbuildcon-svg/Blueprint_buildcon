@@ -17,6 +17,12 @@ export default function CityPackagesSection({
 }: CityPackagesSectionProps) {
   const router = useRouter();
   const [selectedCity, setSelectedCity] = useState(currentCityName);
+
+  React.useEffect(() => {
+    if (currentCityName) {
+      setSelectedCity(currentCityName);
+    }
+  }, [currentCityName]);
   const [houseType, setHouseType] = useState<'homes' | 'luxury'>('homes');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activePackage, setActivePackage] = useState<string>('');
@@ -177,7 +183,7 @@ export default function CityPackagesSection({
               <select
                 value={selectedCity}
                 onChange={handleCityChange}
-                className="appearance-none bg-white rounded-xl border-2 border-blue-600 pl-4 pr-10 py-2 text-sm sm:text-base font-extrabold text-slate-900 shadow-xs focus:outline-none focus:ring-2 focus:ring-blue-600 cursor-pointer"
+                className="appearance-none bg-white rounded-xl border-2 border-[#0052FF] pl-4 pr-10 py-2 text-sm sm:text-base font-extrabold text-slate-900 shadow-xs focus:outline-none focus:ring-2 focus:ring-[#0052FF] cursor-pointer"
               >
                 {OPERATING_CITIES.map((c) => (
                   <option key={c.name} value={c.name}>
@@ -258,7 +264,7 @@ export default function CityPackagesSection({
             >
               {/* Popular Gold Banner */}
               {pkg.popular ? (
-                <div className="bg-blue-600 text-white text-center py-1.5 rounded-t-2xl text-xs font-black uppercase tracking-widest shadow-xs">
+                <div className="bg-[#0052FF] text-white text-center py-1.5 rounded-t-2xl text-xs font-black uppercase tracking-widest shadow-xs">
                   POPULAR
                 </div>
               ) : (
@@ -304,7 +310,7 @@ export default function CityPackagesSection({
                 <button
                   type="button"
                   onClick={() => handleLearnMore(pkg.name)}
-                  className="w-full py-3 px-4 rounded-xl border border-orange-200/90 text-[#0052FF] hover:bg-[#0052FF] hover:text-white font-extrabold text-sm sm:text-base transition-all duration-200 cursor-pointer shadow-xs active:scale-[0.99] text-center"
+                  className="w-full py-3 px-4 rounded-xl border-2 border-[#0052FF] text-[#0052FF] hover:bg-[#0052FF] hover:text-white font-extrabold text-sm sm:text-base transition-all duration-200 cursor-pointer shadow-xs active:scale-[0.99] text-center"
                 >
                   Learn more
                 </button>
