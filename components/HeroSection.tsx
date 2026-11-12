@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react';
 import ConsultationModal from '@/components/ConsultationModal';
 
 export default function HeroSection() {
-  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   // Ensure autoplay on mount across all browsers and devices
