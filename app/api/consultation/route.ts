@@ -20,6 +20,7 @@ export async function POST(request: Request) {
       service: typeof body.service === 'string' ? body.service.trim() : '',
       message: typeof body.message === 'string' ? body.message.trim() : '',
       joinReferralProgram: typeof body.joinReferralProgram === 'string' ? body.joinReferralProgram.trim() : 'No',
+      projectFinance: typeof body.projectFinance === 'string' ? body.projectFinance.trim() : 'No',
       website: typeof body.website === 'string' ? body.website.trim() : '',
     };
 
@@ -44,6 +45,7 @@ export async function POST(request: Request) {
         service: consultation.service,
         message: consultation.message,
         joinReferralProgram: consultation.joinReferralProgram,
+        projectFinance: consultation.projectFinance,
       });
     } catch (mailErr) {
       console.error('Failed sending consultation email:', mailErr);

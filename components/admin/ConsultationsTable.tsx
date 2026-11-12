@@ -26,6 +26,7 @@ export type ConsultationSubmission = {
   service: string;
   message?: string;
   joinReferralProgram: string;
+  projectFinance?: string;
   status?: 'new' | 'contacted' | 'in_progress' | 'closed';
   createdAt: string;
 };
@@ -125,7 +126,7 @@ export default function ConsultationsTable({
                     </p>
                   </td>
 
-                  {/* Partner Program */}
+                  {/* Partner Program & Finance */}
                   <td className="px-5 py-4 align-top">
                     {lead.joinReferralProgram === 'Yes' ? (
                       <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900 border border-amber-200">
@@ -134,6 +135,13 @@ export default function ConsultationsTable({
                       </span>
                     ) : (
                       <span className="text-xs text-slate-400">Client Only</span>
+                    )}
+                    {lead.projectFinance === 'Yes' && (
+                      <div className="mt-1.5">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-purple-50 text-purple-700 border border-purple-200">
+                          Finance Needed
+                        </span>
+                      </div>
                     )}
                   </td>
 

@@ -13,6 +13,7 @@ const consultationSchema = new mongoose.Schema(
     service: { type: String, trim: true, default: '', maxlength: 200 },
     message: { type: String, trim: true, default: '', maxlength: 2500 },
     joinReferralProgram: { type: String, trim: true, default: 'No', maxlength: 50 },
+    projectFinance: { type: String, trim: true, default: 'No', maxlength: 50 },
     status: {
       type: String,
       enum: ['new', 'contacted', 'in_progress', 'closed'],

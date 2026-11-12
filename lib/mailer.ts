@@ -90,6 +90,7 @@ export async function sendConsultationEmail(data: {
   service?: string;
   message?: string;
   joinReferralProgram?: string;
+  projectFinance?: string;
 }) {
   try {
     const transporter = getMailTransporter();
@@ -112,6 +113,7 @@ export async function sendConsultationEmail(data: {
         <tr><td class="label">Estimated Budget:</td><td class="value">${data.budget || 'Not specified'}</td></tr>
         <tr><td class="label">Service Interested In:</td><td class="value"><strong>${data.service || 'Not specified'}</strong></td></tr>
         <tr><td class="label">Referral Program Partner:</td><td class="value">${data.joinReferralProgram || 'No'}</td></tr>
+        <tr><td class="label">Project Finance / Loan:</td><td class="value"><strong>${data.projectFinance || 'No'}</strong></td></tr>
       </table>
 
       ${data.message
