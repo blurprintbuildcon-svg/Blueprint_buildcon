@@ -85,12 +85,17 @@ export async function sendConsultationEmail(data: {
   email?: string;
   projectType: string;
   location: string;
+  pincode?: string;
   propertyStatus?: string;
   budget?: string;
   service?: string;
   message?: string;
   joinReferralProgram?: string;
   projectFinance?: string;
+  projectCash?: string;
+  profession?: string;
+  otherProfession?: string;
+  marketingConsent?: boolean;
 }) {
   try {
     const transporter = getMailTransporter();
@@ -104,6 +109,8 @@ export async function sendConsultationEmail(data: {
         <tr><td class="label">Contact Number:</td><td class="value"><a href="tel:${data.phone}" style="color: #1360e2; text-decoration: none;">${data.phone}</a></td></tr>
         ${data.email ? `<tr><td class="label">Email Address:</td><td class="value">${data.email}</td></tr>` : ''}
         <tr><td class="label">City / Location:</td><td class="value">${data.location}</td></tr>
+        ${data.pincode ? `<tr><td class="label">Pincode:</td><td class="value">${data.pincode}</td></tr>` : ''}
+        ${(data.profession || data.otherProfession) ? `<tr><td class="label">Profession:</td><td class="value">${data.profession === 'Other' ? data.otherProfession || 'Other' : data.profession}</td></tr>` : ''}
       </table>
 
       <div class="section-title">Project &amp; Requirement Details</div>
@@ -114,6 +121,8 @@ export async function sendConsultationEmail(data: {
         <tr><td class="label">Service Interested In:</td><td class="value"><strong>${data.service || 'Not specified'}</strong></td></tr>
         <tr><td class="label">Referral Program Partner:</td><td class="value">${data.joinReferralProgram || 'No'}</td></tr>
         <tr><td class="label">Project Finance / Loan:</td><td class="value"><strong>${data.projectFinance || 'No'}</strong></td></tr>
+        <tr><td class="label">Interested in Project Cash:</td><td class="value"><strong>${data.projectCash || 'No'}</strong></td></tr>
+        <tr><td class="label">Marketing Updates Consent:</td><td class="value">${data.marketingConsent ? 'Yes' : 'No'}</td></tr>
       </table>
 
       ${data.message

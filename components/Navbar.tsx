@@ -49,7 +49,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 py-2.5 transition-all duration-300 border-b border-slate-200/80 bg-white/95 backdrop-blur-md ${
+      className={`fixed top-0 left-0 right-0 z-50 py-0 transition-all duration-300 border-b border-slate-200/80 bg-white/95 backdrop-blur-md ${
         isScrolled ? 'shadow-md shadow-slate-900/5' : 'shadow-sm'
       }`}
     >
@@ -57,14 +57,14 @@ export default function Navbar() {
         <div className="flex items-center justify-between">
           {/* Logo & Brand Name */}
           <Link href="/" className="group flex min-w-0 items-center gap-2 sm:gap-3 flex-shrink-0">
-            <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl p-1.5 transition-all duration-300 group-hover:scale-105 sm:h-11 sm:w-11 bg-gradient-to-br from-blue-50 to-white shadow-md shadow-blue-900/5 ring-1 ring-blue-500/20">
+            <div className="relative flex h-[72px] w-[72px] shrink-0 items-center justify-center transition-all duration-300 group-hover:scale-105 sm:h-24 sm:w-24">
               <Image
                 src="/LOGO%20SVG.svg"
                 alt="BluePrint Build-Con"
                 width={40}
                 height={40}
                 priority
-                className="w-full h-full object-contain filter drop-shadow-sm"
+                className="w-full h-full object-contain"
               />
             </div>
             <div className="flex flex-col">

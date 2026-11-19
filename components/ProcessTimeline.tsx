@@ -21,7 +21,10 @@ export default function ProcessTimeline() {
             transition={{ duration: 0.5 }}
           >
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-brand-navy mb-6">
-              From Blueprint to Reality
+              <span className="animate-word-highlight" style={{ animationDelay: '0s' }}>From</span>{' '}
+              <span className="animate-word-highlight" style={{ animationDelay: '1s' }}>Blueprint</span>{' '}
+              <span className="animate-word-highlight" style={{ animationDelay: '2s' }}>to</span>{' '}
+              <span className="animate-word-highlight" style={{ animationDelay: '3s' }}>Reality</span>
             </h2>
 
             <p className="text-lg text-slate-600">

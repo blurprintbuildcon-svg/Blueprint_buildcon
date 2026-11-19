@@ -2,10 +2,10 @@
  * Utility for formatting and opening WhatsApp with enquiries and referrals
  */
 export function getWhatsAppNumber(): string {
-  const raw = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '9561186693';
+  const raw = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '9028087659';
   const clean = raw.replace(/[^0-9]/g, '');
   if (clean.length === 10) return `91${clean}`;
-  return clean || '919561186693';
+  return clean || '919028087659';
 }
 
 export function openWhatsApp(message: string, targetNumber?: string) {

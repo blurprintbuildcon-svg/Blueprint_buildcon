@@ -259,14 +259,14 @@ export default async function ProcessDetailPage({ params }: PageProps) {
                 </p>
                 <div className="space-y-2.5">
                   <a
-                    href="tel:+919028346900"
+                    href="tel:+919028087659"
                     className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-brand-orange hover:bg-blue-700 text-white font-bold rounded-xl text-sm transition-colors shadow-sm"
                   >
                     <Phone size={16} />
-                    <span>Call +91 9028346900</span>
+                    <span>Call +91 9028087659</span>
                   </a>
                   <a
-                    href="https://wa.me/919028346900?text=Hi%20Blueprint%20Build-Con,%20I%20have%20questions%20about%20your%20construction%20process"
+                    href="https://wa.me/919028087659?text=Hi%20Blueprint%20Build-Con,%20I%20have%20questions%20about%20your%20construction%20process"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-[#25D366] hover:bg-emerald-600 text-white font-bold rounded-xl text-sm transition-colors shadow-sm"

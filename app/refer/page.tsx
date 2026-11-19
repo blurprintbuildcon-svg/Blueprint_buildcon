@@ -281,8 +281,8 @@ export default function ReferPage() {
             </p>
             <p className="text-xs text-slate-600 mt-1">
               Reach out to our business development desk directly at{' '}
-              <a href="tel:+919028346900" className="text-brand-orange font-bold hover:underline">
-                +91 9028346900
+              <a href="tel:+919028087659" className="text-brand-orange font-bold hover:underline">
+                +91 9028087659
               </a>{' '}
               or chat with us on WhatsApp.
             </p>

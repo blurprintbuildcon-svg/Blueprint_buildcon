@@ -21,12 +21,17 @@ export type ConsultationSubmission = {
   projectType: string;
   company?: string;
   location: string;
+  pincode?: string;
+  profession?: string;
+  otherProfession?: string;
   propertyStatus: string;
   budget: string;
   service: string;
   message?: string;
   joinReferralProgram: string;
   projectFinance?: string;
+  projectCash?: string;
+  marketingConsent?: boolean;
   status?: 'new' | 'contacted' | 'in_progress' | 'closed';
   createdAt: string;
 };
@@ -98,9 +103,22 @@ export default function ConsultationsTable({
                         <Phone size={13} className="text-slate-400 shrink-0" />
                         {lead.phone}
                       </a>
+                      {lead.email && (
+                        <a href={`mailto:${lead.email}`} className="block truncate hover:text-brand-orange">
+                          {lead.email}
+                        </a>
+                      )}
                       <p className="flex items-center gap-1.5 text-slate-500">
                         <MapPin size={13} className="text-slate-400 shrink-0" />
-                        {lead.location}
+                        {lead.location}{lead.pincode ? ` · ${lead.pincode}` : ''}
+                      </p>
+                      {(lead.profession || lead.otherProfession) && (
+                        <p className="text-slate-500">
+                          Profession: {lead.profession === 'Other' ? lead.otherProfession : lead.profession}
+                        </p>
+                      )}
+                      <p className="text-slate-500">
+                        Marketing updates: {lead.marketingConsent ? 'Consented' : 'Not opted in'}
                       </p>
                     </div>
                   </td>
@@ -140,6 +158,13 @@ export default function ConsultationsTable({
                       <div className="mt-1.5">
                         <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-purple-50 text-purple-700 border border-purple-200">
                           Finance Needed
+                        </span>
+                      </div>
+                    )}
+                    {lead.projectCash === 'Yes' && (
+                      <div className="mt-1.5">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                          Project Cash Interested
                         </span>
                       </div>
                     )}

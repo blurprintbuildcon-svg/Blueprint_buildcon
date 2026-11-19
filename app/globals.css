@@ -25,6 +25,26 @@
   }
 }
 
+@keyframes wordBlueTravel {
+  0%, 20% {
+    color: #1360e2;
+  }
+  25%, 100% {
+    color: #0a1227;
+  }
+}
+
+.animate-word-highlight {
+  animation: wordBlueTravel 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-word-highlight {
+    animation: none;
+    color: #0a1227;
+  }
+}
+
 body {
   background-color: var(--color-background);
   color: var(--color-foreground);
