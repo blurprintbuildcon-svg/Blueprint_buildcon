@@ -162,27 +162,36 @@ export default function LocationSelector() {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      {/* Navbar Location Button */}
-      <button
-        type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        aria-expanded={isOpen}
-        aria-haspopup="dialog"
-        className="group inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-slate-200/90 bg-slate-50/80 px-2.5 py-1.5 sm:px-3 sm:py-1.5 text-xs sm:text-sm font-semibold text-slate-700 transition-all hover:border-brand-orange/40 hover:bg-blue-50/60 hover:text-brand-navy shadow-xs cursor-pointer select-none"
-      >
-        <div className="flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-full bg-brand-orange/15 text-brand-orange">
-          <MapPin size={12} className="sm:w-3.5 sm:h-3.5" />
-        </div>
-        <span className="max-w-[85px] sm:max-w-[120px] md:max-w-[140px] truncate text-slate-800 font-bold group-hover:text-brand-navy">
-          {selectedCity}
-        </span>
-        <ChevronDown
-          size={14}
-          className={`text-slate-400 transition-transform duration-200 group-hover:text-slate-600 ${
-            isOpen ? 'rotate-180 text-brand-orange' : ''
-          }`}
+      {/* Navbar Location Button with Animated Round Blue Border */}
+      <div className="relative p-[1.5px] rounded-full overflow-hidden shadow-[0_2px_12px_rgba(0,82,255,0.2)]">
+        {/* Continuous Rotating Blue Gradient Beam */}
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 4.5, repeat: Infinity, ease: 'linear' }}
+          className="absolute -inset-[200%] bg-[conic-gradient(from_0deg,transparent_0_240deg,#0052FF_290deg,#00D2FF_330deg,#0052FF_360deg)] pointer-events-none"
         />
-      </button>
+
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-expanded={isOpen}
+          aria-haspopup="dialog"
+          className="relative z-10 group inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-white/85 backdrop-blur-md px-2.5 py-1.5 sm:px-3 sm:py-1.5 text-xs sm:text-sm font-semibold text-slate-700 transition-all hover:bg-white hover:text-brand-navy cursor-pointer select-none"
+        >
+          <div className="flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-full bg-blue-100/90 text-[#0052FF]">
+            <MapPin size={12} className="sm:w-3.5 sm:h-3.5" />
+          </div>
+          <span className="max-w-[85px] sm:max-w-[120px] md:max-w-[140px] truncate text-slate-800 font-bold group-hover:text-brand-navy">
+            {selectedCity}
+          </span>
+          <ChevronDown
+            size={14}
+            className={`text-slate-400 transition-transform duration-200 group-hover:text-slate-600 ${
+              isOpen ? 'rotate-180 text-[#0052FF]' : ''
+            }`}
+          />
+        </button>
+      </div>
 
       {/* Location Dropdown Modal */}
       <AnimatePresence>
@@ -197,7 +206,7 @@ export default function LocationSelector() {
             {/* Header */}
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div className="flex items-center gap-2">
-                <MapPin size={16} className="text-brand-orange" />
+                <MapPin size={16} className="text-[#0052FF]" />
                 <h3 className="text-sm font-bold text-brand-navy">Select Operating City</h3>
               </div>
               <button
