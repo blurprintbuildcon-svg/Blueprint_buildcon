@@ -4,8 +4,12 @@ import { motion } from 'framer-motion';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
-export default function AboutSection() {
-  const features = [
+interface AboutSectionProps {
+  isAboutPage?: boolean;
+}
+
+export default function AboutSection({ isAboutPage = false }: AboutSectionProps) {
+  const homeFeatures = [
     'End-to-end project management',
     'Experienced engineers and contractors',
     'Transparent costing',
@@ -13,6 +17,17 @@ export default function AboutSection() {
     'Timely project execution',
     'Dedicated project support',
   ];
+
+  const aboutPageFeatures = [
+    'Bespoke architectural design',
+    'Turnkey civil engineering',
+    'Premium interior craftsmanship',
+    'Quality-controlled construction',
+    'Transparent milestone costing',
+    'Timely project execution',
+  ];
+
+  const features = isAboutPage ? aboutPageFeatures : homeFeatures;
 
   return (
     <section id="about" className="py-16 lg:py-24 bg-white overflow-hidden">
@@ -28,8 +43,12 @@ export default function AboutSection() {
           >
             <div className="relative w-full h-full min-h-[360px] sm:min-h-[420px] lg:min-h-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl ring-1 ring-slate-900/10 bg-slate-100">
               <img
-                src="/Interior%20Design.jpg?v=3"
-                alt="BluePrint Build-Con Interior & Architectural Construction"
+                src={isAboutPage ? '/about-dining.jpg' : '/Interior%20Design.jpg?v=3'}
+                alt={
+                  isAboutPage
+                    ? 'BluePrint Build-Con Luxury Interior Architecture'
+                    : 'BluePrint Build-Con Interior & Architectural Construction'
+                }
                 loading="eager"
                 decoding="sync"
                 className="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-105"
@@ -50,12 +69,23 @@ export default function AboutSection() {
               About BluePrint Build-Con
             </p>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-brand-navy mb-5 leading-tight text-balance">
-              Building More Than Structures.<br />
-              <span className="text-brand-orange">Building Trust.</span>
+              {isAboutPage ? (
+                <>
+                  Building with Modern Craft.<br />
+                  <span className="text-brand-orange">Delivering Distinction.</span>
+                </>
+              ) : (
+                <>
+                  Building More Than Structures.<br />
+                  <span className="text-brand-orange">Building Trust.</span>
+                </>
+              )}
             </h2>
 
             <p className="text-slate-600 text-base sm:text-lg mb-8 leading-relaxed">
-              BluePrint Build-Con provides complete construction solutions for residential and commercial projects. Our experienced team brings together planning, architecture, engineering, construction, quality control and project management under one roof.
+              {isAboutPage
+                ? 'BluePrint Build-Con brings together turnkey architecture, civil engineering, and bespoke luxury interior execution. Our integrated team delivers residential and commercial spaces with complete transparency, precision, and craft.'
+                : 'BluePrint Build-Con provides complete construction solutions for residential and commercial projects. Our experienced team brings together planning, architecture, engineering, construction, quality control and project management under one roof.'}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
@@ -68,13 +98,23 @@ export default function AboutSection() {
             </div>
 
             <div>
-              <Link
-                href="/about"
-                className="inline-flex items-center px-8 py-3.5 bg-brand-navy text-white font-semibold rounded-full hover:bg-slate-800 transition-colors shadow-lg cursor-pointer"
-              >
-                Know More About Us
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Link>
+              {isAboutPage ? (
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center px-8 py-3.5 bg-brand-navy text-white font-semibold rounded-full hover:bg-slate-800 transition-colors shadow-lg cursor-pointer"
+                >
+                  Start Your Project
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Link>
+              ) : (
+                <Link
+                  href="/about"
+                  className="inline-flex items-center px-8 py-3.5 bg-brand-navy text-white font-semibold rounded-full hover:bg-slate-800 transition-colors shadow-lg cursor-pointer"
+                >
+                  Know More About Us
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Link>
+              )}
             </div>
           </motion.div>
         </div>

@@ -12,7 +12,7 @@ export default function AboutPage() {
   return (
     <>
       <AboutHero />
-      <AboutSection />
+      <AboutSection isAboutPage={true} />
       <StatsSection />
       <AboutProjectsShowcase />
     </>
