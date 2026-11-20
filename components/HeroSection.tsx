@@ -61,9 +61,9 @@ export default function HeroSection() {
             setIsFormOpen(true);
           }
         }}
-        className="relative flex min-h-[75vh] sm:min-h-[85vh] lg:min-h-screen items-end justify-center overflow-hidden bg-brand-navy pb-12 sm:pb-16 lg:pb-20 pt-20 cursor-pointer group select-none"
+        className="relative flex min-h-[75vh] sm:min-h-[85vh] lg:min-h-screen items-end justify-center overflow-hidden bg-brand-navy pb-4 sm:pb-6 lg:pb-8 pt-24 sm:pt-28 cursor-pointer group select-none"
       >
-        {/* Background Videos (Sequential Playback with Smooth Cross-Fade) */}
+        {/* Background Videos (Starts from top behind glossy navbar) */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           {heroVideos.map((vid, idx) => (
             <video
@@ -83,70 +83,72 @@ export default function HeroSection() {
             </video>
           ))}
 
-          {/* Soft bottom vignette to enhance bottom text contrast while keeping upper video clear */}
-          <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/75 via-black/25 to-black/15 pointer-events-none" />
+          {/* Top soft translucent wash to ensure navbar glass contrast + bottom vignette for headline readability */}
+          <div className="absolute inset-0 z-10 bg-gradient-to-b from-white/25 via-transparent to-black/75 pointer-events-none" />
         </div>
 
-            {/* Hero Headline - Positioned Below with Compact Line Spacing */}
-            <div className="container relative z-20 mx-auto px-4 md:px-6 text-center">
+            {/* Hero Headline - Fully Visible Across All Screen Sizes */}
+            <div className="container relative z-20 mx-auto px-4 sm:px-6 text-center">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: 'easeOut' }}
                 className="mx-auto max-w-5xl"
               >
-                <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.12] sm:leading-[1.15] drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
-                  India’s Most Trusted Tech-Driven Construction Partner for
-                  <span className="block min-h-[1.15em] overflow-hidden">
+                <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-[44px] font-extrabold tracking-tight text-white leading-snug drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
+                  <span className="block">
+                    India’s Most Trusted Tech-Driven Construction Partner for
+                  </span>
+                  <span className="block mt-1 sm:mt-1.5">
                     <AnimatePresence mode="wait" initial={false}>
                       {currentVideoIndex === 0 && (
                         <motion.span
                           key="homes"
-                          initial={{ opacity: 0, y: 15 }}
+                          initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -15 }}
-                          transition={{ duration: 0.5, ease: 'easeInOut' }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.4, ease: 'easeInOut' }}
                           className="inline-block"
                         >
-                          Homes <span className="text-sky-400">and Commercial Spaces</span>
+                          Homes <span className="text-[#00D2FF]">and Commercial Spaces</span>
                         </motion.span>
                       )}
                       {currentVideoIndex === 1 && (
                         <motion.span
                           key="malls"
-                          initial={{ opacity: 0, y: 15 }}
+                          initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -15 }}
-                          transition={{ duration: 0.5, ease: 'easeInOut' }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.4, ease: 'easeInOut' }}
                           className="inline-block"
                         >
-                          Commercial <span className="text-sky-400">and Mall Spaces</span>
+                          Commercial <span className="text-[#00D2FF]">and Mall Spaces</span>
                         </motion.span>
                       )}
                       {currentVideoIndex === 2 && (
                         <motion.span
                           key="residential"
-                          initial={{ opacity: 0, y: 15 }}
+                          initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -15 }}
-                          transition={{ duration: 0.5, ease: 'easeInOut' }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.4, ease: 'easeInOut' }}
                           className="inline-block"
                         >
-                          Residential <span className="text-sky-400">Spaces</span>
+                          Residential <span className="text-[#00D2FF]">Spaces</span>
                         </motion.span>
                       )}
                     </AnimatePresence>
                   </span>
                 </h1>
 
-                {/* Interactive Click Indicator */}
-                <div className="mt-4 sm:mt-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/40 px-4 py-1.5 sm:px-5 sm:py-2 text-xs sm:text-sm font-semibold text-white backdrop-blur-md transition-all group-hover:bg-brand-orange group-hover:border-brand-orange group-hover:scale-105 shadow-lg">
+                {/* Interactive Click Indicator Button - Solid Blue matching user reference */}
+                <div className="mt-2.5 sm:mt-3 inline-flex items-center gap-2 rounded-full bg-[#0052FF] hover:bg-[#0042EC] px-5 py-2 sm:px-6 sm:py-2.5 text-xs sm:text-sm font-bold text-white shadow-lg shadow-blue-600/30 transition-all hover:scale-105 active:scale-95">
                   <span>Click anywhere to start consultation</span>
-                  <ArrowRight size={14} className="text-sky-300 group-hover:text-white transition-colors" />
+                  <ArrowRight size={14} className="text-white transition-transform group-hover:translate-x-1" />
                 </div>
 
                 {/* Sequential Video Progress Indicators */}
-                <div className="mt-5 flex items-center justify-center gap-2">
+                <div className="mt-2.5 sm:mt-3 flex items-center justify-center gap-2">
                   {heroVideos.map((vid, dotIdx) => (
                     <button
                       key={vid.src}
@@ -156,12 +158,13 @@ export default function HeroSection() {
                         e.stopPropagation();
                         setCurrentVideoIndex(dotIdx);
                       }}
-                className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${currentVideoIndex === dotIdx
-                          ? 'w-8 bg-sky-400'
+                      className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${
+                        currentVideoIndex === dotIdx
+                          ? 'w-8 bg-[#0052FF]'
                           : 'w-2 bg-white/40 hover:bg-white/70'
-                }`}
-              />
-            ))}
+                      }`}
+                    />
+                  ))}
                 </div>
           </motion.div>
         </div>
