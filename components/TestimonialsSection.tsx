@@ -3,7 +3,6 @@
 
 import { motion } from 'framer-motion';
 import { Star, Quote, Sparkles } from 'lucide-react';
-import { testimonials as fallbackTestimonials } from '@/data/testimonials';
 import TestimonialForm from '@/components/TestimonialForm';
 import { useEffect, useState, useCallback } from 'react';
 
@@ -44,25 +43,14 @@ export default function TestimonialsSection() {
     fetchTestimonials();
   }, [fetchTestimonials]);
 
-  const allTestimonials: DisplayItem[] = [
-    ...dynamicTestimonials.map((d) => ({
-      id: d._id,
-      name: d.fullname,
-      role: 'Verified Client • New Feedback',
-      rating: d.rating,
-      feedback: d.feedback,
-      isDynamic: true,
-    })),
-    ...fallbackTestimonials.map((f) => ({
-      id: f.id,
-      name: f.name,
-      role: `${f.projectType} • ${f.location}`,
-      rating: f.rating,
-      feedback: f.text,
-      avatar: f.avatar,
-      isDynamic: false,
-    })),
-  ];
+  const allTestimonials: DisplayItem[] = dynamicTestimonials.map((d) => ({
+    id: d._id,
+    name: d.fullname,
+    role: 'Verified Client Review',
+    rating: d.rating,
+    feedback: d.feedback,
+    isDynamic: true,
+  }));
 
   const renderStars = (rating: number) => {
     const stars = [];
@@ -163,52 +151,64 @@ export default function TestimonialsSection() {
         </div>
 
         {/* Continuous Auto-Scrolling Testimonials (Pauses on Hover) */}
-        <div
-          className="relative max-w-full overflow-hidden py-4 select-none"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          onTouchStart={() => setIsPaused(true)}
-          onTouchEnd={() => setIsPaused(false)}
-        >
-          {/* Subtle edge gradient fade masks */}
-          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-12 md:w-20 bg-gradient-to-r from-white to-transparent z-10" />
-          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 md:w-20 bg-gradient-to-l from-white to-transparent z-10" />
+          {allTestimonials.length > 0 ? (
+            <div
+              className="relative max-w-full overflow-hidden py-4 select-none"
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+              onTouchStart={() => setIsPaused(true)}
+              onTouchEnd={() => setIsPaused(false)}
+            >
+              {/* Subtle edge gradient fade masks */}
+              <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-12 md:w-20 bg-gradient-to-r from-white to-transparent z-10" />
+              <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 md:w-20 bg-gradient-to-l from-white to-transparent z-10" />
 
-          {/* Marquee Track */}
-          <div
-            className="flex animate-continuous-scroll w-max"
-            style={{
-              animationDuration: `${Math.max(35, allTestimonials.length * 7)}s`,
-              animationPlayState: isPaused ? 'paused' : 'running',
-            }}
+                {/* Marquee Track */}
+                <div
+                  className="flex animate-continuous-scroll w-max"
+                  style={{
+                    animationDuration: `${Math.max(35, allTestimonials.length * 7)}s`,
+                    animationPlayState: isPaused ? 'paused' : 'running',
+                  }}
+                >
+                  {/* Primary Set */}
+                  <div className="flex shrink-0 gap-6 pr-6">
+                    {allTestimonials.map((item) => renderTestimonialCard(item, 'primary'))}
+                  </div>
+
+                  {/* Seamless Duplicate Set for Infinite Continuous Scrolling */}
+                  <div className="flex shrink-0 gap-6 pr-6" aria-hidden="true">
+                    {allTestimonials.map((item) => renderTestimonialCard(item, 'duplicate'))}
+                  </div>
+                </div>
+              </div>
+          ) : (
+            <div className="text-center py-12 px-6 rounded-3xl bg-slate-50 border border-slate-200/80 max-w-xl mx-auto my-4">
+              <div className="w-12 h-12 rounded-full bg-blue-50 text-[#0052FF] mx-auto flex items-center justify-center mb-3">
+                <Quote className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-brand-navy">Client Reviews Coming Soon</h3>
+              <p className="text-sm text-slate-500 mt-1">
+                Have you built with BluePrint Build-Con? Share your experience below! Verified reviews will appear here once approved.
+              </p>
+            </div>
+          )}
+
+          {/* Feedback Submission Form */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mt-14"
           >
-            {/* Primary Set */}
-            <div className="flex shrink-0 gap-6 pr-6">
-              {allTestimonials.map((item) => renderTestimonialCard(item, 'primary'))}
-            </div>
-
-            {/* Seamless Duplicate Set for Infinite Continuous Scrolling */}
-            <div className="flex shrink-0 gap-6 pr-6" aria-hidden="true">
-              {allTestimonials.map((item) => renderTestimonialCard(item, 'duplicate'))}
-            </div>
-          </div>
-        </div>
-
-        {/* Feedback Submission Form */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-14"
-        >
-          <TestimonialForm
-            onTestimonialSubmitted={(newTestimonial) => {
-              setDynamicTestimonials((prev) => [newTestimonial, ...prev]);
+            <TestimonialForm
+                onTestimonialSubmitted = {() => {
+              // Testimonials require admin approval before appearing publicly
             }}
           />
-        </motion.div>
-      </div>
+          </motion.div>
+        </div>
     </section>
   );
 }
