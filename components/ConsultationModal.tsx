@@ -34,6 +34,17 @@ const PROPERTY_STATUSES = [
   'Looking to Purchase Plot Soon',
   'Demolish Existing Building & Rebuild',
   'Existing Structure Needs Renovation / Expansion',
+  'New Residential Construction',
+  'New Commercial Construction',
+  'Interior Renovation & Remodeling',
+  'Villa / Bungalow Construction',
+  'Office Building Construction',
+  'Turnkey Construction Project',
+  'Apartment / Flat Construction',
+  'Duplex House Construction',
+  'Warehouse / Industrial Construction',
+  'Structural Repair & Restoration',
+  'Other',
 ];
 
 const BUDGET_RANGES = [
@@ -41,7 +52,10 @@ const BUDGET_RANGES = [
   '₹30 Lakhs – ₹50 Lakhs',
   '₹50 Lakhs – ₹1 Crore',
   '₹1 Crore – ₹2.5 Crores',
-  '₹2.5 Crores+',
+  '₹2.5 Crores – ₹3 Crores',
+  '₹3 Crores – ₹4 Crores',
+  '₹4 Crores – ₹5 Crores',
+  '₹5 Crores – ₹6 Crores',
 ];
 
 const SERVICES_OFFERED = [
@@ -57,16 +71,24 @@ export default function ConsultationModal({ isOpen, onClose, initialLocation }: 
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
+    email: '',
     projectType: 'Residential (Villa / Bungalow / Row House)',
+    otherProjectType: '',
     location: '',
+    pincode: '',
     propertyStatus: 'Plot Owned & Ready to Build',
+    otherPropertyStatus: '',
     budget: '₹30 Lakhs – ₹50 Lakhs',
     service: 'Turnkey Civil Construction (A-Grade Materials)',
     message: '',
     projectFinance: 'No',
+    projectCash: 'No',
+    profession: '',
+    otherProfession: '',
     joinReferralProgram: 'Yes',
     agreeContact: true,
     agreePrivacy: true,
+    marketingConsent: false,
   });
 
   useEffect(() => {
@@ -111,21 +133,34 @@ export default function ConsultationModal({ isOpen, onClose, initialLocation }: 
     }
   };
 
+  const getProjectType = () =>
+    formData.projectType === 'Other' ? formData.otherProjectType.trim() : formData.projectType;
+
+  const getPropertyStatus = () =>
+    formData.propertyStatus === 'Other'
+      ? formData.otherPropertyStatus.trim()
+      : formData.propertyStatus;
+
   const buildWhatsAppMessage = () => {
     return `*New Construction Enquiry - BluePrint Build-Con*
 ---------------------------------------
 👤 *CLIENT INFORMATION:*
 • Name: ${formData.name || 'N/A'}
 • Contact: ${formData.phone || 'N/A'}
+• Email: ${formData.email || 'N/A'}
 • Location / City: ${formData.location || 'N/A'}
+• Pincode: ${formData.pincode || 'N/A'}
+• Profession: ${formData.profession === 'Other' ? formData.otherProfession : formData.profession || 'N/A'}
 
 🏗️ *PROJECT REQUIREMENTS:*
-• Project Type: ${formData.projectType}
-• Plot / Property Status: ${formData.propertyStatus}
+• Project Type: ${getProjectType()}
+• Plot / Property Status: ${getPropertyStatus()}
 • Estimated Budget: ${formData.budget}
 • Service Interested In: ${formData.service}
 • Interested in Project Finance: ${formData.projectFinance}
+• Interested in Project Cash: ${formData.projectCash}
 • Referral Program Partner: ${formData.joinReferralProgram}
+• Marketing Updates Consent: ${formData.marketingConsent ? 'Yes' : 'No'}
 • Project Notes: ${formData.message || 'Ready for site inspection / blueprint review'}
 ---------------------------------------
 _Submitted via BluePrint Build-Con Web Portal_`;
@@ -145,6 +180,26 @@ _Submitted via BluePrint Build-Con Web Portal_`;
       return;
     }
 
+    if (!/^\d{6}$/.test(formData.pincode.trim())) {
+      setErrorMessage('Please enter a valid 6-digit pincode.');
+      return;
+    }
+
+    if (formData.projectType === 'Other' && !formData.otherProjectType.trim()) {
+      setErrorMessage('Please specify your project or building type.');
+      return;
+    }
+
+    if (formData.propertyStatus === 'Other' && !formData.otherPropertyStatus.trim()) {
+      setErrorMessage('Please specify your plot or property status.');
+      return;
+    }
+
+    if (formData.profession === 'Other' && !formData.otherProfession.trim()) {
+      setErrorMessage('Please specify your profession.');
+      return;
+    }
+
     if (!formData.agreePrivacy) {
       setErrorMessage('Please accept the Data Privacy consent to continue.');
       return;
@@ -160,14 +215,20 @@ _Submitted via BluePrint Build-Con Web Portal_`;
         body: JSON.stringify({
           name: formData.name,
           phone: formData.phone,
-          projectType: formData.projectType,
+          email: formData.email,
+          projectType: getProjectType(),
           location: formData.location,
-          propertyStatus: formData.propertyStatus,
+          pincode: formData.pincode,
+          propertyStatus: getPropertyStatus(),
           budget: formData.budget,
           service: formData.service,
           message: formData.message,
           projectFinance: formData.projectFinance,
+          projectCash: formData.projectCash,
+          profession: formData.profession,
+          otherProfession: formData.otherProfession,
           joinReferralProgram: formData.joinReferralProgram,
+          marketingConsent: formData.marketingConsent,
         }),
       });
 
@@ -304,6 +365,21 @@ _Submitted via BluePrint Build-Con Web Portal_`;
                 </div>
               </div>
 
+              <div>
+                <label htmlFor="modal-email" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  Email ID
+                </label>
+                <input
+                  type="email"
+                  id="modal-email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Enter your email address"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-slate-800 placeholder-slate-400 text-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
+                />
+              </div>
+
               {/* ROW 2: PROJECT TYPE & CITY / LOCATION */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div>
@@ -322,7 +398,28 @@ _Submitted via BluePrint Build-Con Web Portal_`;
                         {pt}
                       </option>
                     ))}
+                    <option value="Other">Other</option>
                   </select>
+                  {formData.projectType === 'Other' && (
+                    <div className="mt-3">
+                      <label
+                        htmlFor="modal-other-projectType"
+                        className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-700"
+                      >
+                        Specify Project / Building Type <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="modal-other-projectType"
+                        name="otherProjectType"
+                        required
+                        value={formData.otherProjectType}
+                        onChange={handleChange}
+                        placeholder="Enter your project or building type"
+                        className="w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3.5 py-2.5 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
+                      />
+                    </div>
+                  )}
                 </div>
 
                 <div>
@@ -339,6 +436,25 @@ _Submitted via BluePrint Build-Con Web Portal_`;
                     placeholder="Your city or location (e.g. Pune, Baner)"
                     className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-slate-800 placeholder-slate-400 text-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
                   />
+                  <div className="mt-3">
+                    <label htmlFor="modal-pincode" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                      Pincode <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="modal-pincode"
+                      name="pincode"
+                      inputMode="numeric"
+                      pattern="[0-9]{6}"
+                      maxLength={6}
+                      required
+                      value={formData.pincode}
+                      onChange={handleChange}
+                      placeholder="6-digit pincode"
+                      title="Enter a 6-digit pincode"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-slate-800 placeholder-slate-400 text-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -361,6 +477,26 @@ _Submitted via BluePrint Build-Con Web Portal_`;
                       </option>
                     ))}
                   </select>
+                  {formData.propertyStatus === 'Other' && (
+                    <div className="mt-3">
+                      <label
+                        htmlFor="modal-other-propertyStatus"
+                        className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-700"
+                      >
+                        Specify Plot / Property Status <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="modal-other-propertyStatus"
+                        name="otherPropertyStatus"
+                        required
+                        value={formData.otherPropertyStatus}
+                        onChange={handleChange}
+                        placeholder="Enter your plot or property status"
+                        className="w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3.5 py-2.5 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
+                      />
+                    </div>
+                  )}
                 </div>
 
                 <div>
@@ -436,6 +572,57 @@ _Submitted via BluePrint Build-Con Web Portal_`;
                 </select>
               </div>
 
+              <div>
+                <label htmlFor="modal-projectCash" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  Are You Interested in Project Cash? <span className="text-red-500">*</span>
+                </label>
+                <select
+                  id="modal-projectCash"
+                  name="projectCash"
+                  value={formData.projectCash}
+                  onChange={handleChange}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-slate-800 text-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
+                >
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="modal-profession" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  Profession
+                </label>
+                <select
+                  id="modal-profession"
+                  name="profession"
+                  value={formData.profession}
+                  onChange={handleChange}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-slate-800 text-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
+                >
+                  <option value="">Select your profession</option>
+                  <option value="Self-employed">Self-employed</option>
+                  <option value="Salaried">Salaried</option>
+                  <option value="Other">Other</option>
+                </select>
+                {formData.profession === 'Other' && (
+                  <div className="mt-3">
+                    <label htmlFor="modal-other-profession" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                      Specify Profession <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="modal-other-profession"
+                      name="otherProfession"
+                      required
+                      value={formData.otherProfession}
+                      onChange={handleChange}
+                      placeholder="Enter your profession"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-slate-800 placeholder-slate-400 text-sm outline-none transition focus:border-brand-orange focus:bg-white focus:ring-2 focus:ring-brand-orange/20"
+                    />
+                  </div>
+                )}
+              </div>
+
               {/* ROW 6: REFERRAL PROGRAM PARTICIPATION */}
               <div>
                 <label htmlFor="modal-joinReferral" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
@@ -497,6 +684,19 @@ _Submitted via BluePrint Build-Con Web Portal_`;
                     <Link href="/terms" target="_blank" className="text-brand-orange font-semibold underline hover:text-blue-700">
                       Terms &amp; Conditions
                     </Link>.
+                  </span>
+                </label>
+
+                <label className="flex items-start gap-2.5 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    name="marketingConsent"
+                    checked={formData.marketingConsent}
+                    onChange={handleChange}
+                    className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-orange focus:ring-brand-orange"
+                  />
+                  <span className="text-xs text-slate-600 leading-relaxed">
+                    By submitting, you consent to receive updates and offers via SMS, Email, WhatsApp or RCS, and permit us to use your information for marketing purposes.
                   </span>
                 </label>
               </div>

@@ -3,7 +3,7 @@ import { connectToDatabase } from '@/lib/mongodb';
 import { Consultation } from '@/models/Consultation';
 import { sendConsultationEmail } from '@/lib/mailer';
 
-const requiredFields = ['name', 'phone'] as const;
+const requiredFields = ['name', 'phone', 'pincode'] as const;
 
 export async function POST(request: Request) {
   try {
@@ -15,18 +15,31 @@ export async function POST(request: Request) {
       projectType: typeof body.projectType === 'string' ? body.projectType.trim() : '',
       company: typeof body.company === 'string' ? body.company.trim() : '',
       location: typeof body.location === 'string' ? body.location.trim() : '',
+      pincode: typeof body.pincode === 'string' ? body.pincode.trim() : '',
       propertyStatus: typeof body.propertyStatus === 'string' ? body.propertyStatus.trim() : '',
       budget: typeof body.budget === 'string' ? body.budget.trim() : '',
       service: typeof body.service === 'string' ? body.service.trim() : '',
       message: typeof body.message === 'string' ? body.message.trim() : '',
       joinReferralProgram: typeof body.joinReferralProgram === 'string' ? body.joinReferralProgram.trim() : 'No',
       projectFinance: typeof body.projectFinance === 'string' ? body.projectFinance.trim() : 'No',
+      projectCash: typeof body.projectCash === 'string' ? body.projectCash.trim() : 'No',
+      profession: typeof body.profession === 'string' ? body.profession.trim() : '',
+      otherProfession: typeof body.otherProfession === 'string' ? body.otherProfession.trim() : '',
+      marketingConsent: body.marketingConsent === true,
       website: typeof body.website === 'string' ? body.website.trim() : '',
     };
 
     const missingField = requiredFields.find((field) => !consultation[field]);
     if (missingField) {
       return NextResponse.json({ error: `${missingField} is required` }, { status: 400 });
+    }
+
+    if (!/^\d{6}$/.test(consultation.pincode)) {
+      return NextResponse.json({ error: 'Pincode must be 6 digits' }, { status: 400 });
+    }
+
+    if (consultation.profession === 'Other' && !consultation.otherProfession) {
+      return NextResponse.json({ error: 'Please specify your profession' }, { status: 400 });
     }
 
     await connectToDatabase();
@@ -40,12 +53,17 @@ export async function POST(request: Request) {
         email: consultation.email,
         projectType: consultation.projectType,
         location: consultation.location,
+        pincode: consultation.pincode,
         propertyStatus: consultation.propertyStatus,
         budget: consultation.budget,
         service: consultation.service,
         message: consultation.message,
         joinReferralProgram: consultation.joinReferralProgram,
         projectFinance: consultation.projectFinance,
+        projectCash: consultation.projectCash,
+        profession: consultation.profession,
+        otherProfession: consultation.otherProfession,
+        marketingConsent: consultation.marketingConsent,
       });
     } catch (mailErr) {
       console.error('Failed sending consultation email:', mailErr);

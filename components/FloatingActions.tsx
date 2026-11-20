@@ -13,11 +13,11 @@ export default function FloatingActions() {
     return null;
   }
 
-  const rawWhatsapp = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '9561186693';
+  const rawWhatsapp = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '9028087659';
   const whatsappNumber = rawWhatsapp.startsWith('91')
     ? rawWhatsapp
     : `91${rawWhatsapp.replace(/[^0-9]/g, '')}`;
-  const phoneNumber = '+919028346900';
+  const phoneNumber = '+919028087659';
 
   return (
             <>

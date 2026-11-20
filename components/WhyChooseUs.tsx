@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import {
   BadgeCheck,
   Clock3,
@@ -13,6 +13,16 @@ import {
   Sparkles,
   CheckCircle2,
 } from 'lucide-react';
+
+const benefitCardVariants: Variants = {
+  hidden: { opacity: 0, y: 44, scale: 0.94 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { type: 'spring', stiffness: 95, damping: 17 },
+  },
+};
 
 export default function WhyChooseUs() {
   const highlights = [
@@ -74,7 +84,7 @@ export default function WhyChooseUs() {
         {/* Section Header (Centered & Balanced) */}
         <div className="text-center max-w-3xl mx-auto mb-14 lg:mb-20">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
@@ -87,11 +97,10 @@ export default function WhyChooseUs() {
 
             {/* Main Headline */}
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-brand-navy leading-[1.08] mb-5">
-              Why Build With{' '}
-              <span className="relative inline-block text-brand-orange">
-                Us?
-                <span className="absolute -bottom-1.5 left-0 w-full h-1.5 bg-brand-orange/25 rounded-full" />
-              </span>
+              <span className="animate-word-highlight" style={{ animationDelay: '0s' }}>Why</span>{' '}
+              <span className="animate-word-highlight" style={{ animationDelay: '1s' }}>Build</span>{' '}
+              <span className="animate-word-highlight" style={{ animationDelay: '2s' }}>With</span>{' '}
+              <span className="animate-word-highlight" style={{ animationDelay: '3s' }}>Us?</span>
             </h2>
 
             {/* Description */}
@@ -115,24 +124,53 @@ export default function WhyChooseUs() {
         </div>
 
         {/* Benefit Cards Grid */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <motion.div
+          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12 } } }}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+          className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+        >
           {benefits.map((benefit, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.45, delay: idx * 0.06 }}
-              className="group relative flex flex-col justify-between rounded-2xl border border-slate-200/90 bg-white p-6 sm:p-7 shadow-[0_4px_20px_rgba(10,18,39,0.03)] transition-all duration-300 hover:-translate-y-1.5 hover:border-brand-orange/50 hover:shadow-[0_16px_36px_rgba(10,18,39,0.08)]"
+              variants={benefitCardVariants}
+              whileHover={{
+                y: -10,
+                scale: 1.035,
+                rotateX: 2,
+                rotateY: -1,
+                transition: { type: 'spring', stiffness: 280, damping: 18 },
+              }}
+              whileTap={{ scale: 0.98 }}
+              style={{ transformPerspective: 1000 }}
+              className="group relative flex flex-col justify-between rounded-2xl border border-slate-200/90 bg-white p-6 sm:p-7 shadow-[0_4px_20px_rgba(10,18,39,0.03)] transition-[border-color,box-shadow] duration-300 hover:border-brand-orange/50 hover:shadow-[0_18px_42px_rgba(10,18,39,0.12)]"
             >
               {/* Top Accent Line on Hover */}
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-orange to-amber-500 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/[0.04] via-transparent to-brand-orange/[0.06] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
+                <div className="absolute -left-1/3 top-0 h-full w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-0 transition-all duration-700 group-hover:left-[120%] group-hover:opacity-70" />
+              </div>
 
               <div>
                 <div className="mb-6 flex items-center justify-between">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-orange/10 text-brand-orange transition-all duration-300 group-hover:bg-brand-orange group-hover:text-white group-hover:scale-105 shadow-sm">
+                  <motion.div
+                    initial={{ rotate: 360, scale: 0 }}
+                    whileInView={{ rotate: 0, scale: 1 }}
+                    viewport={{ once: true }}
+                    animate={{ y: [0, -3, 0] }}
+                    transition={{
+                      rotate: { duration: 0.6, delay: idx * 0.1 + 0.15, ease: 'easeOut' },
+                      scale: { duration: 0.6, delay: idx * 0.1 + 0.15, ease: 'easeOut' },
+                      y: { duration: 2.8, repeat: Infinity, delay: idx * 0.22, ease: 'easeInOut' },
+                    }}
+                    whileHover={{ scale: 1.1, rotate: 360 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-orange/10 text-brand-orange transition-colors duration-300 group-hover:bg-brand-orange group-hover:text-white shadow-sm"
+                  >
                     <benefit.icon size={22} strokeWidth={2} />
-                  </div>
+                  </motion.div>
                   <span className="font-mono text-xs font-bold tracking-wider text-slate-300 transition-colors group-hover:text-brand-orange">
                     {String(idx + 1).padStart(2, '0')}
                   </span>
@@ -143,12 +181,18 @@ export default function WhyChooseUs() {
                 </h3>
               </div>
 
-              <p className="text-sm sm:text-[15px] leading-relaxed text-slate-500 mt-2">
+              <motion.p
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: idx * 0.1 + 0.2 }}
+                className="text-sm sm:text-[15px] leading-relaxed text-slate-500 mt-2"
+              >
                 {benefit.description}
-              </p>
+              </motion.p>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

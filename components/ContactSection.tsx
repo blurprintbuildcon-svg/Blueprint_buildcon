@@ -105,7 +105,7 @@ _Sent via BluePrint Build-Con Website_`;
                 </div>
                 <div>
                   <h4 className="font-semibold text-brand-navy mb-1 text-lg">Phone</h4>
-                  <a href="tel:+919028346900" className="text-slate-600 hover:text-brand-orange transition-colors">+91 9028346900</a>
+                  <a href="tel:+919028087659" className="text-slate-600 hover:text-brand-orange transition-colors">+91 9028087659</a>
                 </div>
               </div>
 

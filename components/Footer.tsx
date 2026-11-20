@@ -19,13 +19,13 @@ export default function Footer() {
           {/* Column 1: Brand & About (7 cols on lg) */}
           <div className="lg:col-span-7 space-y-6">
             <Link href="/" className="group inline-flex items-center gap-3.5">
-              <div className="relative flex items-center justify-center w-13 h-13 rounded-2xl bg-white/10 ring-1 ring-white/20 p-2.5 backdrop-blur-md transition-all duration-300 group-hover:bg-white/15 group-hover:ring-brand-orange/60 group-hover:scale-105 shadow-lg shadow-black/20">
+              <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl bg-white p-1.5 transition-all duration-300 group-hover:scale-105 sm:h-24 sm:w-24">
                 <Image
                   src="/LOGO%20SVG.svg"
                   alt="BluePrint Build-Con"
-                  width={46}
-                  height={46}
-                  className="w-full h-full object-contain filter drop-shadow"
+                  width={96}
+                  height={96}
+                  className="w-full h-full object-contain"
                 />
               </div>
               <div className="flex flex-col">
@@ -69,7 +69,7 @@ export default function Footer() {
               {/* Phone */}
               <li>
                 <a
-                  href="tel:+919028346900"
+                  href="tel:+919028087659"
                   className="group flex items-start gap-4 p-3 rounded-2xl transition-all duration-200 bg-white/5 border border-white/10 hover:border-brand-orange/50 hover:bg-white/10"
                 >
                   <div className="w-10 h-10 rounded-xl bg-brand-orange/15 ring-1 ring-brand-orange/30 flex items-center justify-center shrink-0 text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all duration-300 shadow-sm">
@@ -78,7 +78,7 @@ export default function Footer() {
                   <div className="flex flex-col">
                     <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Direct Line / Call</span>
                     <span className="text-sm sm:text-base font-semibold text-white group-hover:text-brand-orange transition-colors">
-                      +91 9028346900
+                      +91 9028087659
                     </span>
                   </div>
                 </a>
