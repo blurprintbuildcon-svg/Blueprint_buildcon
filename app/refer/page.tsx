@@ -249,8 +249,8 @@ export default function ReferPage() {
         </div>
       </section>
 
-        {/* FAQ Section */}
-        {/* <section className="py-16 bg-[#f7f9fc] border-t border-slate-200">
+      {/* FAQ Section */}
+      {/* <section className="py-16 bg-[#f7f9fc] border-t border-slate-200">
         <div className="container mx-auto px-4 md:px-6 max-w-4xl">
           <div className="text-center mb-12">
             <h2 className="text-2xl md:text-3xl font-extrabold text-brand-navy tracking-tight">
@@ -281,8 +281,8 @@ export default function ReferPage() {
             </p>
             <p className="text-xs text-slate-600 mt-1">
               Reach out to our business development desk directly at{' '}
-              <a href="tel:+919028087659" className="text-brand-orange font-bold hover:underline">
-                +91 9028087659
+              <a href="tel:+919028346900" className="text-brand-orange font-bold hover:underline">
+                +91 9028346900
               </a>{' '}
               or chat with us on WhatsApp.
             </p>

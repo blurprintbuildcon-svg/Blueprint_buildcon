@@ -2,14 +2,14 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { 
-  ArrowLeft, 
-  ArrowRight, 
-  CheckCircle2, 
-  Clock, 
-  ShieldCheck, 
-  Users, 
-  FileText, 
+import {
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  Clock,
+  ShieldCheck,
+  Users,
+  FileText,
   Phone,
   MessageCircle,
   Sparkles
@@ -82,7 +82,7 @@ export default async function ProcessDetailPage({ params }: PageProps) {
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/80 via-black/20 to-transparent" />
-          
+
           <div className="absolute top-6 left-6 inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-brand-navy/80 backdrop-blur-md border border-white/20 text-white text-xs font-bold uppercase tracking-wider">
             <Sparkles size={14} className="text-brand-orange" />
             <span>Phase {step.number} of {String(processSteps.length).padStart(2, '0')}</span>
@@ -127,7 +127,7 @@ export default async function ProcessDetailPage({ params }: PageProps) {
       {/* Main Content Layout */}
       <section className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-          
+
           {/* Left 2 Columns: Detailed Breakdown */}
           <div className="lg:col-span-2 space-y-10">
             {/* Overview */}
@@ -231,16 +231,14 @@ export default async function ProcessDetailPage({ params }: PageProps) {
                     <Link
                       key={s.id}
                       href={`/process/${s.id}`}
-                      className={`flex items-center justify-between p-3.5 rounded-2xl transition-all text-sm ${
-                        isActive
+                      className={`flex items-center justify-between p-3.5 rounded-2xl transition-all text-sm ${isActive
                           ? 'bg-brand-orange text-white font-bold shadow-md shadow-brand-orange/20'
                           : 'bg-slate-50 text-slate-700 hover:bg-slate-100 font-medium'
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center gap-3">
-                        <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
-                          isActive ? 'bg-white text-brand-orange' : 'bg-slate-200 text-slate-700'
-                        }`}>
+                        <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${isActive ? 'bg-white text-brand-orange' : 'bg-slate-200 text-slate-700'
+                          }`}>
                           {s.number}
                         </span>
                         <span>{s.title}</span>
@@ -259,14 +257,14 @@ export default async function ProcessDetailPage({ params }: PageProps) {
                 </p>
                 <div className="space-y-2.5">
                   <a
-                    href="tel:+919028087659"
+                    href="tel:+919028346900"
                     className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-brand-orange hover:bg-blue-700 text-white font-bold rounded-xl text-sm transition-colors shadow-sm"
                   >
                     <Phone size={16} />
-                    <span>Call +91 9028087659</span>
+                    <span>Call +91 9028346900</span>
                   </a>
                   <a
-                    href="https://wa.me/919028087659?text=Hi%20Blueprint%20Build-Con,%20I%20have%20questions%20about%20your%20construction%20process"
+                    href="https://wa.me/919028346900?text=Hi%20Blueprint%20Build-Con,%20I%20have%20questions%20about%20your%20construction%20process"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-[#25D366] hover:bg-emerald-600 text-white font-bold rounded-xl text-sm transition-colors shadow-sm"

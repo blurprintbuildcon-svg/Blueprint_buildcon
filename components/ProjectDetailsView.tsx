@@ -236,11 +236,10 @@ export default function ProjectDetailsView({ project, relatedProjects }: Project
                   key={idx}
                   type="button"
                   onClick={() => setActiveImageIndex(idx)}
-                  className={`relative flex-shrink-0 w-20 sm:w-28 h-14 sm:h-18 rounded-lg overflow-hidden border-2 transition-all ${
-                    activeImageIndex === idx
+                  className={`relative flex-shrink-0 w-20 sm:w-28 h-14 sm:h-18 rounded-lg overflow-hidden border-2 transition-all ${activeImageIndex === idx
                       ? 'border-brand-blue ring-2 ring-brand-blue/30 scale-100'
                       : 'border-transparent opacity-70 hover:opacity-100 hover:scale-[1.02]'
-                  }`}
+                    }`}
                   aria-label={`View photo ${idx + 1}`}
                 >
                   <img src={img} alt="" className="w-full h-full object-cover" />
@@ -467,7 +466,7 @@ export default function ProjectDetailsView({ project, relatedProjects }: Project
                   </Link>
 
                   <a
-                    href={`https://wa.me/919028087659?text=${whatsappMessage}`}
+                    href={`https://wa.me/919028346900?text=${whatsappMessage}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full flex items-center justify-center gap-2 py-3 px-5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-sm transition-colors"
@@ -477,7 +476,7 @@ export default function ProjectDetailsView({ project, relatedProjects }: Project
                   </a>
 
                   <a
-                    href="tel:+919028087659"
+                    href="tel:+919028346900"
                     className="w-full flex items-center justify-center gap-2 py-3 px-5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl text-sm transition-colors"
                   >
                     <Phone size={15} />
@@ -616,9 +615,8 @@ export default function ProjectDetailsView({ project, relatedProjects }: Project
                     key={idx}
                     type="button"
                     onClick={() => setActiveImageIndex(idx)}
-                    className={`w-14 h-10 rounded overflow-hidden border-2 flex-shrink-0 transition-opacity ${
-                      activeImageIndex === idx ? 'border-brand-blue opacity-100' : 'border-transparent opacity-50 hover:opacity-80'
-                    }`}
+                    className={`w-14 h-10 rounded overflow-hidden border-2 flex-shrink-0 transition-opacity ${activeImageIndex === idx ? 'border-brand-blue opacity-100' : 'border-transparent opacity-50 hover:opacity-80'
+                      }`}
                   >
                     <img src={img} alt="" className="w-full h-full object-cover" />
                   </button>

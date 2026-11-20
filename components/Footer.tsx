@@ -15,7 +15,7 @@ export default function Footer() {
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         {/* Main Grid: Brand & Contact */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 mb-16 items-start">
-          
+
           {/* Column 1: Brand & About (7 cols on lg) */}
           <div className="lg:col-span-7 space-y-6">
             <Link href="/" className="group inline-flex items-center gap-3.5">
@@ -69,7 +69,7 @@ export default function Footer() {
               {/* Phone */}
               <li>
                 <a
-                  href="tel:+919028087659"
+                  href="tel:+919028346900"
                   className="group flex items-start gap-4 p-3 rounded-2xl transition-all duration-200 bg-white/5 border border-white/10 hover:border-brand-orange/50 hover:bg-white/10"
                 >
                   <div className="w-10 h-10 rounded-xl bg-brand-orange/15 ring-1 ring-brand-orange/30 flex items-center justify-center shrink-0 text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all duration-300 shadow-sm">
@@ -78,7 +78,7 @@ export default function Footer() {
                   <div className="flex flex-col">
                     <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Direct Line / Call</span>
                     <span className="text-sm sm:text-base font-semibold text-white group-hover:text-brand-orange transition-colors">
-                      +91 9028087659
+                      +91 9028346900
                     </span>
                   </div>
                 </a>
