@@ -26,7 +26,7 @@ export default function TestimonialForm({ onTestimonialSubmitted }: TestimonialF
       alert("Please select a rating.");
       return;
     }
-    
+
     setIsSubmitting(true);
     try {
       const response = await fetch('/api/testimonials', {
@@ -99,7 +99,7 @@ export default function TestimonialForm({ onTestimonialSubmitted }: TestimonialF
     <div className="mt-20 max-w-3xl mx-auto bg-brand-navy rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-2xl">
       <div className="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-brand-orange/20 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 left-0 -mb-16 -ml-16 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
-      
+
       <div className="relative z-10 text-white">
         <div className="text-center mb-8">
           <h3 className="text-2xl md:text-3xl font-bold mb-4">Share Your Experience</h3>
@@ -114,7 +114,7 @@ export default function TestimonialForm({ onTestimonialSubmitted }: TestimonialF
           >
             <CheckCircle2 className="w-16 h-16 text-brand-orange mb-4" />
             <h4 className="text-xl font-bold mb-2">Thank You!</h4>
-            <p className="text-slate-300">Your feedback has been submitted for review.</p>
+            <p className="text-slate-300">Your feedback has been submitted for review and will appear on the website once approved by our team.</p>
           </motion.div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
