@@ -11,7 +11,7 @@ export default function ProcessTimeline() {
   const [isPaused, setIsPaused] = useState(false);
 
   return (
-    <section id="process" className="py-20 lg:py-28 bg-white overflow-hidden">
+    <section id="process" className="pt-16 pb-8 lg:pt-24 lg:pb-10 bg-white overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <motion.div
@@ -154,8 +154,8 @@ export default function ProcessTimeline() {
         </div>
 
         {/* Bottom CTA */}
-        <div className="mt-16 text-center">
-          <h3 className="text-2xl font-bold text-brand-navy mb-6">Ready to Start Building?</h3>
+        <div className="mt-8 sm:mt-10 text-center">
+          <h3 className="text-xl sm:text-2xl font-bold text-brand-navy mb-4">Ready to Start Building?</h3>
           <Link
             href="/contact"
             className="inline-flex items-center px-8 py-3.5 bg-brand-orange text-white font-semibold rounded-full hover:bg-orange-600 transition-colors shadow-lg shadow-orange-500/20"

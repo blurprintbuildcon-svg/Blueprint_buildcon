@@ -6,78 +6,88 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-gradient-to-b from-[#0a1227] via-[#090f20] to-[#060a17] text-white pt-20 pb-10 border-t border-slate-800/80 overflow-hidden font-sans">
-      {/* Top Ambient Glow & Light Line */}
-      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-brand-orange/50 to-transparent" />
-      <div className="absolute top-0 left-1/4 w-[500px] h-[300px] bg-brand-orange/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[400px] h-[300px] bg-blue-600/5 rounded-full blur-3xl pointer-events-none" />
+    <footer className="relative text-white pt-10 sm:pt-12 pb-6 border-t border-slate-700/80 overflow-hidden font-sans">
+      {/* Background Image with Balanced Medium Dark Overlay */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <Image
+          src="/footer-bg.jpg"
+          alt="BluePrint BuildCon Construction Team"
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+          priority
+        />
+        {/* Medium dark overlay (balanced: image clearly visible while keeping text crisp) */}
+        <div className="absolute inset-0 bg-slate-950/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/45 to-slate-950/75" />
+      </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         {/* Main Grid: Brand & Contact */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 mb-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-8 items-start">
 
           {/* Column 1: Brand & About (7 cols on lg) */}
-          <div className="lg:col-span-7 space-y-6">
-            <Link href="/" className="group inline-flex items-center gap-3.5">
-              <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl bg-white p-1.5 transition-all duration-300 group-hover:scale-105 sm:h-24 sm:w-24">
+          <div className="lg:col-span-7 space-y-4">
+            <Link href="/" className="group inline-flex items-center gap-3">
+              <div className="relative flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-xl bg-white p-1 transition-all duration-300 group-hover:scale-105 shadow-md ring-2 ring-white/20">
                 <Image
                   src="/LOGO%20SVG.svg"
                   alt="BluePrint Build-Con"
-                  width={96}
-                  height={96}
+                  width={64}
+                  height={64}
                   className="w-full h-full object-contain"
                 />
               </div>
               <div className="flex flex-col">
-                <span className="font-heading text-2xl sm:text-3xl font-black tracking-tight text-white leading-tight">
+                <span className="font-heading text-xl sm:text-2xl font-black tracking-tight text-white leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.85)]">
                   <span className="text-[#0275F8]">Blue</span>Print <span className="text-[#0275F8]">Build</span>-Con
                 </span>
-                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.26em] text-blue-200/80 mt-0.5">
+                <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-blue-200 mt-0.5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]">
                   Your vision our victory
                 </span>
               </div>
             </Link>
 
-            <p className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-xl">
+            <p className="text-white/95 text-xs sm:text-sm leading-relaxed max-w-xl font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
               Providing complete, transparent, and high-quality construction solutions for residential and commercial projects.
             </p>
 
             {/* Trust Tags Row */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              <div className="inline-flex items-center gap-2 text-xs text-slate-300 bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-xl">
-                <ShieldCheck size={15} className="text-brand-orange shrink-0" />
+            <div className="flex flex-wrap items-center gap-2.5 pt-1">
+              <div className="inline-flex items-center gap-1.5 text-[11px] font-medium text-white bg-black/60 backdrop-blur-md border border-white/20 px-3 py-1 rounded-lg shadow-sm">
+                <ShieldCheck size={13} className="text-[#0275F8] shrink-0" />
                 <span>End-to-End Civil &amp; Architectural Excellence</span>
               </div>
 
               <Link
                 href="/refer"
-                className="inline-flex items-center gap-2 text-xs font-semibold text-amber-300 bg-amber-400/10 hover:bg-amber-400/20 border border-amber-400/30 px-3.5 py-1.5 rounded-xl transition-all duration-200"
+                className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-amber-300 bg-black/60 hover:bg-black/80 backdrop-blur-md border border-amber-400/40 px-3 py-1 rounded-lg transition-all duration-200 shadow-sm"
               >
-                <Gift size={14} className="text-amber-400 shrink-0" />
+                <Gift size={13} className="text-amber-400 shrink-0" />
                 <span>Refer a Project &amp; Earn Cash Rewards</span>
               </Link>
             </div>
           </div>
 
           {/* Column 2: Contact Information (5 cols on lg) */}
-          <div className="lg:col-span-5 space-y-5 lg:pl-6">
-            <h4 className="font-heading text-xs font-bold uppercase tracking-[0.22em] text-white/90 mb-6">
+          <div className="lg:col-span-5 space-y-3 lg:pl-4">
+            <h4 className="font-heading text-[11px] font-bold uppercase tracking-[0.22em] text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)] mb-2">
               Contact Us
             </h4>
 
-            <ul className="space-y-4">
+            <ul className="space-y-2.5">
               {/* Phone */}
               <li>
                 <a
                   href="tel:+919028346900"
-                  className="group flex items-start gap-4 p-3 rounded-2xl transition-all duration-200 bg-white/5 border border-white/10 hover:border-brand-orange/50 hover:bg-white/10"
+                  className="group flex items-center gap-3 p-2.5 px-3 rounded-xl transition-all duration-200 bg-black/60 backdrop-blur-md border border-white/20 hover:border-[#0275F8] hover:bg-black/80 shadow-md"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-brand-orange/15 ring-1 ring-brand-orange/30 flex items-center justify-center shrink-0 text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all duration-300 shadow-sm">
-                    <Phone size={18} />
+                  <div className="w-8 h-8 rounded-lg bg-[#0275F8] flex items-center justify-center shrink-0 text-white shadow-sm">
+                    <Phone size={15} />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Direct Line / Call</span>
-                    <span className="text-sm sm:text-base font-semibold text-white group-hover:text-brand-orange transition-colors">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-300">Direct Line / Call</span>
+                    <span className="text-xs sm:text-sm font-semibold text-white group-hover:text-blue-300 transition-colors">
                       +91 9028346900
                     </span>
                   </div>
@@ -88,14 +98,14 @@ export default function Footer() {
               <li>
                 <a
                   href="mailto:project@blueprintbuildcon.homes"
-                  className="group flex items-start gap-4 p-3 rounded-2xl transition-all duration-200 bg-white/5 border border-white/10 hover:border-brand-orange/50 hover:bg-white/10"
+                  className="group flex items-center gap-3 p-2.5 px-3 rounded-xl transition-all duration-200 bg-black/60 backdrop-blur-md border border-white/20 hover:border-[#0275F8] hover:bg-black/80 shadow-md"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-brand-orange/15 ring-1 ring-brand-orange/30 flex items-center justify-center shrink-0 text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all duration-300 shadow-sm">
-                    <Mail size={18} />
+                  <div className="w-8 h-8 rounded-lg bg-[#0275F8] flex items-center justify-center shrink-0 text-white shadow-sm">
+                    <Mail size={15} />
                   </div>
                   <div className="flex flex-col min-w-0">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Project Enquiry Email</span>
-                    <span className="text-sm sm:text-base font-semibold text-white group-hover:text-brand-orange transition-colors truncate">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-300">Project Enquiry Email</span>
+                    <span className="text-xs sm:text-sm font-semibold text-white group-hover:text-blue-300 transition-colors truncate">
                       project@blueprintbuildcon.homes
                     </span>
                   </div>
@@ -103,13 +113,13 @@ export default function Footer() {
               </li>
 
               {/* Address */}
-              <li className="flex items-start gap-4 p-3 rounded-2xl bg-white/5 border border-white/10">
-                <div className="w-10 h-10 rounded-xl bg-brand-orange/15 ring-1 ring-brand-orange/30 flex items-center justify-center shrink-0 text-brand-orange mt-0.5">
-                  <MapPin size={18} />
+              <li className="flex items-start gap-3 p-2.5 px-3 rounded-xl bg-black/60 backdrop-blur-md border border-white/20 shadow-md">
+                <div className="w-8 h-8 rounded-lg bg-[#0275F8] flex items-center justify-center shrink-0 text-white mt-0.5 shadow-sm">
+                  <MapPin size={15} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Office Location</span>
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mt-0.5">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-300">Office Location</span>
+                  <p className="text-[11px] sm:text-xs text-white/95 leading-snug mt-0.5 font-medium">
                     WORK FLO, ICON TOWER 7TH FLOOR OFFICE NO 702, BANER ROAD, BANER, OPP KFC, BANER, PUNE (MUNICIPAL CORPORATION.), PUNE CITY, PUNE, 411045
                   </p>
                 </div>
@@ -119,30 +129,30 @@ export default function Footer() {
         </div>
 
         {/* Bottom Sub-Footer Bar */}
-        <div className="border-t border-slate-800/80 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+        <div className="border-t border-white/20 pt-4 flex flex-col md:flex-row items-center justify-between gap-3 text-[11px] text-white/90 font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]">
           <p className="tracking-wide">
             &copy; {currentYear}{' '}
             <span className="font-semibold text-white">BluePrint Build-Con</span>. All Rights Reserved.
           </p>
 
-          <div className="flex flex-wrap items-center gap-6">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
             <Link
               href="/privacy-policy"
-              className="hover:text-white transition-colors duration-200"
+              className="hover:text-blue-300 transition-colors duration-200"
             >
               Privacy Policy
             </Link>
-            <span className="text-slate-700">•</span>
+            <span className="text-white/60">•</span>
             <Link
               href="/terms"
-              className="hover:text-white transition-colors duration-200"
+              className="hover:text-blue-300 transition-colors duration-200"
             >
               Terms &amp; Conditions
             </Link>
-            <span className="text-slate-700">•</span>
+            <span className="text-white/60">•</span>
             <Link
               href="/privacy-policy#cookies"
-              className="hover:text-white transition-colors duration-200"
+              className="hover:text-blue-300 transition-colors duration-200"
             >
               Cookie Policy
             </Link>

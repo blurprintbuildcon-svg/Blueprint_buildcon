@@ -114,13 +114,13 @@ export default function TestimonialsSection() {
   );
 
   return (
-    <section className="pt-16 pb-8 lg:pt-24 lg:pb-14 bg-white relative overflow-hidden">
+    <section className="pt-4 pb-12 lg:pt-6 lg:pb-20 bg-white relative overflow-hidden">
       {/* Background Decorative Accent */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 -mt-20 w-[600px] h-96 bg-blue-50/40 rounded-full blur-3xl pointer-events-none" />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         {/* Styled Section Header matching reference */}
-        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+        <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
