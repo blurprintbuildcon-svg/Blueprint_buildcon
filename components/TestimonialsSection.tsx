@@ -2,7 +2,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Star, Quote, Sparkles } from 'lucide-react';
+import { Star, Quote } from 'lucide-react';
 import TestimonialForm from '@/components/TestimonialForm';
 import { useEffect, useState, useCallback } from 'react';
 
@@ -114,38 +114,32 @@ export default function TestimonialsSection() {
   );
 
   return (
-    <section className="pt-16 pb-8 lg:pt-24 lg:pb-12 bg-white relative overflow-hidden">
+    <section className="pt-16 pb-8 lg:pt-24 lg:pb-14 bg-white relative overflow-hidden">
       {/* Background Decorative Accent */}
-      <div className="absolute top-0 right-0 -mt-20 w-96 h-96 bg-brand-orange/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 -mt-20 w-[600px] h-96 bg-blue-50/40 rounded-full blur-3xl pointer-events-none" />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        {/* Styled Section Header */}
-        <div className="mb-12 sm:mb-16">
+        {/* Styled Section Header matching reference */}
+        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="max-w-2xl"
           >
-            {/* Pill Eyebrow Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-orange/10 text-brand-orange text-xs font-bold uppercase tracking-wider mb-4 border border-brand-orange/15 shadow-sm">
-              <Sparkles size={14} className="shrink-0" />
-              <span>Client Reviews</span>
-            </div>
+            {/* Top Eyebrow */}
+            <p className="text-[#00A3FF] text-xs sm:text-sm font-bold tracking-[0.25em] uppercase mb-3">
+              CLIENT FEEDBACK
+            </p>
 
             {/* Main Headline */}
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-brand-navy leading-[1.08]">
-              What Our Clients{' '}
-              <span className="relative inline-block text-brand-orange">
-                Say
-                <span className="absolute -bottom-1.5 left-0 w-full h-1.5 bg-brand-orange/25 rounded-full" />
-              </span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-extrabold tracking-tight text-[#0B1528] leading-[1.12]">
+              What Our Clients <span className="text-[#00A3FF]">Say</span>
             </h2>
 
             {/* Subtitle */}
-            <p className="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed">
-              Real stories and feedback from homeowners and commercial partners who trusted us with their build.
+            <p className="mt-3.5 text-sm sm:text-base md:text-lg text-slate-500 font-normal max-w-2xl mx-auto leading-relaxed">
+              Real testimonials from businesses we&apos;ve helped transform and scale
             </p>
           </motion.div>
         </div>
