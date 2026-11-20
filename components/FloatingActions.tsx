@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Phone, MessageCircle, Gift } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import ReferralModal from './ReferralModal';
+import { getWhatsAppNumber } from '@/lib/whatsapp';
 
 export default function FloatingActions() {
   const pathname = usePathname();
@@ -13,10 +14,7 @@ export default function FloatingActions() {
     return null;
   }
 
-  const rawWhatsapp = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '9028346900';
-  const whatsappNumber = rawWhatsapp.startsWith('91')
-    ? rawWhatsapp
-    : `91${rawWhatsapp.replace(/[^0-9]/g, '')}`;
+  const whatsappNumber = getWhatsAppNumber();
   const phoneNumber = '+919028346900';
 
   return (
