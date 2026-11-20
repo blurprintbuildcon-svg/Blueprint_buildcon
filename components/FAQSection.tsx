@@ -26,7 +26,7 @@ export default function FAQSection() {
 
   const allOpen = openIndices.length === faqs.length;
 
-  const rawWhatsapp = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '9028087659';
+  const rawWhatsapp = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '9028346900';
   const whatsappNumber = rawWhatsapp.startsWith('91')
     ? rawWhatsapp
     : `91${rawWhatsapp.replace(/[^0-9]/g, '')}`;
@@ -83,11 +83,10 @@ export default function FAQSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.35, delay: (index % 6) * 0.05 }}
-                className={`group rounded-2xl sm:rounded-3xl border bg-white transition-all duration-300 flex flex-col ${
-                  isOpen
+                className={`group rounded-2xl sm:rounded-3xl border bg-white transition-all duration-300 flex flex-col ${isOpen
                     ? 'border-brand-orange/50 ring-1 ring-brand-orange/20 shadow-[0_12px_32px_rgba(228,107,60,0.1)] -translate-y-0.5'
                     : 'border-slate-200/90 shadow-[0_4px_16px_rgba(10,18,39,0.03)] hover:border-slate-300 hover:shadow-[0_12px_28px_rgba(10,18,39,0.06)] hover:-translate-y-0.5'
-                }`}
+                  }`}
               >
                 {/* Clickable Card Header */}
                 <button
@@ -99,22 +98,20 @@ export default function FAQSection() {
                   <div className="flex items-center justify-between w-full mb-3">
                     {/* Number Badge */}
                     <span
-                      className={`inline-flex items-center justify-center px-2.5 py-1 rounded-lg text-xs font-bold font-mono transition-all duration-300 ${
-                        isOpen
+                      className={`inline-flex items-center justify-center px-2.5 py-1 rounded-lg text-xs font-bold font-mono transition-all duration-300 ${isOpen
                           ? 'bg-brand-orange text-white shadow-sm shadow-brand-orange/40'
                           : 'bg-slate-100 text-slate-600 group-hover:bg-brand-orange/10 group-hover:text-brand-orange'
-                      }`}
+                        }`}
                     >
                       FAQ {formattedNumber}
                     </span>
 
                     {/* Circular Action Toggle */}
                     <div
-                      className={`flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
-                        isOpen
+                      className={`flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-full transition-all duration-300 ${isOpen
                           ? 'bg-brand-orange text-white rotate-180 shadow-md shadow-brand-orange/30'
                           : 'bg-slate-100 text-slate-500 group-hover:bg-brand-orange/10 group-hover:text-brand-orange'
-                      }`}
+                        }`}
                     >
                       <ChevronDown className="w-4 h-4 transition-transform duration-300" />
                     </div>
@@ -122,11 +119,10 @@ export default function FAQSection() {
 
                   {/* Question Title */}
                   <h3
-                    className={`font-bold text-base sm:text-lg lg:text-[19px] leading-snug transition-colors duration-200 ${
-                      isOpen
+                    className={`font-bold text-base sm:text-lg lg:text-[19px] leading-snug transition-colors duration-200 ${isOpen
                         ? 'text-brand-navy'
                         : 'text-slate-800 group-hover:text-brand-orange'
-                    }`}
+                      }`}
                   >
                     {faq.question}
                   </h3>

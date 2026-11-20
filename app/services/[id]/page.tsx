@@ -1,15 +1,15 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { 
-  ArrowLeft, 
-  ArrowRight, 
-  CheckCircle2, 
-  Sparkles, 
-  Phone, 
-  MessageCircle, 
-  Layers, 
-  BadgeCheck 
+import {
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  Sparkles,
+  Phone,
+  MessageCircle,
+  Layers,
+  BadgeCheck
 } from 'lucide-react';
 import { getPublicServiceById, getPublicServices } from '@/lib/public-content';
 import { services as fallbackServices } from '@/data/services';
@@ -105,7 +105,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
       {/* Main Content Layout */}
       <section className="container mx-auto px-4 md:px-6 mb-16">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-          
+
           {/* Left 2 Columns: Detailed Service Information */}
           <div className="lg:col-span-2 space-y-10">
             {/* Overview */}
@@ -202,11 +202,10 @@ export default async function ServiceDetailPage({ params }: PageProps) {
                     <Link
                       key={s.id}
                       href={`/services/${s.id}`}
-                      className={`flex items-center justify-between p-3.5 rounded-2xl transition-all text-sm ${
-                        isActive
+                      className={`flex items-center justify-between p-3.5 rounded-2xl transition-all text-sm ${isActive
                           ? 'bg-brand-orange text-white font-bold shadow-md shadow-brand-orange/20'
                           : 'bg-slate-50 text-slate-700 hover:bg-slate-100 font-medium'
-                      }`}
+                        }`}
                     >
                       <span className="truncate pr-2">{s.title}</span>
                       <ArrowRight size={15} className={isActive ? 'text-white' : 'text-slate-400'} />
@@ -223,14 +222,14 @@ export default async function ServiceDetailPage({ params }: PageProps) {
                 </p>
                 <div className="space-y-2.5">
                   <a
-                    href="tel:+919028087659"
+                    href="tel:+919028346900"
                     className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-brand-orange hover:bg-blue-700 text-white font-bold rounded-xl text-sm transition-colors shadow-sm"
                   >
                     <Phone size={16} />
-                    <span>Call +91 9028087659</span>
+                    <span>Call +91 9028346900</span>
                   </a>
                   <a
-                    href="https://wa.me/919028087659?text=Hi%20Blueprint%20Build-Con,%20I%20would%20like%20to%20inquire%20about%20your%20services"
+                    href="https://wa.me/919028346900?text=Hi%20Blueprint%20Build-Con,%20I%20would%20like%20to%20inquire%20about%20your%20services"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-[#25D366] hover:bg-emerald-600 text-white font-bold rounded-xl text-sm transition-colors shadow-sm"
