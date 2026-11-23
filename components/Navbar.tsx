@@ -32,7 +32,7 @@ export default function Navbar() {
     if (!pathname || pathname === '/') return 'home';
     if (pathname.startsWith('/about')) return 'about';
     if (pathname.startsWith('/services')) return 'services';
-    if (pathname.startsWith('/process') || pathname.startsWith('/projects')) return 'work';
+    // if (pathname.startsWith('/process') || pathname.startsWith('/projects')) return 'work';
     if (pathname.startsWith('/why-us')) return 'why-us';
     if (pathname.startsWith('/contact')) return 'contact';
     return 'home'; // Always maintains a rounded active blue pill
@@ -80,15 +80,15 @@ export default function Navbar() {
     { type: 'link', id: 'home', name: 'Home', href: '/' },
     { type: 'link', id: 'about', name: 'About', href: '/about' },
     { type: 'link', id: 'services', name: 'Services', href: '/services' },
-    {
-      type: 'dropdown',
-      id: 'work',
-      name: 'Work',
-      submenu: [
-        { name: 'Process', href: '/process', description: 'Our 7-step engineering methodology' },
-        { name: 'Portfolio', href: '/projects', description: 'Explore verified completed projects' },
-      ],
-    },
+    // {
+    //   type: 'dropdown',
+    //   id: 'work',
+    //   name: 'Work',
+    //   submenu: [
+    //     { name: 'Process', href: '/process', description: 'Our 7-step engineering methodology' },
+    //     { name: 'Portfolio', href: '/projects', description: 'Explore verified completed projects' },
+    //   ],
+    // },
     { type: 'link', id: 'why-us', name: 'Why Us', href: '/why-us' },
     { type: 'link', id: 'contact', name: 'Contact Us', href: '/contact' },
   ];

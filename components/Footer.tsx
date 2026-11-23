@@ -28,29 +28,35 @@ export default function Footer() {
 
           {/* Column 1: Brand & About (7 cols on lg) */}
           <div className="lg:col-span-7 space-y-4">
-            <Link href="/" className="group inline-flex items-center gap-3">
-              <div className="relative flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-xl bg-white p-1 transition-all duration-300 group-hover:scale-105 shadow-md ring-2 ring-white/20">
+            <Link
+              href="/"
+              className="group inline-flex items-center gap-2.5 sm:gap-3.5 select-none"
+              aria-label="BluePrint Build-Con Home"
+            >
+              {/* Logo Mark with Crisp White Frame for 100% Visibility */}
+              <div className="relative flex h-14 w-14 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-xl sm:rounded-2xl bg-white p-1.5 sm:p-2 shadow-lg shadow-black/25 ring-2 ring-white/30 transition-transform duration-300 group-hover:scale-105">
                 <Image
-                  src="/LOGO%20SVG.svg"
-                  alt="BluePrint Build-Con"
+                  src="/Just%20Logo-01.svg"
+                  alt="BluePrint Build-Con Logo"
                   width={64}
                   height={64}
                   className="w-full h-full object-contain"
                 />
               </div>
-              <div className="flex flex-col">
-                <span className="font-heading text-xl sm:text-2xl font-black tracking-tight text-white leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.85)]">
-                  <span className="text-[#0275F8]">Blue</span>Print <span className="text-[#0275F8]">Build</span>-Con
+
+              {/* Brand Typography */}
+              <div className="flex flex-col justify-center">
+                <span className="text-[17px] sm:text-[20px] font-black leading-none tracking-tight font-heading drop-shadow-[0_2px_4px_rgba(0,0,0,0.85)]">
+                  <span className="text-[#0052FF]">Blue</span>
+                  <span className="text-white">Print</span>{' '}
+                  <span className="text-[#0052FF]">Build</span>
+                  <span className="text-white">-Con</span>
                 </span>
-                <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-blue-200 mt-0.5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]">
+                <span className="mt-1 text-[7.5px] sm:text-[8px] font-bold uppercase tracking-[0.22em] sm:tracking-[0.25em] text-[#0052FF] drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]">
                   Your vision our victory
                 </span>
               </div>
             </Link>
-
-            <p className="text-white/95 text-xs sm:text-sm leading-relaxed max-w-xl font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
-              Providing complete, transparent, and high-quality construction solutions for residential and commercial projects.
-            </p>
 
             {/* Trust Tags Row */}
             <div className="flex flex-wrap items-center gap-2.5 pt-1">
