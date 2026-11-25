@@ -197,26 +197,31 @@ export default function LocationSelector() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 8, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 8, scale: 0.98 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="absolute left-0 sm:left-auto sm:right-0 mt-2 w-[310px] sm:w-[360px] rounded-2xl border border-slate-200/90 bg-white p-4 shadow-2xl z-50 overflow-hidden"
+            onClick={() => setIsOpen(false)}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs sm:backdrop-blur-none sm:bg-transparent sm:p-0 sm:absolute sm:inset-auto sm:left-auto sm:right-0 sm:mt-2 sm:block"
           >
-            {/* Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <div className="flex items-center gap-2">
-                <MapPin size={16} className="text-[#0052FF]" />
-                <h3 className="text-sm font-bold text-brand-navy">Select Operating City</h3>
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-[340px] sm:w-[360px] rounded-2xl border border-slate-200/90 bg-white p-4 shadow-2xl overflow-hidden"
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div className="flex items-center gap-2">
+                  <MapPin size={16} className="text-[#0052FF]" />
+                  <h3 className="text-sm font-bold text-brand-navy">Select Operating City</h3>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsOpen(false)}
+                  className="text-slate-400 hover:text-slate-600 transition-colors rounded-full p-1 hover:bg-slate-100"
+                >
+                  <X size={15} />
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={() => setIsOpen(false)}
-                className="text-slate-400 hover:text-slate-600 transition-colors rounded-full p-1 hover:bg-slate-100"
-              >
-                <X size={15} />
-              </button>
-            </div>
 
             {/* Detect Current Location Button */}
             <div className="pt-3 pb-2">
@@ -308,7 +313,8 @@ export default function LocationSelector() {
               <span>Selected: <strong className="text-brand-navy">{selectedCity}</strong></span>
               <span className="text-[10px] text-amber-600 font-medium">Pan-India Support</span>
             </div>
-          </motion.div>
+          </div>
+        </motion.div>
         )}
       </AnimatePresence>
     </div>

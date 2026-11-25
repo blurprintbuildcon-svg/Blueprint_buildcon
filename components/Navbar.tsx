@@ -386,12 +386,8 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* 4. Mobile Controls: Location Selector + Hamburger Toggle */}
-          <div className="flex items-center gap-2 lg:hidden">
-            <div className="sm:block">
-              <LocationSelector />
-            </div>
-
+          {/* 4. Mobile Controls: Hamburger Toggle (Location moved to mobile drawer) */}
+          <div className="flex items-center lg:hidden">
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -414,9 +410,16 @@ export default function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.28, ease: 'easeInOut' }}
-            className="overflow-hidden border-t border-white/30 bg-white/55 backdrop-blur-2xl shadow-xl lg:hidden"
+            className="overflow-hidden border-t border-white/30 bg-white/95 backdrop-blur-2xl shadow-xl lg:hidden"
           >
             <div className="px-4 pt-3 pb-6 space-y-2">
+              {/* Mobile Location Selector in Drawer */}
+              <div className="flex items-center justify-between p-2.5 px-3 rounded-2xl bg-blue-50/70 border border-blue-100/80 mb-3 shadow-2xs">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-600">
+                  Select Location
+                </span>
+                <LocationSelector />
+              </div>
               {navLinks.map((item) => {
                 const isActive = activeTab === item.id;
 
