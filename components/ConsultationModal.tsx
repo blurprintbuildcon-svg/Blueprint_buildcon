@@ -27,9 +27,6 @@ const PROJECT_TYPES = [
   'Full Home Renovation & Remodeling',
   'Interior Architecture & Turnkey Execution',
   'Structural Blueprinting & Sanctioning',
-];
-
-const PROPERTY_STATUSES = [
   'Plot Owned & Ready to Build',
   'Looking to Purchase Plot Soon',
   'Demolish Existing Building & Rebuild',
@@ -44,7 +41,6 @@ const PROPERTY_STATUSES = [
   'Duplex House Construction',
   'Warehouse / Industrial Construction',
   'Structural Repair & Restoration',
-  'Other',
 ];
 
 const BUDGET_RANGES = [
@@ -76,8 +72,6 @@ export default function ConsultationModal({ isOpen, onClose, initialLocation }: 
     otherProjectType: '',
     location: '',
     pincode: '',
-    propertyStatus: 'Plot Owned & Ready to Build',
-    otherPropertyStatus: '',
     budget: '₹30 Lakhs – ₹50 Lakhs',
     service: 'Turnkey Civil Construction (A-Grade Materials)',
     message: '',
@@ -136,11 +130,6 @@ export default function ConsultationModal({ isOpen, onClose, initialLocation }: 
   const getProjectType = () =>
     formData.projectType === 'Other' ? formData.otherProjectType.trim() : formData.projectType;
 
-  const getPropertyStatus = () =>
-    formData.propertyStatus === 'Other'
-      ? formData.otherPropertyStatus.trim()
-      : formData.propertyStatus;
-
   const buildWhatsAppMessage = () => {
     return `*New Construction Enquiry - BluePrint Build-Con*
 ---------------------------------------
@@ -153,11 +142,10 @@ export default function ConsultationModal({ isOpen, onClose, initialLocation }: 
 • Profession: ${formData.profession === 'Other' ? formData.otherProfession : formData.profession || 'N/A'}
 
 🏗️ *PROJECT REQUIREMENTS:*
-• Project Type: ${getProjectType()}
-• Plot / Property Status: ${getPropertyStatus()}
+• Project / Property Type: ${getProjectType()}
 • Estimated Budget: ${formData.budget}
 • Service Interested In: ${formData.service}
-• Interested in Project Finance: ${formData.projectFinance}
+• Interested in Project Loan: ${formData.projectFinance}
 • Interested in Project Cash: ${formData.projectCash}
 • Referral Program Partner: ${formData.joinReferralProgram}
 • Marketing Updates Consent: ${formData.marketingConsent ? 'Yes' : 'No'}
@@ -171,7 +159,7 @@ _Submitted via BluePrint Build-Con Web Portal_`;
     setErrorMessage('');
 
     if (!formData.name.trim() || !formData.phone.trim()) {
-      setErrorMessage('Please enter your Full Name and Contact Number.');
+      setErrorMessage('Please enter your Full Name and Primary Contact Number.');
       return;
     }
 
@@ -187,11 +175,6 @@ _Submitted via BluePrint Build-Con Web Portal_`;
 
     if (formData.projectType === 'Other' && !formData.otherProjectType.trim()) {
       setErrorMessage('Please specify your project or building type.');
-      return;
-    }
-
-    if (formData.propertyStatus === 'Other' && !formData.otherPropertyStatus.trim()) {
-      setErrorMessage('Please specify your plot or property status.');
       return;
     }
 
@@ -219,7 +202,7 @@ _Submitted via BluePrint Build-Con Web Portal_`;
           projectType: getProjectType(),
           location: formData.location,
           pincode: formData.pincode,
-          propertyStatus: getPropertyStatus(),
+          propertyStatus: getProjectType(),
           budget: formData.budget,
           service: formData.service,
           message: formData.message,
@@ -352,7 +335,7 @@ _Submitted via BluePrint Build-Con Web Portal_`;
                 {/* 2. Contact Number */}
                 <div>
                   <label htmlFor="modal-phone" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
-                    Contact Number <span className="text-red-600">*</span>
+                    Primary Contact Number <span className="text-red-600">*</span>
                   </label>
                   <input
                     type="tel"
@@ -361,7 +344,7 @@ _Submitted via BluePrint Build-Con Web Portal_`;
                     required
                     value={formData.phone}
                     onChange={handleChange}
-                    placeholder="Enter your contact number"
+                    placeholder="Enter your primary contact number"
                     className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
                   />
                 </div>
@@ -453,10 +436,10 @@ _Submitted via BluePrint Build-Con Web Portal_`;
                   />
                 </div>
 
-                {/* 7. Project / Building Type */}
-                <div>
+                {/* 7. Project / Property Type (Merged) */}
+                <div className="md:col-span-2">
                   <label htmlFor="modal-projectType" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
-                    Project / Building Type <span className="text-red-600">*</span>
+                    Project / Property Type <span className="text-red-600">*</span>
                   </label>
                   <select
                     id="modal-projectType"
@@ -481,41 +464,7 @@ _Submitted via BluePrint Build-Con Web Portal_`;
                         required
                         value={formData.otherProjectType}
                         onChange={handleChange}
-                        placeholder="Specify project / building type"
-                        className="w-full px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
-                      />
-                    </div>
-                  )}
-                </div>
-
-                {/* 8. Plot / Property Status */}
-                <div>
-                  <label htmlFor="modal-propertyStatus" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
-                    Plot / Property Status <span className="text-red-600">*</span>
-                  </label>
-                  <select
-                    id="modal-propertyStatus"
-                    name="propertyStatus"
-                    value={formData.propertyStatus}
-                    onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
-                  >
-                    {PROPERTY_STATUSES.map((ps) => (
-                      <option key={ps} value={ps}>
-                        {ps}
-                      </option>
-                    ))}
-                  </select>
-                  {formData.propertyStatus === 'Other' && (
-                    <div className="mt-2">
-                      <input
-                        type="text"
-                        id="modal-other-propertyStatus"
-                        name="otherPropertyStatus"
-                        required
-                        value={formData.otherPropertyStatus}
-                        onChange={handleChange}
-                        placeholder="Specify plot / property status"
+                        placeholder="Specify project / property type"
                         className="w-full px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
                       />
                     </div>
@@ -565,7 +514,7 @@ _Submitted via BluePrint Build-Con Web Portal_`;
                 {/* 11. Project Finance */}
                 <div>
                   <label htmlFor="modal-projectFinance" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
-                    Interested in Project Finance? <span className="text-red-600">*</span>
+                    Interested in Project Loan? <span className="text-red-600">*</span>
                   </label>
                   <select
                     id="modal-projectFinance"
