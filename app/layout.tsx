@@ -78,6 +78,9 @@ export const metadata: Metadata = {
     description: "Premier turnkey residential and commercial civil contractors in Pune. Fixed price, 15-year warranty.",
     images: ['/og-image.png'],
   },
+  verification: {
+    google: 'google9178ae3ea80e92ef',
+  },
   robots: {
     index: true,
     follow: true,
