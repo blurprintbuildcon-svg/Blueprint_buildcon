@@ -15,8 +15,11 @@ export default async function ServicesPage() {
         eyebrow="What we do"
         title="Construction expertise, shaped around your vision."
         description="From residential builds to commercial spaces, our integrated team keeps every detail moving in the right direction."
-        image="/Civil%20Construction.jpg"
+        image="/services_blueprint.jpg"
         imageAlt="Commercial and residential civil construction site with tower crane and architectural blueprints"
+        fullHeight={true}
+        ctaText="Explore Our Services"
+        ctaHref="#services"
       />
       <ServicesSection services={services} />
     </>

@@ -16,6 +16,9 @@ export default function WhyUsPage() {
         description="Quality is more than a finish. It is the care, honesty, and ownership we bring to every decision throughout your build."
         image="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=85&w=2200"
         imageAlt="Luxury architectural residence engineered by BluePrint BuildCon"
+        fullHeight={true}
+        ctaText="Explore Why BluePrint"
+        ctaHref="#why-us"
       />
       <WhyChooseUs />
       <QualitySection />
