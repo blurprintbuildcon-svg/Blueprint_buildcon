@@ -29,6 +29,8 @@ const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_WHATSAPP_NUMBER:
     process.env.Whatsup_Number || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "9028346900",
+    NEXT_PUBLIC_ENQUIRY_WHATSAPP_NUMBER:
+      process.env.NEXT_PUBLIC_ENQUIRY_WHATSAPP_NUMBER || "9028087659",
   },
 };
 

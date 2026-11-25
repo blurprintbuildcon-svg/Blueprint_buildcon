@@ -20,7 +20,7 @@ import {
   Check,
 } from 'lucide-react';
 import { CityDetail } from '@/data/cityData';
-import { openWhatsApp } from '@/lib/whatsapp';
+import { openWhatsApp, openEnquiryWhatsApp } from '@/lib/whatsapp';
 
 interface CityHeroProps {
   city: CityDetail;
@@ -93,7 +93,7 @@ export default function CityHero({ city, selectedLocality = '' }: CityHeroProps)
 
   const handleWhatsAppChat = () => {
     const text = `Hi BluePrint BuildCon! I am interested in building a home in ${city.name} (${formData.location || city.name}). Please share cost estimation and consultation details. Name: ${formData.name || 'Client'}, Phone: ${formData.phone || 'N/A'}`;
-    openWhatsApp(text);
+    openEnquiryWhatsApp(text);
   };
 
   return (
@@ -120,7 +120,7 @@ export default function CityHero({ city, selectedLocality = '' }: CityHeroProps)
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          
+
           {/* Left Column: Heading, Badges, Metrics & Value Props */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -142,7 +142,7 @@ export default function CityHero({ city, selectedLocality = '' }: CityHeroProps)
               <MapPin size={14} className="text-[#0042EC]" />
               <span>Top-Rated Construction Company in {city.name}</span>
             </motion.div>
-            
+
             {/* Main Headline */}
             <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-[56px] font-extrabold text-brand-navy tracking-tight leading-[1.12]">
               Construction Company <br className="hidden sm:inline" />
@@ -267,7 +267,7 @@ export default function CityHero({ city, selectedLocality = '' }: CityHeroProps)
                   <p className="text-sm text-slate-600 max-w-sm mx-auto">
                     Thank you, <span className="font-semibold text-brand-navy">{formData.name}</span>. Our senior {city.name} project expert will call you on <span className="font-semibold text-brand-navy">{formData.phone}</span> within 20 minutes.
                   </p>
-                  
+
                   <div className="pt-2 flex flex-col gap-2.5">
                     <button
                       type="button"
