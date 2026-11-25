@@ -155,13 +155,6 @@ export default function Footer() {
             >
               Terms &amp; Conditions
             </Link>
-            <span className="text-white/60">•</span>
-            <Link
-              href="/privacy-policy#cookies"
-              className="hover:text-blue-300 transition-colors duration-200"
-            >
-              Cookie Policy
-            </Link>
           </div>
         </div>
       </div>

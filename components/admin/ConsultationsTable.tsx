@@ -157,7 +157,7 @@ export default function ConsultationsTable({
                     {lead.projectFinance === 'Yes' && (
                       <div className="mt-1.5">
                         <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-purple-50 text-purple-700 border border-purple-200">
-                          Finance Needed
+                          Loan Needed
                         </span>
                       </div>
                     )}
