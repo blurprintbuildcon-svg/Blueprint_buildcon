@@ -11,7 +11,7 @@ import {
   Building2,
   Sparkles,
 } from 'lucide-react';
-import { getWhatsAppNumber, openWhatsApp } from '@/lib/whatsapp';
+import { openEnquiryWhatsApp } from '@/lib/whatsapp';
 
 export type ConsultationModalProps = {
   isOpen: boolean;
@@ -145,7 +145,7 @@ export default function ConsultationModal({ isOpen, onClose, initialLocation }: 
 • Project / Property Type: ${getProjectType()}
 • Estimated Budget: ${formData.budget}
 • Service Interested In: ${formData.service}
-• Interested in Project Loan: ${formData.projectFinance}
+• Interested in Project Finance: ${formData.projectFinance}
 • Interested in Project Cash: ${formData.projectCash}
 • Referral Program Partner: ${formData.joinReferralProgram}
 • Marketing Updates Consent: ${formData.marketingConsent ? 'Yes' : 'No'}
@@ -222,9 +222,9 @@ _Submitted via BluePrint Build-Con Web Portal_`;
 
       setIsSubmitted(true);
 
-      // 2. Redirect / open enquiry on WhatsApp directly
+      // 2. Redirect / open enquiry on WhatsApp directly to dedicated enquiry number (9028087659)
       const message = buildWhatsAppMessage();
-      openWhatsApp(message);
+      openEnquiryWhatsApp(message);
     } catch (err: any) {
       setErrorMessage(err.message || 'An unexpected error occurred. Please try again.');
     } finally {
@@ -260,408 +260,404 @@ _Submitted via BluePrint Build-Con Web Portal_`;
             <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-md">
               <CheckCircle2 size={38} strokeWidth={2.5} />
             </div>
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-brand-navy">
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-black">
               Enquiry Submitted Successfully!
             </h3>
-            <p className="text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
-              Thank you, <strong className="text-brand-navy">{formData.name}</strong>. Our senior civil engineering and architectural team will contact you at{' '}
-              <strong className="text-brand-navy">{formData.phone}</strong> shortly to discuss your project.
+            <p className="text-sm text-slate-700 max-w-md mx-auto leading-relaxed">
+              Thank you, <strong className="text-black">{formData.name}</strong>. Your enquiry has been forwarded. Our senior civil engineering and architectural team will contact you at{' '}
+              <strong className="text-black">{formData.phone}</strong> shortly to discuss your project.
             </p>
 
-            <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
-              <button
-                type="button"
-                onClick={() => {
-                  const message = buildWhatsAppMessage();
-                  openWhatsApp(message);
-                }}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white text-sm font-bold shadow-md transition"
-              >
-                <MessageCircle size={18} />
-                <span>Chat Now on WhatsApp</span>
-              </button>
-              <button
-                type="button"
-                onClick={onClose}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-bold transition"
-              >
-                Close Window
-              </button>
-            </div>
-          </div>
-        ) : (
-          /* CONSULTATION ENQUIRY FORM */
-          <div className="space-y-6">
-            {/* Header */}
-            <div>
-              <h2
-                id="consultation-modal-title"
-                className="text-2xl sm:text-3xl font-extrabold text-black tracking-tight"
-              >
-                Let Us Help You <span className="text-[#0052FF]">Here.</span>
-              </h2>
-              <p className="mt-1.5 text-xs sm:text-sm text-black font-medium leading-relaxed">
-                Share your details below to get the right architectural, structural, and construction solution for your project.
-              </p>
-            </div>
-
-            {errorMessage && (
-              <div className="p-3.5 rounded-xl bg-red-50 border border-red-300 text-red-900 font-semibold text-xs sm:text-sm flex items-start gap-2">
-                <AlertCircle size={16} className="shrink-0 mt-0.5 text-red-600" />
-                <span>{errorMessage}</span>
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {/* PERFECTLY ALIGNED 2-COLUMN GRID */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* 1. Full Name */}
-                <div>
-                  <label htmlFor="modal-name" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
-                    Full Name <span className="text-red-600">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="modal-name"
-                    name="name"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="Enter your full name"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
-                  />
-                </div>
-
-                {/* 2. Contact Number */}
-                <div>
-                  <label htmlFor="modal-phone" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
-                    Primary Contact Number <span className="text-red-600">*</span>
-                  </label>
-                  <input
-                    type="tel"
-                    id="modal-phone"
-                    name="phone"
-                    required
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="Enter your primary contact number"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
-                  />
-                </div>
-
-                {/* 3. Email ID */}
-                <div>
-                  <label htmlFor="modal-email" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
-                    Email ID <span className="text-slate-500 font-normal lowercase">(optional)</span>
-                  </label>
-                  <input
-                    type="email"
-                    id="modal-email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="Enter your email address"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
-                  />
-                </div>
-
-                {/* 4. Profession */}
-                <div>
-                  <label htmlFor="modal-profession" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
-                    Profession <span className="text-slate-500 font-normal lowercase">(optional)</span>
-                  </label>
-                  <select
-                    id="modal-profession"
-                    name="profession"
-                    value={formData.profession}
-                    onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
-                  >
-                    <option value="">Select your profession</option>
-                    <option value="Self-employed">Self-employed</option>
-                    <option value="Salaried">Salaried</option>
-                    <option value="Other">Other</option>
-                  </select>
-                  {formData.profession === 'Other' && (
-                    <div className="mt-2">
-                      <input
-                        type="text"
-                        id="modal-other-profession"
-                        name="otherProfession"
-                        required
-                        value={formData.otherProfession}
-                        onChange={handleChange}
-                        placeholder="Specify your profession"
-                        className="w-full px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
-                      />
-                    </div>
-                  )}
-                </div>
-
-                {/* 5. City / Location */}
-                <div>
-                  <label htmlFor="modal-location" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
-                    City / Location <span className="text-red-600">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="modal-location"
-                    name="location"
-                    required
-                    value={formData.location}
-                    onChange={handleChange}
-                    placeholder="Your city (e.g. Hyderabad, Pune)"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
-                  />
-                </div>
-
-                {/* 6. Pincode */}
-                <div>
-                  <label htmlFor="modal-pincode" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
-                    Pincode <span className="text-red-600">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="modal-pincode"
-                    name="pincode"
-                    inputMode="numeric"
-                    pattern="[0-9]{6}"
-                    maxLength={6}
-                    required
-                    value={formData.pincode}
-                    onChange={handleChange}
-                    placeholder="6-digit pincode"
-                    title="Enter a 6-digit pincode"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
-                  />
-                </div>
-
-                {/* 7. Project / Property Type (Merged) */}
-                <div className="md:col-span-2">
-                  <label htmlFor="modal-projectType" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
-                    Project / Property Type <span className="text-red-600">*</span>
-                  </label>
-                  <select
-                    id="modal-projectType"
-                    name="projectType"
-                    value={formData.projectType}
-                    onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
-                  >
-                    {PROJECT_TYPES.map((pt) => (
-                      <option key={pt} value={pt}>
-                        {pt}
-                      </option>
-                    ))}
-                    <option value="Other">Other</option>
-                  </select>
-                  {formData.projectType === 'Other' && (
-                    <div className="mt-2">
-                      <input
-                        type="text"
-                        id="modal-other-projectType"
-                        name="otherProjectType"
-                        required
-                        value={formData.otherProjectType}
-                        onChange={handleChange}
-                        placeholder="Specify project / property type"
-                        className="w-full px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
-                      />
-                    </div>
-                  )}
-                </div>
-
-                {/* 9. Estimated Budget */}
-                <div>
-                  <label htmlFor="modal-budget" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
-                    Estimated Project Budget (₹) <span className="text-red-600">*</span>
-                  </label>
-                  <select
-                    id="modal-budget"
-                    name="budget"
-                    value={formData.budget}
-                    onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
-                  >
-                    {BUDGET_RANGES.map((b) => (
-                      <option key={b} value={b}>
-                        {b}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* 10. Service Interested In */}
-                <div>
-                  <label htmlFor="modal-service" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
-                    Select Service <span className="text-red-600">*</span>
-                  </label>
-                  <select
-                    id="modal-service"
-                    name="service"
-                    value={formData.service}
-                    onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
-                  >
-                    {SERVICES_OFFERED.map((srv) => (
-                      <option key={srv} value={srv}>
-                        {srv}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* 11. Project Finance */}
-                <div>
-                  <label htmlFor="modal-projectFinance" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
-                    Interested in Project Loan? <span className="text-red-600">*</span>
-                  </label>
-                  <select
-                    id="modal-projectFinance"
-                    name="projectFinance"
-                    value={formData.projectFinance}
-                    onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
-                  >
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                  </select>
-                </div>
-
-                {/* 12. Project Cash */}
-                <div>
-                  <label htmlFor="modal-projectCash" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
-                    Interested in Project Cash? <span className="text-red-600">*</span>
-                  </label>
-                  <select
-                    id="modal-projectCash"
-                    name="projectCash"
-                    value={formData.projectCash}
-                    onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
-                  >
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                  </select>
-                </div>
-
-                {/* 13. Join Referral Program (Full Width in Grid) */}
-                <div className="sm:col-span-2">
-                  <label htmlFor="modal-joinReferral" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
-                    Would You Like to Join Our Referral Program? <span className="text-red-600">*</span>
-                  </label>
-                  <select
-                    id="modal-joinReferral"
-                    name="joinReferralProgram"
-                    value={formData.joinReferralProgram}
-                    onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
-                  >
-                    <option value="Yes">Yes (Earn ₹3,000 to ₹10,000+ per referral)</option>
-                    <option value="No">No (Only construction inquiry for my project)</option>
-                  </select>
-                </div>
-
-                {/* 14. Requirements / Message (Full Width in Grid) */}
-                <div className="sm:col-span-2">
-                  <label htmlFor="modal-message" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
-                    Your Requirements / Message <span className="text-slate-500 font-normal lowercase">(optional)</span>
-                  </label>
-                  <textarea
-                    id="modal-message"
-                    name="message"
-                    rows={2}
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder="Tell us about your requirement or project (e.g. plot area, 3-BHK villa, G+2 floors, expected start date)..."
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20 resize-none"
-                  />
-                </div>
-              </div>
-
-              {/* REFERRAL REWARD HIGHLIGHT BANNER */}
-              <div className="rounded-xl bg-slate-50 border border-slate-200 p-3 text-center">
-                <p className="text-[11px] sm:text-xs text-black font-extrabold flex items-center justify-center gap-1.5 flex-wrap">
-                  <Sparkles size={14} className="text-[#0052FF] shrink-0" />
-                  <span>Earn ₹3,000 to ₹10,000+ Per Successful Project Referral!</span>
-                </p>
-                <p className="text-[10px] sm:text-[11px] text-black font-medium mt-0.5">
-                  🚀 Your reward depends on the project scope and when project successfully commenced. T&amp;C Apply.
-                </p>
-              </div>
-
-              {/* CONSENT CHECKBOXES - EVERY POINT HIGHLIGHTED IN BOLD BLACK */}
-              <div className="space-y-2.5 pt-1">
-                <label className="flex items-start gap-2.5 cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    name="agreeContact"
-                    checked={formData.agreeContact}
-                    onChange={handleChange}
-                    className="mt-1 h-4 w-4 rounded border-slate-400 text-[#0052FF] focus:ring-[#0052FF]"
-                  />
-                  <span className="text-xs text-black font-medium leading-relaxed">
-                    By submitting this form, you agree to be contacted by <strong className="text-black font-black">BluePrint Build-Con</strong> on <strong className="text-black font-black">WhatsApp / SMS / Email / Phone</strong> regarding your enquiry.
-                  </span>
-                </label>
-
-                <label className="flex items-start gap-2.5 cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    name="agreePrivacy"
-                    required
-                    checked={formData.agreePrivacy}
-                    onChange={handleChange}
-                    className="mt-1 h-4 w-4 rounded border-slate-400 text-[#0052FF] focus:ring-[#0052FF]"
-                  />
-                  <span className="text-xs text-black font-medium leading-relaxed">
-                    <strong className="text-black font-black">Consent &amp; Data Privacy <span className="text-red-600">*</span>:</strong> I agree to the collection and use of the information I provide in accordance with BluePrint Build-Con&apos;s{' '}
-                    <Link href="/privacy-policy" target="_blank" className="text-[#0052FF] font-black underline hover:text-blue-800">
-                      Privacy Policy
-                    </Link>{' '}
-                    and{' '}
-                    <Link href="/terms" target="_blank" className="text-[#0052FF] font-black underline hover:text-blue-800">
-                      Terms &amp; Conditions
-                    </Link>.
-                  </span>
-                </label>
-
-                <label className="flex items-start gap-2.5 cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    name="marketingConsent"
-                    checked={formData.marketingConsent}
-                    onChange={handleChange}
-                    className="mt-1 h-4 w-4 rounded border-slate-400 text-[#0052FF] focus:ring-[#0052FF]"
-                  />
-                  <span className="text-xs text-black font-medium leading-relaxed">
-                    By submitting, you consent to receive updates and offers via <strong className="text-black font-black">SMS, Email, WhatsApp or RCS</strong>, and permit us to use your information for marketing purposes.
-                  </span>
-                </label>
-              </div>
-
-              {/* ACTION BUTTON: HIGH-CONTRAST BLACK SUBMIT BUTTON */}
-              <div className="pt-2">
+              <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
                 <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-3.5 px-6 rounded-xl bg-black hover:bg-slate-900 text-white font-extrabold text-sm sm:text-base tracking-wide transition shadow-lg shadow-black/25 flex items-center justify-center gap-2.5 disabled:opacity-60 disabled:cursor-wait cursor-pointer group"
+                  type="button"
+                  onClick={() => {
+                    const message = buildWhatsAppMessage();
+                    openEnquiryWhatsApp(message);
+                  }}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white text-sm font-bold shadow-md transition cursor-pointer"
                 >
-                  <Send size={18} className="shrink-0 transition-transform group-hover:translate-x-0.5" />
-                  <span>
-                    {isSubmitting ? 'Submitting Enquiry...' : 'Submit Enquiry'}
-                  </span>
+                  <MessageCircle size={18} />
+                  <span>Chat Now on WhatsApp</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-bold transition cursor-pointer"
+                >
+                  Close Window
                 </button>
               </div>
+            </div>
+            ) : (
+            /* CONSULTATION ENQUIRY FORM */
+            <div className="space-y-6">
+              {/* Header */}
+              <div>
+                <h2
+                  id="consultation-modal-title"
+                  className="text-2xl sm:text-3xl font-extrabold text-black tracking-tight"
+                >
+                  Let Us Help You <span className="text-[#0052FF]">Here.</span>
+                </h2>
+                <p className="mt-1.5 text-xs sm:text-sm text-black font-medium leading-relaxed">
+                  Share your details below to get the right architectural, structural, and construction solution for your project.
+                </p>
+              </div>
 
-              <p className="text-[11px] text-center text-black font-semibold leading-relaxed pt-1">
-                Your enquiry will be saved and automatically forwarded to our engineering team via Email and WhatsApp.
-              </p>
-            </form>
-          </div>
+              {errorMessage && (
+                <div className="p-3.5 rounded-xl bg-red-50 border border-red-300 text-red-900 font-semibold text-xs sm:text-sm flex items-start gap-2">
+                  <AlertCircle size={16} className="shrink-0 mt-0.5 text-red-600" />
+                  <span>{errorMessage}</span>
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {/* PERFECTLY ALIGNED 2-COLUMN GRID */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* 1. Full Name */}
+                  <div>
+                    <label htmlFor="modal-name" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
+                      Full Name <span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="modal-name"
+                      name="name"
+                      required
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Enter your full name"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
+                    />
+                  </div>
+
+                  {/* 2. Contact Number */}
+                  <div>
+                    <label htmlFor="modal-phone" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
+                      Primary Contact Number <span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      type="tel"
+                      id="modal-phone"
+                      name="phone"
+                      required
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder="Enter your primary contact number"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
+                    />
+                  </div>
+
+                  {/* 3. Email ID */}
+                  <div>
+                    <label htmlFor="modal-email" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
+                      Email ID <span className="text-slate-500 font-normal lowercase">(optional)</span>
+                    </label>
+                    <input
+                      type="email"
+                      id="modal-email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="Enter your email address"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
+                    />
+                  </div>
+
+                  {/* 4. Profession */}
+                  <div>
+                    <label htmlFor="modal-profession" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
+                      Profession <span className="text-slate-500 font-normal lowercase">(optional)</span>
+                    </label>
+                    <select
+                      id="modal-profession"
+                      name="profession"
+                      value={formData.profession}
+                      onChange={handleChange}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
+                    >
+                      <option value="">Select your profession</option>
+                      <option value="Self-employed">Self-employed</option>
+                      <option value="Salaried">Salaried</option>
+                      <option value="Other">Other</option>
+                    </select>
+                    {formData.profession === 'Other' && (
+                      <div className="mt-2">
+                        <input
+                          type="text"
+                          id="modal-other-profession"
+                          name="otherProfession"
+                          required
+                          value={formData.otherProfession}
+                          onChange={handleChange}
+                          placeholder="Specify your profession"
+                          className="w-full px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 5. City / Location */}
+                  <div>
+                    <label htmlFor="modal-location" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
+                      City / Location <span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="modal-location"
+                      name="location"
+                      required
+                      value={formData.location}
+                      onChange={handleChange}
+                      placeholder="Your city (e.g. Hyderabad, Pune)"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
+                    />
+                  </div>
+
+                  {/* 6. Pincode */}
+                  <div>
+                    <label htmlFor="modal-pincode" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
+                      Pincode <span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="modal-pincode"
+                      name="pincode"
+                      inputMode="numeric"
+                      pattern="[0-9]{6}"
+                      maxLength={6}
+                      required
+                      value={formData.pincode}
+                      onChange={handleChange}
+                      placeholder="6-digit pincode"
+                      title="Enter a 6-digit pincode"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
+                    />
+                  </div>
+
+                  {/* 7. Project / Property Type (Merged) */}
+                  <div className="md:col-span-2">
+                    <label htmlFor="modal-projectType" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
+                      Project / Property Type <span className="text-red-600">*</span>
+                    </label>
+                    <select
+                      id="modal-projectType"
+                      name="projectType"
+                      value={formData.projectType}
+                      onChange={handleChange}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
+                    >
+                      {PROJECT_TYPES.map((pt) => (
+                        <option key={pt} value={pt}>
+                          {pt}
+                        </option>
+                      ))}
+                      <option value="Other">Other</option>
+                    </select>
+                    {formData.projectType === 'Other' && (
+                      <div className="mt-2">
+                        <input
+                          type="text"
+                          id="modal-other-projectType"
+                          name="otherProjectType"
+                          required
+                          value={formData.otherProjectType}
+                          onChange={handleChange}
+                          placeholder="Specify project / property type"
+                          className="w-full px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 9. Estimated Budget */}
+                  <div>
+                    <label htmlFor="modal-budget" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
+                      Estimated Project Budget (₹) <span className="text-red-600">*</span>
+                    </label>
+                    <select
+                      id="modal-budget"
+                      name="budget"
+                      value={formData.budget}
+                      onChange={handleChange}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
+                    >
+                      {BUDGET_RANGES.map((b) => (
+                        <option key={b} value={b}>
+                          {b}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* 10. Service Interested In */}
+                  <div>
+                    <label htmlFor="modal-service" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
+                      Select Service <span className="text-red-600">*</span>
+                    </label>
+                    <select
+                      id="modal-service"
+                      name="service"
+                      value={formData.service}
+                      onChange={handleChange}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
+                    >
+                      {SERVICES_OFFERED.map((srv) => (
+                        <option key={srv} value={srv}>
+                          {srv}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* 11. Project Finance */}
+                  <div>
+                    <label htmlFor="modal-projectFinance" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
+                      Interested in Project Loan? <span className="text-red-600">*</span>
+                    </label>
+                    <select
+                      id="modal-projectFinance"
+                      name="projectFinance"
+                      value={formData.projectFinance}
+                      onChange={handleChange}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
+                    >
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
+
+                  {/* 12. Project Cash */}
+                  <div>
+                    <label htmlFor="modal-projectCash" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
+                      Interested in Project Cash? <span className="text-red-600">*</span>
+                    </label>
+                    <select
+                      id="modal-projectCash"
+                      name="projectCash"
+                      value={formData.projectCash}
+                      onChange={handleChange}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
+                    >
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
+
+                  {/* 13. Join Referral Program (Full Width in Grid) */}
+                  <div className="sm:col-span-2">
+                    <label htmlFor="modal-joinReferral" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
+                      Would You Like to Join Our Referral Program? <span className="text-red-600">*</span>
+                    </label>
+                    <select
+                      id="modal-joinReferral"
+                      name="joinReferralProgram"
+                      value={formData.joinReferralProgram}
+                      onChange={handleChange}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
+                    >
+                      <option value="Yes">Yes (Earn ₹3,000 to ₹10,000+ per referral)</option>
+                      <option value="No">No (Only construction inquiry for my project)</option>
+                    </select>
+                  </div>
+
+                  {/* 14. Requirements / Message (Full Width in Grid) */}
+                  <div className="sm:col-span-2">
+                    <label htmlFor="modal-message" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
+                      Your Requirements / Message <span className="text-slate-500 font-normal lowercase">(optional)</span>
+                    </label>
+                    <textarea
+                      id="modal-message"
+                      name="message"
+                      rows={2}
+                      value={formData.message}
+                      onChange={handleChange}
+                      placeholder="Tell us about your requirement or project (e.g. plot area, 3-BHK villa, G+2 floors, expected start date)..."
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20 resize-none"
+                    />
+                  </div>
+                </div>
+
+                {/* REFERRAL REWARD HIGHLIGHT BANNER */}
+                <div className="rounded-xl bg-slate-50 border border-slate-200 p-3 text-center">
+                  <p className="text-[11px] sm:text-xs text-black font-extrabold flex items-center justify-center gap-1.5 flex-wrap">
+                    <Sparkles size={14} className="text-[#0052FF] shrink-0" />
+                    <span>Earn ₹3,000 to ₹10,000+ Per Successful Project Referral!</span>
+                  </p>
+                  <p className="text-[10px] sm:text-[11px] text-black font-medium mt-0.5">
+                    🚀 Your reward depends on the project scope and when project successfully commenced. T&amp;C Apply.
+                  </p>
+                </div>
+
+                {/* CONSENT CHECKBOXES - EVERY POINT HIGHLIGHTED IN BOLD BLACK */}
+                <div className="space-y-2.5 pt-1">
+                  <label className="flex items-start gap-2.5 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      name="agreeContact"
+                      checked={formData.agreeContact}
+                      onChange={handleChange}
+                      className="mt-1 h-4 w-4 rounded border-slate-400 text-[#0052FF] focus:ring-[#0052FF]"
+                    />
+                    <span className="text-xs text-black font-medium leading-relaxed">
+                      By submitting this form, you agree to be contacted by <strong className="text-black font-black">BluePrint Build-Con</strong> on <strong className="text-black font-black">WhatsApp / SMS / Email / Phone</strong> regarding your enquiry.
+                    </span>
+                  </label>
+
+                  <label className="flex items-start gap-2.5 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      name="agreePrivacy"
+                      required
+                      checked={formData.agreePrivacy}
+                      onChange={handleChange}
+                      className="mt-1 h-4 w-4 rounded border-slate-400 text-[#0052FF] focus:ring-[#0052FF]"
+                    />
+                    <span className="text-xs text-black font-medium leading-relaxed">
+                      <strong className="text-black font-black">Consent &amp; Data Privacy <span className="text-red-600">*</span>:</strong> I agree to the collection and use of the information I provide in accordance with BluePrint Build-Con&apos;s{' '}
+                      <Link href="/privacy-policy" target="_blank" className="text-[#0052FF] font-black underline hover:text-blue-800">
+                        Privacy Policy
+                      </Link>{' '}
+                      and{' '}
+                      <Link href="/terms" target="_blank" className="text-[#0052FF] font-black underline hover:text-blue-800">
+                        Terms &amp; Conditions
+                      </Link>.
+                    </span>
+                  </label>
+
+                  <label className="flex items-start gap-2.5 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      name="marketingConsent"
+                      checked={formData.marketingConsent}
+                      onChange={handleChange}
+                      className="mt-1 h-4 w-4 rounded border-slate-400 text-[#0052FF] focus:ring-[#0052FF]"
+                    />
+                    <span className="text-xs text-black font-medium leading-relaxed">
+                      By submitting, you consent to receive updates and offers via <strong className="text-black font-black">SMS, Email, WhatsApp or RCS</strong>, and permit us to use your information for marketing purposes.
+                    </span>
+                  </label>
+                </div>
+
+                {/* ACTION BUTTON: HIGH-CONTRAST BLACK SUBMIT BUTTON */}
+                <div className="pt-2">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full py-3.5 px-6 rounded-xl bg-black hover:bg-slate-900 text-white font-extrabold text-sm sm:text-base tracking-wide transition shadow-lg shadow-black/25 flex items-center justify-center gap-2.5 disabled:opacity-60 disabled:cursor-wait cursor-pointer group"
+                  >
+                    <Send size={18} className="shrink-0 transition-transform group-hover:translate-x-0.5" />
+                    <span>
+                      {isSubmitting ? 'Submitting Enquiry...' : 'Submit Enquiry'}
+                    </span>
+                  </button>
+                </div>
+              </form>
+            </div>
         )}
-      </div>
+          </div>
     </div>
-  );
+      );
 }
 

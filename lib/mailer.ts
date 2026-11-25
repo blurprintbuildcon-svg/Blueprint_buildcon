@@ -10,6 +10,22 @@ const FROM_EMAIL = process.env.SMTP_FROM_EMAIL || SMTP_USER;
 const RECEIVER_EMAIL = process.env.ENQUIRY_RECEIVER_EMAIL || 'project@blueprintbuildcon.homes';
 
 /**
+ * Returns formatted recipients for incoming enquiries
+ */
+export function getEnquiryRecipients(): string {
+  const recipients = new Set<string>();
+  if (process.env.ENQUIRY_RECEIVER_EMAIL) {
+    recipients.add(process.env.ENQUIRY_RECEIVER_EMAIL.trim());
+  } else {
+    recipients.add('project@blueprintbuildcon.homes');
+  }
+  if (process.env.ADMIN_EMAIL) {
+    recipients.add(process.env.ADMIN_EMAIL.trim());
+  }
+  return Array.from(recipients).join(', ');
+}
+
+/**
  * Creates and returns the configured Nodemailer Zoho transporter
  */
 export function getMailTransporter() {
@@ -145,13 +161,53 @@ export async function sendConsultationEmail(data: {
       content
     );
 
-    return await transporter.sendMail({
-      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
-      to: RECEIVER_EMAIL,
-      replyTo: data.email || undefined,
-      subject: `🏗️ New Construction Enquiry: ${data.name} (${data.projectType || 'Consultation'}) - ${data.location}`,
-      html,
-    });
+      const leadMailPromise = transporter.sendMail({
+        from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+        to: getEnquiryRecipients(),
+        replyTo: data.email || undefined,
+        subject: `🏗️ New Construction Enquiry: ${data.name} (${data.projectType || 'Consultation'}) - ${data.location}`,
+        html,
+      });
+
+      // Also send an instant confirmation email to the client if they provided their email
+      if(data.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+      try {
+        const clientContent = `
+          <p style="font-size: 15px; color: #0f172a; line-height: 1.6; margin-top: 0;">
+            Dear <strong>${data.name}</strong>,
+          </p>
+          <p style="font-size: 14px; color: #334155; line-height: 1.6;">
+            Thank you for reaching out to <strong>BluePrint Build-Con</strong>. We have successfully received your construction enquiry for <strong>${data.projectType || 'Construction'}</strong> in <strong>${data.location}</strong>.
+          </p>
+          <p style="font-size: 14px; color: #334155; line-height: 1.6;">
+            One of our senior civil engineers and project architects will review your requirements and connect with you at <strong>${data.phone}</strong> shortly.
+          </p>
+          <div class="section-title">Submitted Details Summary</div>
+          <table class="data-table">
+            <tr><td class="label">Project Type:</td><td class="value">${data.projectType || 'Not specified'}</td></tr>
+            <tr><td class="label">Location:</td><td class="value">${data.location}</td></tr>
+            <tr><td class="label">Estimated Budget:</td><td class="value">${data.budget || 'Not specified'}</td></tr>
+            <tr><td class="label">Service Requested:</td><td class="value">${data.service || 'Not specified'}</td></tr>
+          </table>
+          <p style="font-size: 13px; color: #64748b; margin-top: 24px; line-height: 1.6;">
+            For urgent queries, reach our project desk at <strong>+91 9028087659</strong> / <strong>+91 9028346900</strong> or write directly to <strong>project@blueprintbuildcon.homes</strong>.
+          </p>
+        `;
+
+        const clientHtml = emailWrapper('We Received Your Construction Enquiry', 'Enquiry Confirmation', clientContent);
+
+        await transporter.sendMail({
+          from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+          to: data.email,
+          subject: `✅ Enquiry Received - BluePrint Build-Con (${data.projectType || 'Construction'})`,
+          html: clientHtml,
+        });
+      } catch (clientErr) {
+        console.error('Failed sending client confirmation email:', clientErr);
+      }
+    }
+
+    return await leadMailPromise;
   } catch (error: any) {
     console.error('Failed to send consultation email via Zoho SMTP:', error?.message || error);
     return null;
@@ -200,13 +256,43 @@ export async function sendContactEmail(data: {
 
     const html = emailWrapper('New Contact Form Submission', 'Contact Enquiry', content);
 
-    return await transporter.sendMail({
-      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
-      to: RECEIVER_EMAIL,
-      replyTo: data.email,
-      subject: `📩 Contact Form Lead: ${data.name} - ${data.projectType} (${data.city})`,
-      html,
-    });
+      const leadMailPromise = transporter.sendMail({
+        from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+        to: getEnquiryRecipients(),
+        replyTo: data.email,
+        subject: `📩 Contact Form Lead: ${data.name} - ${data.projectType} (${data.city})`,
+        html,
+      });
+
+      if(data.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+      try {
+        const clientContent = `
+          <p style="font-size: 15px; color: #0f172a; line-height: 1.6; margin-top: 0;">
+            Dear <strong>${data.name}</strong>,
+          </p>
+          <p style="font-size: 14px; color: #334155; line-height: 1.6;">
+            Thank you for reaching out to <strong>BluePrint Build-Con</strong>. We have received your inquiry regarding <strong>${data.projectType}</strong> in <strong>${data.city}</strong>.
+          </p>
+          <p style="font-size: 14px; color: #334155; line-height: 1.6;">
+            Our team is reviewing your message and will contact you directly at <strong>${data.phone}</strong>.
+          </p>
+          <p style="font-size: 13px; color: #64748b; margin-top: 24px; line-height: 1.6;">
+            For immediate support, feel free to contact us at <strong>+91 9028087659</strong> / <strong>+91 9028346900</strong> or write to <strong>project@blueprintbuildcon.homes</strong>.
+          </p>
+        `;
+        const clientHtml = emailWrapper('Thank You for Contacting BluePrint Build-Con', 'Inquiry Received', clientContent);
+        await transporter.sendMail({
+          from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+          to: data.email,
+          subject: `✅ We Have Received Your Inquiry - BluePrint Build-Con`,
+          html: clientHtml,
+        });
+      } catch (clientErr) {
+        console.error('Failed sending client contact confirmation email:', clientErr);
+      }
+    }
+
+    return await leadMailPromise;
   } catch (error: any) {
     console.error('Failed to send contact email via Zoho SMTP:', error?.message || error);
     return null;
@@ -253,13 +339,43 @@ export async function sendServiceEnquiryEmail(data: {
 
     const html = emailWrapper('New Service Enquiry', 'Service Enquiry Lead', content);
 
-    return await transporter.sendMail({
-      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
-      to: RECEIVER_EMAIL,
-      replyTo: data.email,
-      subject: `🛠️ Service Lead: ${data.fullname} - ${data.serviceInterestedIn}`,
-      html,
-    });
+      const leadMailPromise = transporter.sendMail({
+        from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+        to: getEnquiryRecipients(),
+        replyTo: data.email,
+        subject: `🛠️ Service Lead: ${data.fullname} - ${data.serviceInterestedIn}`,
+        html,
+      });
+
+      if(data.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+      try {
+        const clientContent = `
+          <p style="font-size: 15px; color: #0f172a; line-height: 1.6; margin-top: 0;">
+            Dear <strong>${data.fullname}</strong>,
+          </p>
+          <p style="font-size: 14px; color: #334155; line-height: 1.6;">
+            Thank you for your interest in <strong>${data.serviceInterestedIn}</strong> with <strong>BluePrint Build-Con</strong>.
+          </p>
+          <p style="font-size: 14px; color: #334155; line-height: 1.6;">
+            Our engineering team will get in touch with you shortly at <strong>${data.mobile}</strong> to discuss your scope and provide tailored estimates.
+          </p>
+          <p style="font-size: 13px; color: #64748b; margin-top: 24px; line-height: 1.6;">
+            For urgent queries, call us at <strong>+91 9028087659</strong> / <strong>+91 9028346900</strong>.
+          </p>
+        `;
+        const clientHtml = emailWrapper('Service Enquiry Received', 'Enquiry Confirmation', clientContent);
+        await transporter.sendMail({
+          from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+          to: data.email,
+          subject: `✅ BluePrint Build-Con: ${data.serviceInterestedIn} Enquiry Received`,
+          html: clientHtml,
+        });
+      } catch (clientErr) {
+        console.error('Failed sending client service confirmation email:', clientErr);
+      }
+    }
+
+    return await leadMailPromise;
   } catch (error: any) {
     console.error('Failed to send service enquiry email via Zoho SMTP:', error?.message || error);
     return null;
@@ -332,7 +448,7 @@ export async function sendReferralEmail(data: {
 
     return await transporter.sendMail({
       from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
-      to: RECEIVER_EMAIL,
+      to: getEnquiryRecipients(),
       replyTo: data.referrerEmail || data.clientEmail || undefined,
       subject: `🎁 New Project Referral: ${data.clientName} referred by ${data.referrerName} (${data.clientCity})`,
       html,

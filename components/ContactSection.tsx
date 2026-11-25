@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
-import { openWhatsApp } from '@/lib/whatsapp';
+import { openWhatsApp, openEnquiryWhatsApp } from '@/lib/whatsapp';
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -30,7 +30,7 @@ export default function ContactSection() {
 ${data.message ? `• Message: ${data.message}\n` : ''}---------------------------------------
 _Sent via BluePrint Build-Con Website_`;
 
-    openWhatsApp(text);
+    openEnquiryWhatsApp(text);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -53,9 +53,6 @@ _Sent via BluePrint Build-Con Website_`;
       const submittedSnapshot = { ...formData };
       setIsSubmitted(true);
       setFormData({ name: '', phone: '', email: '', city: '', projectType: '', message: '' });
-
-      // Automatically open WhatsApp to the configured number
-      triggerWhatsApp(submittedSnapshot);
 
       setTimeout(() => setIsSubmitted(false), 8000);
     } catch (submissionError) {
