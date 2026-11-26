@@ -17,6 +17,7 @@ export type ConsultationSubmission = {
   _id: string;
   name: string;
   phone: string;
+  secondaryPhone?: string;
   email?: string;
   projectType: string;
   company?: string;
@@ -103,6 +104,16 @@ export default function ConsultationsTable({
                         <Phone size={13} className="text-slate-400 shrink-0" />
                         {lead.phone}
                       </a>
+                      {lead.secondaryPhone && (
+                        <a
+                          href={`tel:${lead.secondaryPhone}`}
+                          className="flex items-center gap-1.5 text-slate-500 hover:text-brand-orange text-[11px]"
+                          title="Alternative Phone Number"
+                        >
+                          <Phone size={11} className="text-slate-400 shrink-0" />
+                          <span>Alt: {lead.secondaryPhone}</span>
+                        </a>
+                      )}
                       {lead.email && (
                         <a href={`mailto:${lead.email}`} className="block truncate hover:text-brand-orange">
                           {lead.email}

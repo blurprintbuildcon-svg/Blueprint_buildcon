@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { ChevronDown, Gift, Menu, X, ArrowRight } from 'lucide-react';
+import { ChevronDown, Menu, X, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import LocationSelector from './LocationSelector';
 
@@ -350,40 +350,12 @@ export default function Navbar() {
             </motion.div>
           </nav>
 
-          {/* 3. Right: Location Selector & Refer & Earn Button */}
+          {/* 3. Right: Location Selector */}
           <div className="hidden lg:flex items-center gap-3 shrink-0">
-            {/* Location Selector (Hyderabad Pill) */}
+            {/* Location Selector (City Pill) */}
             <div>
               <LocationSelector />
             </div>
-
-            {/* Refer & Earn Button with Animated Gift Icon */}
-            <Link
-              href="/refer"
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-[#0052FF] via-[#4F46E5] to-[#7C3AED] hover:from-[#0042EC] hover:via-[#4338CA] hover:to-[#6D28D9] px-5 py-2.5 text-xs sm:text-sm font-bold text-white shadow-md shadow-indigo-600/25 transition-all duration-300 hover:shadow-lg hover:shadow-indigo-600/35 hover:scale-[1.03] active:scale-[0.98] select-none"
-            >
-              {/* Subtle shimmer reflection */}
-              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer pointer-events-none" />
-
-              <span>Refer &amp; Earn</span>
-
-              {/* Animated Gift Badge */}
-              <motion.span
-                animate={{
-                  rotate: [0, -12, 12, -8, 8, 0],
-                  scale: [1, 1.08, 1.08, 1, 1, 1],
-                }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 2.8,
-                  ease: 'easeInOut',
-                  repeatDelay: 1.5,
-                }}
-                className="flex items-center justify-center rounded-full bg-amber-400/25 p-1 ring-1 ring-amber-400/40 text-amber-300"
-              >
-                <Gift size={14} className="text-amber-300 fill-amber-300/30" />
-              </motion.span>
-            </Link>
           </div>
 
           {/* 4. Mobile Controls: Hamburger Toggle (Location moved to mobile drawer) */}
@@ -505,18 +477,6 @@ export default function Navbar() {
                   </Link>
                 );
               })}
-
-              {/* Mobile Refer & Earn Full-Width CTA */}
-              <div className="pt-2">
-                <Link
-                  href="/refer"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center justify-center gap-2 w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-[#0052FF] via-[#4F46E5] to-[#7C3AED] text-white font-bold text-sm shadow-md shadow-indigo-600/25 active:scale-[0.98] transition-all"
-                >
-                  <span>Refer &amp; Earn Rewards</span>
-                  <Gift size={16} className="text-amber-300" />
-                </Link>
-              </div>
             </div>
           </motion.div>
         )}

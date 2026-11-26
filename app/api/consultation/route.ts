@@ -11,6 +11,7 @@ export async function POST(request: Request) {
     const consultation = {
       name: typeof body.name === 'string' ? body.name.trim() : '',
       phone: typeof body.phone === 'string' ? body.phone.trim() : '',
+      secondaryPhone: typeof body.secondaryPhone === 'string' ? body.secondaryPhone.trim() : '',
       email: typeof body.email === 'string' ? body.email.trim() : '',
       projectType: typeof body.projectType === 'string' ? body.projectType.trim() : '',
       company: typeof body.company === 'string' ? body.company.trim() : '',
@@ -50,6 +51,7 @@ export async function POST(request: Request) {
       await sendConsultationEmail({
         name: consultation.name,
         phone: consultation.phone,
+        secondaryPhone: consultation.secondaryPhone,
         email: consultation.email,
         projectType: consultation.projectType,
         location: consultation.location,

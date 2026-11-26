@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Phone, Mail, MapPin, ShieldCheck, Gift } from 'lucide-react';
+import { Phone, Mail, MapPin, ShieldCheck } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -64,14 +64,6 @@ export default function Footer() {
                 <ShieldCheck size={13} className="text-[#0275F8] shrink-0" />
                 <span>End-to-End Civil &amp; Architectural Excellence</span>
               </div>
-
-              <Link
-                href="/refer"
-                className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-amber-300 bg-black/60 hover:bg-black/80 backdrop-blur-md border border-amber-400/40 px-3 py-1 rounded-lg transition-all duration-200 shadow-sm"
-              >
-                <Gift size={13} className="text-amber-400 shrink-0" />
-                <span>Refer a Project &amp; Earn Cash Rewards</span>
-              </Link>
             </div>
           </div>
 

@@ -1,3 +1,7 @@
+import { redirect } from 'next/navigation';
+
+export default function ReferPage() {
+  redirect('/');
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import {
