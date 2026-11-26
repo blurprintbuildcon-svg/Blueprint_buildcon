@@ -10,41 +10,48 @@ const FROM_EMAIL = process.env.SMTP_FROM_EMAIL || SMTP_USER;
 const RECEIVER_EMAIL = process.env.ENQUIRY_RECEIVER_EMAIL || 'project@blueprintbuildcon.homes';
 
 /**
- * Returns formatted recipients for incoming enquiries
+ * Returns formatted recipients for incoming enquiries.
+ * Sends reliably to ENQUIRY_RECEIVER_EMAIL (project@blueprintbuildcon.homes)
+ * without attempting to deliver to non-existent domains like blueprintbuildcon.com.
  */
 export function getEnquiryRecipients(): string {
   const recipients = new Set<string>();
-  if (process.env.ENQUIRY_RECEIVER_EMAIL) {
-    recipients.add(process.env.ENQUIRY_RECEIVER_EMAIL.trim());
-  } else {
-    recipients.add('project@blueprintbuildcon.homes');
-  }
-  if (process.env.ADMIN_EMAIL) {
-    recipients.add(process.env.ADMIN_EMAIL.trim());
-  }
-  return Array.from(recipients).join(', ');
-}
+    const rawList = process.env.ENQUIRY_RECEIVER_EMAIL || 'project@blueprintbuildcon.homes';
 
-/**
- * Creates and returns the configured Nodemailer Zoho transporter
- */
-export function getMailTransporter() {
-  return nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: SMTP_PORT,
-    secure: SMTP_SECURE,
-    auth: {
-      user: SMTP_USER,
-      pass: SMTP_PASS,
-    },
-    tls: {
-      rejectUnauthorized: true,
-    },
-  });
-}
+    rawList.split(',').forEach((email) => {
+      const trimmed = email.trim();
+      if (trimmed && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+        recipients.add(trimmed);
+      }
+    });
 
-function emailWrapper(title: string, badge: string, contentHtml: string): string {
-  return `
+    if (recipients.size === 0) {
+      recipients.add('project@blueprintbuildcon.homes');
+    }
+
+    return Array.from(recipients).join(', ');
+  }
+
+  /**
+   * Creates and returns the configured Nodemailer Zoho transporter
+   */
+  export function getMailTransporter() {
+    return nodemailer.createTransport({
+      host: SMTP_HOST,
+      port: SMTP_PORT,
+      secure: SMTP_SECURE,
+      auth: {
+        user: SMTP_USER,
+        pass: SMTP_PASS,
+      },
+      tls: {
+        rejectUnauthorized: true,
+      },
+    });
+  }
+
+  function emailWrapper(title: string, badge: string, contentHtml: string): string {
+    return `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -90,7 +97,7 @@ function emailWrapper(title: string, badge: string, contentHtml: string): string
 </body>
 </html>
   `;
-}
+  }
 
 /**
  * 1. Modal Consultation Enquiry Email
@@ -120,6 +127,33 @@ export async function sendConsultationEmail(data: {
     const waNumber = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
 
     const content = `
+  /**
+   * 1. Modal Consultation Enquiry Email
+   */
+  export async function sendConsultationEmail(data: {
+    name: string;
+    phone: string;
+    email?: string;
+    projectType: string;
+    location: string;
+    pincode?: string;
+    propertyStatus?: string;
+    budget?: string;
+    service?: string;
+    message?: string;
+    joinReferralProgram?: string;
+    projectFinance?: string;
+    projectCash?: string;
+    profession?: string;
+    otherProfession?: string;
+    marketingConsent?: boolean;
+  }) {
+    try {
+      const transporter = getMailTransporter();
+      const cleanPhone = (data.phone || '').replace(/[^0-9]/g, '');
+      const waNumber = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
+
+      const content = `
       <div class="section-title">Client Information</div>
       <table class="data-table">
         <tr><td class="label">Client Name:</td><td class="value"><strong>${data.name}</strong></td></tr>
@@ -144,12 +178,12 @@ export async function sendConsultationEmail(data: {
       </table>
 
       ${data.message
-        ? `
+          ? `
         <div class="section-title">Client Requirements / Message</div>
         <div class="message-box">${data.message.replace(/\n/g, '<br/>')}</div>
       `
-        : ''
-      }
+          : ''
+        }
 
       <div class="btn-row">
         <a href="https://wa.me/${waNumber}?text=Hello%20${encodeURIComponent(data.name)}%2C%20thank%20you%20for%20contacting%20Blueprint%20Buildcon%20regarding%20your%20${encodeURIComponent(data.projectType || 'construction')}%20project." class="btn btn-whatsapp" target="_blank">Chat on WhatsApp</a>
@@ -157,11 +191,11 @@ export async function sendConsultationEmail(data: {
       </div>
     `;
 
-    const html = emailWrapper(
-      'New Modal Consultation Enquiry',
-      'Modal Consultation Lead',
-      content
-    );
+      const html = emailWrapper(
+        'New Modal Consultation Enquiry',
+        'Modal Consultation Lead',
+        content
+      );
 
     const leadMailPromise = transporter.sendMail({
       from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
@@ -196,43 +230,43 @@ export async function sendConsultationEmail(data: {
           </p>
         `;
 
-        const clientHtml = emailWrapper('We Received Your Construction Enquiry', 'Enquiry Confirmation', clientContent);
+          const clientHtml = emailWrapper('We Received Your Construction Enquiry', 'Enquiry Confirmation', clientContent);
 
-        await transporter.sendMail({
-          from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
-          to: data.email,
-          subject: `✅ Enquiry Received - BluePrint Build-Con (${data.projectType || 'Construction'})`,
-          html: clientHtml,
-        });
-      } catch (clientErr) {
-        console.error('Failed sending client confirmation email:', clientErr);
+          await transporter.sendMail({
+            from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+            to: data.email,
+            subject: `✅ Enquiry Received - BluePrint Build-Con (${data.projectType || 'Construction'})`,
+            html: clientHtml,
+          });
+        } catch (clientErr) {
+          console.error('Failed sending client confirmation email:', clientErr);
+        }
       }
+
+      return await leadMailPromise;
+    } catch (error: any) {
+      console.error('Failed to send consultation email via Zoho SMTP:', error?.message || error);
+      return null;
     }
-
-    return await leadMailPromise;
-  } catch (error: any) {
-    console.error('Failed to send consultation email via Zoho SMTP:', error?.message || error);
-    return null;
   }
-}
 
-/**
- * 2. Contact Page Form Enquiry Email
- */
-export async function sendContactEmail(data: {
-  name: string;
-  phone: string;
-  email: string;
-  city: string;
-  projectType: string;
-  message?: string;
-}) {
-  try {
-    const transporter = getMailTransporter();
-    const cleanPhone = (data.phone || '').replace(/[^0-9]/g, '');
-    const waNumber = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
+  /**
+   * 2. Contact Page Form Enquiry Email
+   */
+  export async function sendContactEmail(data: {
+    name: string;
+    phone: string;
+    email: string;
+    city: string;
+    projectType: string;
+    message?: string;
+  }) {
+    try {
+      const transporter = getMailTransporter();
+      const cleanPhone = (data.phone || '').replace(/[^0-9]/g, '');
+      const waNumber = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
 
-    const content = `
+      const content = `
       <div class="section-title">Contact Form Submission</div>
       <table class="data-table">
         <tr><td class="label">Name:</td><td class="value"><strong>${data.name}</strong></td></tr>
@@ -243,12 +277,12 @@ export async function sendContactEmail(data: {
       </table>
 
       ${data.message
-        ? `
+          ? `
         <div class="section-title">Message / Query</div>
         <div class="message-box">${data.message.replace(/\n/g, '<br/>')}</div>
       `
-        : ''
-      }
+          : ''
+        }
 
       <div class="btn-row">
         <a href="https://wa.me/${waNumber}?text=Hello%20${encodeURIComponent(data.name)}%2C%20thank%20you%20for%20reaching%20out%20to%20Blueprint%20Buildcon." class="btn btn-whatsapp" target="_blank">Chat on WhatsApp</a>
@@ -256,7 +290,7 @@ export async function sendContactEmail(data: {
       </div>
     `;
 
-    const html = emailWrapper('New Contact Form Submission', 'Contact Enquiry', content);
+      const html = emailWrapper('New Contact Form Submission', 'Contact Enquiry', content);
 
     const leadMailPromise = transporter.sendMail({
       from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
@@ -282,41 +316,41 @@ export async function sendContactEmail(data: {
             For immediate support, feel free to contact us at <strong>+91 9028087659</strong> / <strong>+91 9028346900</strong> or write to <strong>project@blueprintbuildcon.homes</strong>.
           </p>
         `;
-        const clientHtml = emailWrapper('Thank You for Contacting BluePrint Build-Con', 'Inquiry Received', clientContent);
-        await transporter.sendMail({
-          from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
-          to: data.email,
-          subject: `✅ We Have Received Your Inquiry - BluePrint Build-Con`,
-          html: clientHtml,
-        });
-      } catch (clientErr) {
-        console.error('Failed sending client contact confirmation email:', clientErr);
+          const clientHtml = emailWrapper('Thank You for Contacting BluePrint Build-Con', 'Inquiry Received', clientContent);
+          await transporter.sendMail({
+            from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+            to: data.email,
+            subject: `✅ We Have Received Your Inquiry - BluePrint Build-Con`,
+            html: clientHtml,
+          });
+        } catch (clientErr) {
+          console.error('Failed sending client contact confirmation email:', clientErr);
+        }
       }
+
+      return await leadMailPromise;
+    } catch (error: any) {
+      console.error('Failed to send contact email via Zoho SMTP:', error?.message || error);
+      return null;
     }
-
-    return await leadMailPromise;
-  } catch (error: any) {
-    console.error('Failed to send contact email via Zoho SMTP:', error?.message || error);
-    return null;
   }
-}
 
-/**
- * 3. Service Detail Page Enquiry Email
- */
-export async function sendServiceEnquiryEmail(data: {
-  fullname: string;
-  mobile: string;
-  email: string;
-  serviceInterestedIn: string;
-  notes?: string;
-}) {
-  try {
-    const transporter = getMailTransporter();
-    const cleanPhone = (data.mobile || '').replace(/[^0-9]/g, '');
-    const waNumber = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
+  /**
+   * 3. Service Detail Page Enquiry Email
+   */
+  export async function sendServiceEnquiryEmail(data: {
+    fullname: string;
+    mobile: string;
+    email: string;
+    serviceInterestedIn: string;
+    notes?: string;
+  }) {
+    try {
+      const transporter = getMailTransporter();
+      const cleanPhone = (data.mobile || '').replace(/[^0-9]/g, '');
+      const waNumber = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
 
-    const content = `
+      const content = `
       <div class="section-title">Service Enquiry Details</div>
       <table class="data-table">
         <tr><td class="label">Full Name:</td><td class="value"><strong>${data.fullname}</strong></td></tr>
@@ -326,12 +360,12 @@ export async function sendServiceEnquiryEmail(data: {
       </table>
 
       ${data.notes
-        ? `
+          ? `
         <div class="section-title">Enquiry Notes</div>
         <div class="message-box">${data.notes.replace(/\n/g, '<br/>')}</div>
       `
-        : ''
-      }
+          : ''
+        }
 
       <div class="btn-row">
         <a href="https://wa.me/${waNumber}?text=Hello%20${encodeURIComponent(data.fullname)}%2C%20thank%20you%20for%20your%20interest%20in%20Blueprint%20Buildcon's%20${encodeURIComponent(data.serviceInterestedIn)}." class="btn btn-whatsapp" target="_blank">Chat on WhatsApp</a>
@@ -339,7 +373,7 @@ export async function sendServiceEnquiryEmail(data: {
       </div>
     `;
 
-    const html = emailWrapper('New Service Enquiry', 'Service Enquiry Lead', content);
+      const html = emailWrapper('New Service Enquiry', 'Service Enquiry Lead', content);
 
     const leadMailPromise = transporter.sendMail({
       from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
@@ -365,52 +399,52 @@ export async function sendServiceEnquiryEmail(data: {
             For urgent queries, call us at <strong>+91 9028087659</strong> / <strong>+91 9028346900</strong>.
           </p>
         `;
-        const clientHtml = emailWrapper('Service Enquiry Received', 'Enquiry Confirmation', clientContent);
-        await transporter.sendMail({
-          from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
-          to: data.email,
-          subject: `✅ BluePrint Build-Con: ${data.serviceInterestedIn} Enquiry Received`,
-          html: clientHtml,
-        });
-      } catch (clientErr) {
-        console.error('Failed sending client service confirmation email:', clientErr);
+          const clientHtml = emailWrapper('Service Enquiry Received', 'Enquiry Confirmation', clientContent);
+          await transporter.sendMail({
+            from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+            to: data.email,
+            subject: `✅ BluePrint Build-Con: ${data.serviceInterestedIn} Enquiry Received`,
+            html: clientHtml,
+          });
+        } catch (clientErr) {
+          console.error('Failed sending client service confirmation email:', clientErr);
+        }
       }
+
+      return await leadMailPromise;
+    } catch (error: any) {
+      console.error('Failed to send service enquiry email via Zoho SMTP:', error?.message || error);
+      return null;
     }
-
-    return await leadMailPromise;
-  } catch (error: any) {
-    console.error('Failed to send service enquiry email via Zoho SMTP:', error?.message || error);
-    return null;
   }
-}
 
-/**
- * 4. Partner Referral Lead Email
- */
-export async function sendReferralEmail(data: {
-  referrerName: string;
-  referrerPhone: string;
-  referrerEmail?: string;
-  referrerUpi?: string;
-  referrerRelation?: string;
-  clientName: string;
-  clientPhone: string;
-  clientEmail?: string;
-  clientCity: string;
-  serviceRequired: string;
-  propertyStatus?: string;
-  estimatedArea?: string;
-  projectBudget: string;
-  timeline?: string;
-  requirements: string;
-}) {
-  try {
-    const transporter = getMailTransporter();
-    const cleanClientPhone = (data.clientPhone || '').replace(/[^0-9]/g, '');
-    const clientWaNumber =
-      cleanClientPhone.length === 10 ? `91${cleanClientPhone}` : cleanClientPhone;
+  /**
+   * 4. Partner Referral Lead Email
+   */
+  export async function sendReferralEmail(data: {
+    referrerName: string;
+    referrerPhone: string;
+    referrerEmail?: string;
+    referrerUpi?: string;
+    referrerRelation?: string;
+    clientName: string;
+    clientPhone: string;
+    clientEmail?: string;
+    clientCity: string;
+    serviceRequired: string;
+    propertyStatus?: string;
+    estimatedArea?: string;
+    projectBudget: string;
+    timeline?: string;
+    requirements: string;
+  }) {
+    try {
+      const transporter = getMailTransporter();
+      const cleanClientPhone = (data.clientPhone || '').replace(/[^0-9]/g, '');
+      const clientWaNumber =
+        cleanClientPhone.length === 10 ? `91${cleanClientPhone}` : cleanClientPhone;
 
-    const content = `
+      const content = `
       <div class="section-title">1. Referrer Information (Partner)</div>
       <table class="data-table">
         <tr><td class="label">Partner Name:</td><td class="value"><strong>${data.referrerName}</strong></td></tr>
@@ -442,21 +476,21 @@ export async function sendReferralEmail(data: {
       </div>
     `;
 
-    const html = emailWrapper(
-      'New Construction Referral Lead',
-      'Partner Referral Lead',
-      content
-    );
+      const html = emailWrapper(
+        'New Construction Referral Lead',
+        'Partner Referral Lead',
+        content
+      );
 
-    return await transporter.sendMail({
-      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
-      to: getEnquiryRecipients(),
-      replyTo: data.referrerEmail || data.clientEmail || undefined,
-      subject: `🎁 New Project Referral: ${data.clientName} referred by ${data.referrerName} (${data.clientCity})`,
-      html,
-    });
-  } catch (error: any) {
-    console.error('Failed to send referral email via Zoho SMTP:', error?.message || error);
-    return null;
+      return await transporter.sendMail({
+        from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+        to: getEnquiryRecipients(),
+        replyTo: data.referrerEmail || data.clientEmail || undefined,
+        subject: `🎁 New Project Referral: ${data.clientName} referred by ${data.referrerName} (${data.clientCity})`,
+        html,
+      });
+    } catch (error: any) {
+      console.error('Failed to send referral email via Zoho SMTP:', error?.message || error);
+      return null;
+    }
   }
-}

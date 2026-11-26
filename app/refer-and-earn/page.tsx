@@ -1,5 +1,11 @@
-import { redirect } from 'next/navigation';
+import ReferPage, { metadata as referMetadata } from '../refer/page';
+import type { Metadata } from 'next';
 
-export default function ReferAndEarnPage() {
-  redirect('/');
-}
+export const metadata: Metadata = {
+  ...referMetadata,
+  alternates: {
+    canonical: '/refer',
+  },
+};
+
+export default ReferPage;

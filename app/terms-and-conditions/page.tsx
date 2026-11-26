@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: 'Terms & Conditions | BluePrint Build-Con',
   description:
   'Commercial terms, architectural blueprint scopes, milestone payments, structural warranties, and civil engineering contracts for BluePrint Build-Con.',
+  alternates: {
+    canonical: '/terms',
+  },
 };
 
 export default function TermsAliasPage() {
