@@ -16,42 +16,42 @@ const RECEIVER_EMAIL = process.env.ENQUIRY_RECEIVER_EMAIL || 'project@blueprintb
  */
 export function getEnquiryRecipients(): string {
   const recipients = new Set<string>();
-    const rawList = process.env.ENQUIRY_RECEIVER_EMAIL || 'project@blueprintbuildcon.homes';
+  const rawList = process.env.ENQUIRY_RECEIVER_EMAIL || 'project@blueprintbuildcon.homes';
 
-    rawList.split(',').forEach((email) => {
-      const trimmed = email.trim();
-      if (trimmed && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
-        recipients.add(trimmed);
-      }
-    });
-
-    if (recipients.size === 0) {
-      recipients.add('project@blueprintbuildcon.homes');
+  rawList.split(',').forEach((email) => {
+    const trimmed = email.trim();
+    if (trimmed && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+      recipients.add(trimmed);
     }
+  });
 
-    return Array.from(recipients).join(', ');
+  if (recipients.size === 0) {
+    recipients.add('project@blueprintbuildcon.homes');
   }
 
-  /**
-   * Creates and returns the configured Nodemailer Zoho transporter
-   */
-  export function getMailTransporter() {
-    return nodemailer.createTransport({
-      host: SMTP_HOST,
-      port: SMTP_PORT,
-      secure: SMTP_SECURE,
-      auth: {
-        user: SMTP_USER,
-        pass: SMTP_PASS,
-      },
-      tls: {
-        rejectUnauthorized: true,
-      },
-    });
-  }
+  return Array.from(recipients).join(', ');
+}
 
-  function emailWrapper(title: string, badge: string, contentHtml: string): string {
-    return `
+/**
+ * Creates and returns the configured Nodemailer Zoho transporter
+ */
+export function getMailTransporter() {
+  return nodemailer.createTransport({
+    host: SMTP_HOST,
+    port: SMTP_PORT,
+    secure: SMTP_SECURE,
+    auth: {
+      user: SMTP_USER,
+      pass: SMTP_PASS,
+    },
+    tls: {
+      rejectUnauthorized: true,
+    },
+  });
+}
+
+function emailWrapper(title: string, badge: string, contentHtml: string): string {
+  return `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -97,7 +97,7 @@ export function getEnquiryRecipients(): string {
 </body>
 </html>
   `;
-  }
+}
 
 /**
  * 1. Modal Consultation Enquiry Email
@@ -127,69 +127,43 @@ export async function sendConsultationEmail(data: {
     const waNumber = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
 
     const content = `
-  /**
-   * 1. Modal Consultation Enquiry Email
-   */
-  export async function sendConsultationEmail(data: {
-    name: string;
-    phone: string;
-    email?: string;
-    projectType: string;
-    location: string;
-    pincode?: string;
-    propertyStatus?: string;
-    budget?: string;
-    service?: string;
-    message?: string;
-    joinReferralProgram?: string;
-    projectFinance?: string;
-    projectCash?: string;
-    profession?: string;
-    otherProfession?: string;
-    marketingConsent?: boolean;
-  }) {
-    try {
-      const transporter = getMailTransporter();
-      const cleanPhone = (data.phone || '').replace(/[^0-9]/g, '');
-      const waNumber = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
+      < div class="section-title" > Client Information </div>
+        < table class="data-table" >
+          <tr><td class="label" > Client Name: </td><td class="value"><strong>${data.name}</strong > </td></tr >
+            <tr><td class="label" > Primary Contact Number: </td><td class="value"><a href="tel:${data.phone}" style="color: #1360e2; text-decoration: none;">${data.phone}</a > </td></tr >
+              ${ data.secondaryPhone ? `<tr><td class="label">Alternative Phone Number:</td><td class="value"><a href="tel:${data.secondaryPhone}" style="color: #1360e2; text-decoration: none;">${data.secondaryPhone}</a></td></tr>` : '' }
+        ${ data.email ? `<tr><td class="label">Email Address:</td><td class="value">${data.email}</td></tr>` : '' }
+    <tr><td class="label" > City / Location: </td><td class="value">${data.location}</td > </tr>
+        ${ data.pincode ? `<tr><td class="label">Pincode:</td><td class="value">${data.pincode}</td></tr>` : '' }
+        ${ (data.profession || data.otherProfession) ? `<tr><td class="label">Profession:</td><td class="value">${data.profession === 'Other' ? data.otherProfession || 'Other' : data.profession}</td></tr>` : '' }
+    </table>
 
-      const content = `
-      <div class="section-title">Client Information</div>
-      <table class="data-table">
-        <tr><td class="label">Client Name:</td><td class="value"><strong>${data.name}</strong></td></tr>
-        <tr><td class="label">Primary Contact Number:</td><td class="value"><a href="tel:${data.phone}" style="color: #1360e2; text-decoration: none;">${data.phone}</a></td></tr>
-        ${data.secondaryPhone ? `<tr><td class="label">Alternative Phone Number:</td><td class="value"><a href="tel:${data.secondaryPhone}" style="color: #1360e2; text-decoration: none;">${data.secondaryPhone}</a></td></tr>` : ''}
-        ${data.email ? `<tr><td class="label">Email Address:</td><td class="value">${data.email}</td></tr>` : ''}
-        <tr><td class="label">City / Location:</td><td class="value">${data.location}</td></tr>
-        ${data.pincode ? `<tr><td class="label">Pincode:</td><td class="value">${data.pincode}</td></tr>` : ''}
-        ${(data.profession || data.otherProfession) ? `<tr><td class="label">Profession:</td><td class="value">${data.profession === 'Other' ? data.otherProfession || 'Other' : data.profession}</td></tr>` : ''}
+      < div class="section-title" > Project & amp; Requirement Details </div>
+        < table class="data-table" >
+          <tr><td class="label" > Project / Building Type: </td><td class="value">${data.projectType || 'Not specified'}</td > </tr>
+            < tr > <td class="label" > Plot / Property Status: </td><td class="value">${data.propertyStatus || 'Not specified'}</td > </tr>
+              < tr > <td class="label" > Estimated Budget: </td><td class="value">${data.budget || 'Not specified'}</td > </tr>
+                < tr > <td class="label" > Service Interested In: </td><td class="value"><strong>${data.service || 'Not specified'}</strong > </td></tr >
+                  ${ data.joinReferralProgram && data.joinReferralProgram !== 'No' ? `<tr><td class="label">Referral Program Partner:</td><td class="value">${data.joinReferralProgram}</td></tr>` : '' }
+    <tr><td class="label" > Interested in Project Finance: </td><td class="value"><strong>${data.projectFinance || 'No'}</strong > </td></tr >
+      ${ data.projectCash && data.projectCash !== 'No' ? `<tr><td class="label">Interested in Project Cash:</td><td class="value"><strong>${data.projectCash}</strong></td></tr>` : '' }
+    <tr><td class="label" > Marketing Updates Consent: </td><td class="value">${data.marketingConsent ? 'Yes' : 'No'}</td > </tr>
       </table>
 
-      <div class="section-title">Project &amp; Requirement Details</div>
-      <table class="data-table">
-        <tr><td class="label">Project / Building Type:</td><td class="value">${data.projectType || 'Not specified'}</td></tr>
-        <tr><td class="label">Plot / Property Status:</td><td class="value">${data.propertyStatus || 'Not specified'}</td></tr>
-        <tr><td class="label">Estimated Budget:</td><td class="value">${data.budget || 'Not specified'}</td></tr>
-        <tr><td class="label">Service Interested In:</td><td class="value"><strong>${data.service || 'Not specified'}</strong></td></tr>
-        ${data.joinReferralProgram && data.joinReferralProgram !== 'No' ? `<tr><td class="label">Referral Program Partner:</td><td class="value">${data.joinReferralProgram}</td></tr>` : ''}
-        <tr><td class="label">Interested in Project Finance:</td><td class="value"><strong>${data.projectFinance || 'No'}</strong></td></tr>
-        ${data.projectCash && data.projectCash !== 'No' ? `<tr><td class="label">Interested in Project Cash:</td><td class="value"><strong>${data.projectCash}</strong></td></tr>` : ''}
-        <tr><td class="label">Marketing Updates Consent:</td><td class="value">${data.marketingConsent ? 'Yes' : 'No'}</td></tr>
-      </table>
-
-      ${data.message
-          ? `
+      ${
+      data.message
+      ? `
         <div class="section-title">Client Requirements / Message</div>
         <div class="message-box">${data.message.replace(/\n/g, '<br/>')}</div>
       `
-          : ''
-        }
+      : ''
+    }
 
-      <div class="btn-row">
-        <a href="https://wa.me/${waNumber}?text=Hello%20${encodeURIComponent(data.name)}%2C%20thank%20you%20for%20contacting%20Blueprint%20Buildcon%20regarding%20your%20${encodeURIComponent(data.projectType || 'construction')}%20project." class="btn btn-whatsapp" target="_blank">Chat on WhatsApp</a>
-        <a href="tel:${data.phone}" class="btn btn-call">Call Client</a>
-      </div>
-    `;
+    <div class="btn-row" >
+      <a href="https://wa.me/${waNumber}?text=Hello%20${encodeURIComponent(data.name)}%2C%20thank%20you%20for%20contacting%20Blueprint%20Buildcon%20regarding%20your%20${encodeURIComponent(data.projectType || 'construction')}%20project." class="btn btn-whatsapp" target = "_blank" > Chat on WhatsApp </a>
+        < a href = "tel:${data.phone}" class="btn btn-call" > Call Client </a>
+          </div>
+            `;
 
       const html = emailWrapper(
         'New Modal Consultation Enquiry',
@@ -198,10 +172,10 @@ export async function sendConsultationEmail(data: {
       );
 
     const leadMailPromise = transporter.sendMail({
-      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+      from: `"${FROM_NAME}" < ${ FROM_EMAIL }> `,
       to: getEnquiryRecipients(),
       replyTo: data.email || undefined,
-      subject: `🏗️ New Construction Enquiry: ${data.name} (${data.projectType || 'Consultation'}) - ${data.location}`,
+      subject: `🏗️ New Construction Enquiry: ${ data.name } (${ data.projectType || 'Consultation' }) - ${ data.location } `,
       html,
     });
 
@@ -209,33 +183,33 @@ export async function sendConsultationEmail(data: {
     if (data.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
       try {
         const clientContent = `
-          <p style="font-size: 15px; color: #0f172a; line-height: 1.6; margin-top: 0;">
-            Dear <strong>${data.name}</strong>,
+      < p style = "font-size: 15px; color: #0f172a; line-height: 1.6; margin-top: 0;" >
+        Dear < strong > ${ data.name } </strong>,
           </p>
-          <p style="font-size: 14px; color: #334155; line-height: 1.6;">
-            Thank you for reaching out to <strong>BluePrint Build-Con</strong>. We have successfully received your construction enquiry for <strong>${data.projectType || 'Construction'}</strong> in <strong>${data.location}</strong>.
+          < p style = "font-size: 14px; color: #334155; line-height: 1.6;" >
+            Thank you for reaching out to < strong > BluePrint Build - Con < /strong>. We have successfully received your construction enquiry for <strong>${data.projectType || 'Construction'}</strong > in <strong>${ data.location } </strong>.
+              </p>
+              < p style = "font-size: 14px; color: #334155; line-height: 1.6;" >
+                One of our senior civil engineers and project architects will review your requirements and connect with you at < strong > ${ data.phone } </strong> shortly.
+                  </p>
+                  < div class="section-title" > Submitted Details Summary </div>
+                    < table class="data-table" >
+                      <tr><td class="label" > Project Type: </td><td class="value">${data.projectType || 'Not specified'}</td > </tr>
+                        < tr > <td class="label" > Location: </td><td class="value">${data.location}</td > </tr>
+                          < tr > <td class="label" > Estimated Budget: </td><td class="value">${data.budget || 'Not specified'}</td > </tr>
+                            < tr > <td class="label" > Service Requested: </td><td class="value">${data.service || 'Not specified'}</td > </tr>
+                              </table>
+                              < p style = "font-size: 13px; color: #64748b; margin-top: 24px; line-height: 1.6;" >
+                                For urgent queries, reach our project desk at < strong > +91 9028087659 < /strong> / < strong > +91 9028346900 < /strong> or write directly to <strong>project@blueprintbuildcon.homes</strong >.
           </p>
-          <p style="font-size: 14px; color: #334155; line-height: 1.6;">
-            One of our senior civil engineers and project architects will review your requirements and connect with you at <strong>${data.phone}</strong> shortly.
-          </p>
-          <div class="section-title">Submitted Details Summary</div>
-          <table class="data-table">
-            <tr><td class="label">Project Type:</td><td class="value">${data.projectType || 'Not specified'}</td></tr>
-            <tr><td class="label">Location:</td><td class="value">${data.location}</td></tr>
-            <tr><td class="label">Estimated Budget:</td><td class="value">${data.budget || 'Not specified'}</td></tr>
-            <tr><td class="label">Service Requested:</td><td class="value">${data.service || 'Not specified'}</td></tr>
-          </table>
-          <p style="font-size: 13px; color: #64748b; margin-top: 24px; line-height: 1.6;">
-            For urgent queries, reach our project desk at <strong>+91 9028087659</strong> / <strong>+91 9028346900</strong> or write directly to <strong>project@blueprintbuildcon.homes</strong>.
-          </p>
-        `;
+                                    `;
 
           const clientHtml = emailWrapper('We Received Your Construction Enquiry', 'Enquiry Confirmation', clientContent);
 
           await transporter.sendMail({
-            from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+            from: `"${FROM_NAME}" < ${ FROM_EMAIL }> `,
             to: data.email,
-            subject: `✅ Enquiry Received - BluePrint Build-Con (${data.projectType || 'Construction'})`,
+            subject: `✅ Enquiry Received - BluePrint Build - Con(${ data.projectType || 'Construction' })`,
             html: clientHtml,
           });
         } catch (clientErr) {
@@ -264,63 +238,64 @@ export async function sendConsultationEmail(data: {
     try {
       const transporter = getMailTransporter();
       const cleanPhone = (data.phone || '').replace(/[^0-9]/g, '');
-      const waNumber = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
+      const waNumber = cleanPhone.length === 10 ? `91${ cleanPhone } ` : cleanPhone;
 
       const content = `
-      <div class="section-title">Contact Form Submission</div>
-      <table class="data-table">
-        <tr><td class="label">Name:</td><td class="value"><strong>${data.name}</strong></td></tr>
-        <tr><td class="label">Contact Number:</td><td class="value"><a href="tel:${data.phone}" style="color: #1360e2; text-decoration: none;">${data.phone}</a></td></tr>
-        <tr><td class="label">Email:</td><td class="value"><a href="mailto:${data.email}" style="color: #1360e2; text-decoration: none;">${data.email}</a></td></tr>
-        <tr><td class="label">City / Location:</td><td class="value">${data.city}</td></tr>
-        <tr><td class="label">Project Type:</td><td class="value">${data.projectType}</td></tr>
-      </table>
+      < div class="section-title" > Contact Form Submission </div>
+        < table class="data-table" >
+          <tr><td class="label" > Name: </td><td class="value"><strong>${data.name}</strong > </td></tr >
+            <tr><td class="label" > Contact Number: </td><td class="value"><a href="tel:${data.phone}" style="color: #1360e2; text-decoration: none;">${data.phone}</a > </td></tr >
+              <tr><td class="label" > Email: </td><td class="value"><a href="mailto:${data.email}" style="color: #1360e2; text-decoration: none;">${data.email}</a > </td></tr >
+                <tr><td class="label" > City / Location: </td><td class="value">${data.city}</td > </tr>
+                  < tr > <td class="label" > Project Type: </td><td class="value">${data.projectType}</td > </tr>
+                    </table>
 
-      ${data.message
-          ? `
+      ${
+      data.message
+      ? `
         <div class="section-title">Message / Query</div>
         <div class="message-box">${data.message.replace(/\n/g, '<br/>')}</div>
       `
-          : ''
-        }
+      : ''
+    }
 
-      <div class="btn-row">
-        <a href="https://wa.me/${waNumber}?text=Hello%20${encodeURIComponent(data.name)}%2C%20thank%20you%20for%20reaching%20out%20to%20Blueprint%20Buildcon." class="btn btn-whatsapp" target="_blank">Chat on WhatsApp</a>
-        <a href="tel:${data.phone}" class="btn btn-call">Call Client</a>
-      </div>
-    `;
+    <div class="btn-row" >
+      <a href="https://wa.me/${waNumber}?text=Hello%20${encodeURIComponent(data.name)}%2C%20thank%20you%20for%20reaching%20out%20to%20Blueprint%20Buildcon." class="btn btn-whatsapp" target = "_blank" > Chat on WhatsApp </a>
+        < a href = "tel:${data.phone}" class="btn btn-call" > Call Client </a>
+          </div>
+            `;
 
       const html = emailWrapper('New Contact Form Submission', 'Contact Enquiry', content);
 
     const leadMailPromise = transporter.sendMail({
-      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+      from: `"${FROM_NAME}" < ${ FROM_EMAIL }> `,
       to: getEnquiryRecipients(),
       replyTo: data.email,
-      subject: `📩 Contact Form Lead: ${data.name} - ${data.projectType} (${data.city})`,
+      subject: `📩 Contact Form Lead: ${ data.name } - ${ data.projectType } (${ data.city })`,
       html,
     });
 
     if (data.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
       try {
         const clientContent = `
-          <p style="font-size: 15px; color: #0f172a; line-height: 1.6; margin-top: 0;">
-            Dear <strong>${data.name}</strong>,
+      < p style = "font-size: 15px; color: #0f172a; line-height: 1.6; margin-top: 0;" >
+        Dear < strong > ${ data.name } </strong>,
           </p>
-          <p style="font-size: 14px; color: #334155; line-height: 1.6;">
-            Thank you for reaching out to <strong>BluePrint Build-Con</strong>. We have received your inquiry regarding <strong>${data.projectType}</strong> in <strong>${data.city}</strong>.
+          < p style = "font-size: 14px; color: #334155; line-height: 1.6;" >
+            Thank you for reaching out to < strong > BluePrint Build - Con < /strong>. We have received your inquiry regarding <strong>${data.projectType}</strong > in <strong>${ data.city } </strong>.
+              </p>
+              < p style = "font-size: 14px; color: #334155; line-height: 1.6;" >
+                Our team is reviewing your message and will contact you directly at < strong > ${ data.phone } </strong>.
+                  </p>
+                  < p style = "font-size: 13px; color: #64748b; margin-top: 24px; line-height: 1.6;" >
+                    For immediate support, feel free to contact us at < strong > +91 9028087659 < /strong> / < strong > +91 9028346900 < /strong> or write to <strong>project@blueprintbuildcon.homes</strong >.
           </p>
-          <p style="font-size: 14px; color: #334155; line-height: 1.6;">
-            Our team is reviewing your message and will contact you directly at <strong>${data.phone}</strong>.
-          </p>
-          <p style="font-size: 13px; color: #64748b; margin-top: 24px; line-height: 1.6;">
-            For immediate support, feel free to contact us at <strong>+91 9028087659</strong> / <strong>+91 9028346900</strong> or write to <strong>project@blueprintbuildcon.homes</strong>.
-          </p>
-        `;
+                        `;
           const clientHtml = emailWrapper('Thank You for Contacting BluePrint Build-Con', 'Inquiry Received', clientContent);
           await transporter.sendMail({
-            from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+            from: `"${FROM_NAME}" < ${ FROM_EMAIL }> `,
             to: data.email,
-            subject: `✅ We Have Received Your Inquiry - BluePrint Build-Con`,
+            subject: `✅ We Have Received Your Inquiry - BluePrint Build - Con`,
             html: clientHtml,
           });
         } catch (clientErr) {
@@ -348,62 +323,63 @@ export async function sendConsultationEmail(data: {
     try {
       const transporter = getMailTransporter();
       const cleanPhone = (data.mobile || '').replace(/[^0-9]/g, '');
-      const waNumber = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
+      const waNumber = cleanPhone.length === 10 ? `91${ cleanPhone } ` : cleanPhone;
 
       const content = `
-      <div class="section-title">Service Enquiry Details</div>
-      <table class="data-table">
-        <tr><td class="label">Full Name:</td><td class="value"><strong>${data.fullname}</strong></td></tr>
-        <tr><td class="label">Mobile Number:</td><td class="value"><a href="tel:${data.mobile}" style="color: #1360e2; text-decoration: none;">${data.mobile}</a></td></tr>
-        <tr><td class="label">Email Address:</td><td class="value"><a href="mailto:${data.email}" style="color: #1360e2; text-decoration: none;">${data.email}</a></td></tr>
-        <tr><td class="label">Service Interested In:</td><td class="value"><strong>${data.serviceInterestedIn}</strong></td></tr>
-      </table>
+      < div class="section-title" > Service Enquiry Details </div>
+        < table class="data-table" >
+          <tr><td class="label" > Full Name: </td><td class="value"><strong>${data.fullname}</strong > </td></tr >
+            <tr><td class="label" > Mobile Number: </td><td class="value"><a href="tel:${data.mobile}" style="color: #1360e2; text-decoration: none;">${data.mobile}</a > </td></tr >
+              <tr><td class="label" > Email Address: </td><td class="value"><a href="mailto:${data.email}" style="color: #1360e2; text-decoration: none;">${data.email}</a > </td></tr >
+                <tr><td class="label" > Service Interested In: </td><td class="value"><strong>${data.serviceInterestedIn}</strong > </td></tr >
+                  </table>
 
-      ${data.notes
-          ? `
+      ${
+      data.notes
+      ? `
         <div class="section-title">Enquiry Notes</div>
         <div class="message-box">${data.notes.replace(/\n/g, '<br/>')}</div>
       `
-          : ''
-        }
+      : ''
+    }
 
-      <div class="btn-row">
-        <a href="https://wa.me/${waNumber}?text=Hello%20${encodeURIComponent(data.fullname)}%2C%20thank%20you%20for%20your%20interest%20in%20Blueprint%20Buildcon's%20${encodeURIComponent(data.serviceInterestedIn)}." class="btn btn-whatsapp" target="_blank">Chat on WhatsApp</a>
-        <a href="tel:${data.mobile}" class="btn btn-call">Call Client</a>
-      </div>
-    `;
+    <div class="btn-row" >
+      <a href="https://wa.me/${waNumber}?text=Hello%20${encodeURIComponent(data.fullname)}%2C%20thank%20you%20for%20your%20interest%20in%20Blueprint%20Buildcon's%20${encodeURIComponent(data.serviceInterestedIn)}." class="btn btn-whatsapp" target = "_blank" > Chat on WhatsApp </a>
+        < a href = "tel:${data.mobile}" class="btn btn-call" > Call Client </a>
+          </div>
+            `;
 
       const html = emailWrapper('New Service Enquiry', 'Service Enquiry Lead', content);
 
     const leadMailPromise = transporter.sendMail({
-      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+      from: `"${FROM_NAME}" < ${ FROM_EMAIL }> `,
       to: getEnquiryRecipients(),
       replyTo: data.email,
-      subject: `🛠️ Service Lead: ${data.fullname} - ${data.serviceInterestedIn}`,
+      subject: `🛠️ Service Lead: ${ data.fullname } - ${ data.serviceInterestedIn } `,
       html,
     });
 
     if (data.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
       try {
         const clientContent = `
-          <p style="font-size: 15px; color: #0f172a; line-height: 1.6; margin-top: 0;">
-            Dear <strong>${data.fullname}</strong>,
+      < p style = "font-size: 15px; color: #0f172a; line-height: 1.6; margin-top: 0;" >
+        Dear < strong > ${ data.fullname } </strong>,
           </p>
-          <p style="font-size: 14px; color: #334155; line-height: 1.6;">
-            Thank you for your interest in <strong>${data.serviceInterestedIn}</strong> with <strong>BluePrint Build-Con</strong>.
+          < p style = "font-size: 14px; color: #334155; line-height: 1.6;" >
+            Thank you for your interest in <strong>${ data.serviceInterestedIn } < /strong> with <strong>BluePrint Build-Con</strong >.
           </p>
-          <p style="font-size: 14px; color: #334155; line-height: 1.6;">
-            Our engineering team will get in touch with you shortly at <strong>${data.mobile}</strong> to discuss your scope and provide tailored estimates.
-          </p>
-          <p style="font-size: 13px; color: #64748b; margin-top: 24px; line-height: 1.6;">
-            For urgent queries, call us at <strong>+91 9028087659</strong> / <strong>+91 9028346900</strong>.
-          </p>
-        `;
+              < p style = "font-size: 14px; color: #334155; line-height: 1.6;" >
+                Our engineering team will get in touch with you shortly at < strong > ${ data.mobile } </strong> to discuss your scope and provide tailored estimates.
+                  </p>
+                  < p style = "font-size: 13px; color: #64748b; margin-top: 24px; line-height: 1.6;" >
+                    For urgent queries, call us at < strong > +91 9028087659 < /strong> / < strong > +91 9028346900 </strong>.
+                      </p>
+                        `;
           const clientHtml = emailWrapper('Service Enquiry Received', 'Enquiry Confirmation', clientContent);
           await transporter.sendMail({
-            from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+            from: `"${FROM_NAME}" < ${ FROM_EMAIL }> `,
             to: data.email,
-            subject: `✅ BluePrint Build-Con: ${data.serviceInterestedIn} Enquiry Received`,
+            subject: `✅ BluePrint Build - Con: ${ data.serviceInterestedIn } Enquiry Received`,
             html: clientHtml,
           });
         } catch (clientErr) {
@@ -442,39 +418,39 @@ export async function sendConsultationEmail(data: {
       const transporter = getMailTransporter();
       const cleanClientPhone = (data.clientPhone || '').replace(/[^0-9]/g, '');
       const clientWaNumber =
-        cleanClientPhone.length === 10 ? `91${cleanClientPhone}` : cleanClientPhone;
+        cleanClientPhone.length === 10 ? `91${ cleanClientPhone } ` : cleanClientPhone;
 
       const content = `
-      <div class="section-title">1. Referrer Information (Partner)</div>
-      <table class="data-table">
-        <tr><td class="label">Partner Name:</td><td class="value"><strong>${data.referrerName}</strong></td></tr>
-        <tr><td class="label">Partner Phone:</td><td class="value"><a href="tel:${data.referrerPhone}" style="color: #1360e2; text-decoration: none;">${data.referrerPhone}</a></td></tr>
-        ${data.referrerEmail ? `<tr><td class="label">Partner Email:</td><td class="value">${data.referrerEmail}</td></tr>` : ''}
-        <tr><td class="label">Relationship:</td><td class="value">${data.referrerRelation || 'Not specified'}</td></tr>
-        ${data.referrerUpi ? `<tr><td class="label">Reward UPI ID:</td><td class="value"><code>${data.referrerUpi}</code></td></tr>` : ''}
-      </table>
+      < div class="section-title" > 1. Referrer Information(Partner) </div>
+        < table class="data-table" >
+          <tr><td class="label" > Partner Name: </td><td class="value"><strong>${data.referrerName}</strong > </td></tr >
+            <tr><td class="label" > Partner Phone: </td><td class="value"><a href="tel:${data.referrerPhone}" style="color: #1360e2; text-decoration: none;">${data.referrerPhone}</a > </td></tr >
+              ${ data.referrerEmail ? `<tr><td class="label">Partner Email:</td><td class="value">${data.referrerEmail}</td></tr>` : '' }
+    <tr><td class="label" > Relationship: </td><td class="value">${data.referrerRelation || 'Not specified'}</td > </tr>
+        ${ data.referrerUpi ? `<tr><td class="label">Reward UPI ID:</td><td class="value"><code>${data.referrerUpi}</code></td></tr>` : '' }
+    </table>
 
-      <div class="section-title">2. Referred Client &amp; Construction Details</div>
-      <table class="data-table">
-        <tr><td class="label">Client Name:</td><td class="value"><strong>${data.clientName}</strong></td></tr>
-        <tr><td class="label">Client Phone:</td><td class="value"><a href="tel:${data.clientPhone}" style="color: #1360e2; text-decoration: none;">${data.clientPhone}</a></td></tr>
-        ${data.clientEmail ? `<tr><td class="label">Client Email:</td><td class="value">${data.clientEmail}</td></tr>` : ''}
-        <tr><td class="label">City / Location:</td><td class="value">${data.clientCity}</td></tr>
-        <tr><td class="label">Service Required:</td><td class="value"><strong>${data.serviceRequired}</strong></td></tr>
-        <tr><td class="label">Plot / Property Status:</td><td class="value">${data.propertyStatus || 'Not specified'}</td></tr>
-        ${data.estimatedArea ? `<tr><td class="label">Estimated Area:</td><td class="value">${data.estimatedArea}</td></tr>` : ''}
-        <tr><td class="label">Project Budget:</td><td class="value">${data.projectBudget}</td></tr>
-        <tr><td class="label">Timeline:</td><td class="value">${data.timeline || 'Immediate'}</td></tr>
-      </table>
+      < div class="section-title" > 2. Referred Client & amp; Construction Details </div>
+        < table class="data-table" >
+          <tr><td class="label" > Client Name: </td><td class="value"><strong>${data.clientName}</strong > </td></tr >
+            <tr><td class="label" > Client Phone: </td><td class="value"><a href="tel:${data.clientPhone}" style="color: #1360e2; text-decoration: none;">${data.clientPhone}</a > </td></tr >
+              ${ data.clientEmail ? `<tr><td class="label">Client Email:</td><td class="value">${data.clientEmail}</td></tr>` : '' }
+    <tr><td class="label" > City / Location: </td><td class="value">${data.clientCity}</td > </tr>
+      < tr > <td class="label" > Service Required: </td><td class="value"><strong>${data.serviceRequired}</strong > </td></tr >
+        <tr><td class="label" > Plot / Property Status: </td><td class="value">${data.propertyStatus || 'Not specified'}</td > </tr>
+        ${ data.estimatedArea ? `<tr><td class="label">Estimated Area:</td><td class="value">${data.estimatedArea}</td></tr>` : '' }
+    <tr><td class="label" > Project Budget: </td><td class="value">${data.projectBudget}</td > </tr>
+      < tr > <td class="label" > Timeline: </td><td class="value">${data.timeline || 'Immediate'}</td > </tr>
+        </table>
 
-      <div class="section-title">Project Requirements</div>
-      <div class="message-box">${data.requirements.replace(/\n/g, '<br/>')}</div>
+        < div class="section-title" > Project Requirements </div>
+          < div class="message-box" > ${ data.requirements.replace(/\n/g, '<br/>') } </div>
 
-      <div class="btn-row">
-        <a href="https://wa.me/${clientWaNumber}?text=Hello%20${encodeURIComponent(data.clientName)}%2C%20we%20received%20your%20construction%20project%20details%20at%20Blueprint%20Buildcon." class="btn btn-whatsapp" target="_blank">Chat with Client</a>
-        <a href="tel:${data.clientPhone}" class="btn btn-call">Call Client</a>
-      </div>
-    `;
+            < div class="btn-row" >
+              <a href="https://wa.me/${clientWaNumber}?text=Hello%20${encodeURIComponent(data.clientName)}%2C%20we%20received%20your%20construction%20project%20details%20at%20Blueprint%20Buildcon." class="btn btn-whatsapp" target = "_blank" > Chat with Client </a>
+              < a href = "tel:${data.clientPhone}" class="btn btn-call" > Call Client </a>
+                </div>
+                  `;
 
       const html = emailWrapper(
         'New Construction Referral Lead',
@@ -483,10 +459,10 @@ export async function sendConsultationEmail(data: {
       );
 
       return await transporter.sendMail({
-        from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+        from: `"${FROM_NAME}" < ${ FROM_EMAIL }> `,
         to: getEnquiryRecipients(),
         replyTo: data.referrerEmail || data.clientEmail || undefined,
-        subject: `🎁 New Project Referral: ${data.clientName} referred by ${data.referrerName} (${data.clientCity})`,
+        subject: `🎁 New Project Referral: ${ data.clientName } referred by ${ data.referrerName } (${ data.clientCity })`,
         html,
       });
     } catch (error: any) {
