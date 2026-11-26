@@ -16,7 +16,6 @@ import {
   Sparkles,
   ArrowRight,
   Loader2,
-  Award,
   Check,
 } from 'lucide-react';
 import { CityDetail } from '@/data/cityData';
@@ -165,8 +164,8 @@ export default function CityHero({ city, selectedLocality = '' }: CityHeroProps)
               India’s trusted tech-driven construction partner. End-to-end turnkey civil construction, 3D architectural design, and 430+ digital quality checks.
             </p>
 
-            {/* 3 Value Cards */}
-            <div className="mt-7 grid grid-cols-2 sm:grid-cols-3 gap-3.5 max-w-xl">
+            {/* Value Cards */}
+            <div className="mt-7 grid grid-cols-2 gap-3.5 max-w-xl">
               <motion.div
                 whileHover={{ y: -3, transition: { duration: 0.2 } }}
                 className="bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-200/90 shadow-xs hover:border-emerald-300 hover:shadow-md transition-all group"
@@ -183,21 +182,7 @@ export default function CityHero({ city, selectedLocality = '' }: CityHeroProps)
 
               <motion.div
                 whileHover={{ y: -3, transition: { duration: 0.2 } }}
-                className="bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-200/90 shadow-xs hover:border-blue-400 hover:shadow-md transition-all group"
-              >
-                <div className="flex items-center gap-2 text-[#0042EC] mb-1.5">
-                  <div className="p-1.5 rounded-lg bg-blue-50 text-[#0042EC] group-hover:bg-[#0042EC] group-hover:text-white transition-colors">
-                    <Award size={16} />
-                  </div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-slate-600">Warranty</span>
-                </div>
-                <p className="text-sm font-extrabold text-brand-navy">10-Year Quality</p>
-                <p className="text-[11px] text-slate-500 mt-0.5">Structural & damp-proof</p>
-              </motion.div>
-
-              <motion.div
-                whileHover={{ y: -3, transition: { duration: 0.2 } }}
-                className="bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all col-span-2 sm:col-span-1 group"
+                className="bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all group"
               >
                 <div className="flex items-center gap-2 text-blue-600 mb-1.5">
                   <div className="p-1.5 rounded-lg bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">

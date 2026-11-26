@@ -98,6 +98,7 @@ function emailWrapper(title: string, badge: string, contentHtml: string): string
 export async function sendConsultationEmail(data: {
   name: string;
   phone: string;
+  secondaryPhone?: string;
   email?: string;
   projectType: string;
   location: string;
@@ -122,7 +123,8 @@ export async function sendConsultationEmail(data: {
       <div class="section-title">Client Information</div>
       <table class="data-table">
         <tr><td class="label">Client Name:</td><td class="value"><strong>${data.name}</strong></td></tr>
-        <tr><td class="label">Contact Number:</td><td class="value"><a href="tel:${data.phone}" style="color: #1360e2; text-decoration: none;">${data.phone}</a></td></tr>
+        <tr><td class="label">Primary Contact Number:</td><td class="value"><a href="tel:${data.phone}" style="color: #1360e2; text-decoration: none;">${data.phone}</a></td></tr>
+        ${data.secondaryPhone ? `<tr><td class="label">Alternative Phone Number:</td><td class="value"><a href="tel:${data.secondaryPhone}" style="color: #1360e2; text-decoration: none;">${data.secondaryPhone}</a></td></tr>` : ''}
         ${data.email ? `<tr><td class="label">Email Address:</td><td class="value">${data.email}</td></tr>` : ''}
         <tr><td class="label">City / Location:</td><td class="value">${data.location}</td></tr>
         ${data.pincode ? `<tr><td class="label">Pincode:</td><td class="value">${data.pincode}</td></tr>` : ''}
@@ -135,9 +137,9 @@ export async function sendConsultationEmail(data: {
         <tr><td class="label">Plot / Property Status:</td><td class="value">${data.propertyStatus || 'Not specified'}</td></tr>
         <tr><td class="label">Estimated Budget:</td><td class="value">${data.budget || 'Not specified'}</td></tr>
         <tr><td class="label">Service Interested In:</td><td class="value"><strong>${data.service || 'Not specified'}</strong></td></tr>
-        <tr><td class="label">Referral Program Partner:</td><td class="value">${data.joinReferralProgram || 'No'}</td></tr>
-        <tr><td class="label">Project Finance / Loan:</td><td class="value"><strong>${data.projectFinance || 'No'}</strong></td></tr>
-        <tr><td class="label">Interested in Project Cash:</td><td class="value"><strong>${data.projectCash || 'No'}</strong></td></tr>
+        ${data.joinReferralProgram && data.joinReferralProgram !== 'No' ? `<tr><td class="label">Referral Program Partner:</td><td class="value">${data.joinReferralProgram}</td></tr>` : ''}
+        <tr><td class="label">Interested in Project Finance:</td><td class="value"><strong>${data.projectFinance || 'No'}</strong></td></tr>
+        ${data.projectCash && data.projectCash !== 'No' ? `<tr><td class="label">Interested in Project Cash:</td><td class="value"><strong>${data.projectCash}</strong></td></tr>` : ''}
         <tr><td class="label">Marketing Updates Consent:</td><td class="value">${data.marketingConsent ? 'Yes' : 'No'}</td></tr>
       </table>
 
@@ -161,16 +163,16 @@ export async function sendConsultationEmail(data: {
       content
     );
 
-      const leadMailPromise = transporter.sendMail({
-        from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
-        to: getEnquiryRecipients(),
-        replyTo: data.email || undefined,
-        subject: `🏗️ New Construction Enquiry: ${data.name} (${data.projectType || 'Consultation'}) - ${data.location}`,
-        html,
-      });
+    const leadMailPromise = transporter.sendMail({
+      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+      to: getEnquiryRecipients(),
+      replyTo: data.email || undefined,
+      subject: `🏗️ New Construction Enquiry: ${data.name} (${data.projectType || 'Consultation'}) - ${data.location}`,
+      html,
+    });
 
-      // Also send an instant confirmation email to the client if they provided their email
-      if(data.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+    // Also send an instant confirmation email to the client if they provided their email
+    if (data.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
       try {
         const clientContent = `
           <p style="font-size: 15px; color: #0f172a; line-height: 1.6; margin-top: 0;">
@@ -256,15 +258,15 @@ export async function sendContactEmail(data: {
 
     const html = emailWrapper('New Contact Form Submission', 'Contact Enquiry', content);
 
-      const leadMailPromise = transporter.sendMail({
-        from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
-        to: getEnquiryRecipients(),
-        replyTo: data.email,
-        subject: `📩 Contact Form Lead: ${data.name} - ${data.projectType} (${data.city})`,
-        html,
-      });
+    const leadMailPromise = transporter.sendMail({
+      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+      to: getEnquiryRecipients(),
+      replyTo: data.email,
+      subject: `📩 Contact Form Lead: ${data.name} - ${data.projectType} (${data.city})`,
+      html,
+    });
 
-      if(data.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+    if (data.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
       try {
         const clientContent = `
           <p style="font-size: 15px; color: #0f172a; line-height: 1.6; margin-top: 0;">
@@ -339,15 +341,15 @@ export async function sendServiceEnquiryEmail(data: {
 
     const html = emailWrapper('New Service Enquiry', 'Service Enquiry Lead', content);
 
-      const leadMailPromise = transporter.sendMail({
-        from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
-        to: getEnquiryRecipients(),
-        replyTo: data.email,
-        subject: `🛠️ Service Lead: ${data.fullname} - ${data.serviceInterestedIn}`,
-        html,
-      });
+    const leadMailPromise = transporter.sendMail({
+      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+      to: getEnquiryRecipients(),
+      replyTo: data.email,
+      subject: `🛠️ Service Lead: ${data.fullname} - ${data.serviceInterestedIn}`,
+      html,
+    });
 
-      if(data.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+    if (data.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
       try {
         const clientContent = `
           <p style="font-size: 15px; color: #0f172a; line-height: 1.6; margin-top: 0;">

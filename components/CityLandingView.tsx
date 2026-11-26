@@ -218,12 +218,6 @@ export default function CityLandingView({ city }: CityLandingViewProps) {
               >
                 Talk to Our {city.name} Expert
               </button>
-              <Link
-                href="/contact"
-                className="px-6 py-3 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-bold text-sm sm:text-base border border-slate-300 shadow-xs transition-colors"
-              >
-                Visit Our Office
-              </Link>
             </div>
           </div>
         </div>

@@ -9,7 +9,6 @@ import {
   MessageCircle,
   Send,
   Building2,
-  Sparkles,
 } from 'lucide-react';
 import { openEnquiryWhatsApp } from '@/lib/whatsapp';
 
@@ -20,38 +19,12 @@ export type ConsultationModalProps = {
 };
 
 const PROJECT_TYPES = [
-  'Residential (Villa / Bungalow / Row House)',
-  'Commercial Complex / Office / Retail Space',
-  'Independent Multi-Floor Building (G+2 / G+3)',
-  'Turnkey Farmhouse / Weekend Villa',
-  'Full Home Renovation & Remodeling',
-  'Interior Architecture & Turnkey Execution',
-  'Structural Blueprinting & Sanctioning',
-  'Plot Owned & Ready to Build',
-  'Looking to Purchase Plot Soon',
-  'Demolish Existing Building & Rebuild',
-  'Existing Structure Needs Renovation / Expansion',
-  'New Residential Construction',
-  'New Commercial Construction',
-  'Interior Renovation & Remodeling',
-  'Villa / Bungalow Construction',
-  'Office Building Construction',
-  'Turnkey Construction Project',
-  'Apartment / Flat Construction',
-  'Duplex House Construction',
-  'Warehouse / Industrial Construction',
-  'Structural Repair & Restoration',
-];
-
-const BUDGET_RANGES = [
-  '₹15 Lakhs – ₹30 Lakhs',
-  '₹30 Lakhs – ₹50 Lakhs',
-  '₹50 Lakhs – ₹1 Crore',
-  '₹1 Crore – ₹2.5 Crores',
-  '₹2.5 Crores – ₹3 Crores',
-  '₹3 Crores – ₹4 Crores',
-  '₹4 Crores – ₹5 Crores',
-  '₹5 Crores – ₹6 Crores',
+  'Residential Construction (Villa, Bungalow, Apartment, Duplex)',
+  'Commercial & Industrial Construction (Office, Retail, Warehouse)',
+  'Farmhouse & Weekend Villa Construction',
+  'Turnkey Construction & Project Execution',
+  'Interior Design, Architecture & Execution',
+  'Renovation, Remodeling & Expansion',
 ];
 
 const SERVICES_OFFERED = [
@@ -67,19 +40,18 @@ export default function ConsultationModal({ isOpen, onClose, initialLocation }: 
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
+    secondaryPhone: '',
     email: '',
-    projectType: 'Residential (Villa / Bungalow / Row House)',
+    projectType: 'Residential Construction (Villa, Bungalow, Apartment, Duplex)',
     otherProjectType: '',
     location: '',
     pincode: '',
-    budget: '₹30 Lakhs – ₹50 Lakhs',
+    budget: '',
     service: 'Turnkey Civil Construction (A-Grade Materials)',
     message: '',
     projectFinance: 'No',
-    projectCash: 'No',
     profession: '',
     otherProfession: '',
-    joinReferralProgram: 'Yes',
     agreeContact: true,
     agreePrivacy: true,
     marketingConsent: false,
@@ -135,7 +107,7 @@ export default function ConsultationModal({ isOpen, onClose, initialLocation }: 
 ---------------------------------------
 👤 *CLIENT INFORMATION:*
 • Name: ${formData.name || 'N/A'}
-• Contact: ${formData.phone || 'N/A'}
+• Primary Contact: ${formData.phone || 'N/A'}${formData.secondaryPhone ? `\n• Alternative Phone: ${formData.secondaryPhone}` : ''}
 • Email: ${formData.email || 'N/A'}
 • Location / City: ${formData.location || 'N/A'}
 • Pincode: ${formData.pincode || 'N/A'}
@@ -143,11 +115,9 @@ export default function ConsultationModal({ isOpen, onClose, initialLocation }: 
 
 🏗️ *PROJECT REQUIREMENTS:*
 • Project / Property Type: ${getProjectType()}
-• Estimated Budget: ${formData.budget}
+• Estimated Budget: ${formData.budget || 'Not specified'}
 • Service Interested In: ${formData.service}
 • Interested in Project Finance: ${formData.projectFinance}
-• Interested in Project Cash: ${formData.projectCash}
-• Referral Program Partner: ${formData.joinReferralProgram}
 • Marketing Updates Consent: ${formData.marketingConsent ? 'Yes' : 'No'}
 • Project Notes: ${formData.message || 'Ready for site inspection / blueprint review'}
 ---------------------------------------
@@ -170,6 +140,11 @@ _Submitted via BluePrint Build-Con Web Portal_`;
 
     if (!/^\d{6}$/.test(formData.pincode.trim())) {
       setErrorMessage('Please enter a valid 6-digit pincode.');
+      return;
+    }
+
+    if (!formData.budget.trim()) {
+      setErrorMessage('Please enter your estimated project budget.');
       return;
     }
 
@@ -198,6 +173,7 @@ _Submitted via BluePrint Build-Con Web Portal_`;
         body: JSON.stringify({
           name: formData.name,
           phone: formData.phone,
+          secondaryPhone: formData.secondaryPhone,
           email: formData.email,
           projectType: getProjectType(),
           location: formData.location,
@@ -207,10 +183,8 @@ _Submitted via BluePrint Build-Con Web Portal_`;
           service: formData.service,
           message: formData.message,
           projectFinance: formData.projectFinance,
-          projectCash: formData.projectCash,
           profession: formData.profession,
           otherProfession: formData.otherProfession,
-          joinReferralProgram: formData.joinReferralProgram,
           marketingConsent: formData.marketingConsent,
         }),
       });
@@ -349,7 +323,23 @@ _Submitted via BluePrint Build-Con Web Portal_`;
                     />
                   </div>
 
-                  {/* 3. Email ID */}
+                  {/* 3. Alternative Phone Number */}
+                  <div>
+                    <label htmlFor="modal-secondaryPhone" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
+                      Alternative Phone Number <span className="text-slate-500 font-normal lowercase">(optional)</span>
+                    </label>
+                    <input
+                      type="tel"
+                      id="modal-secondaryPhone"
+                      name="secondaryPhone"
+                      value={formData.secondaryPhone}
+                      onChange={handleChange}
+                      placeholder="Enter alternative phone number"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
+                    />
+                  </div>
+
+                  {/* 4. Email ID */}
                   <div>
                     <label htmlFor="modal-email" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
                       Email ID <span className="text-slate-500 font-normal lowercase">(optional)</span>
@@ -363,39 +353,6 @@ _Submitted via BluePrint Build-Con Web Portal_`;
                       placeholder="Enter your email address"
                       className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
                     />
-                  </div>
-
-                  {/* 4. Profession */}
-                  <div>
-                    <label htmlFor="modal-profession" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
-                      Profession <span className="text-slate-500 font-normal lowercase">(optional)</span>
-                    </label>
-                    <select
-                      id="modal-profession"
-                      name="profession"
-                      value={formData.profession}
-                      onChange={handleChange}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
-                    >
-                      <option value="">Select your profession</option>
-                      <option value="Self-employed">Self-employed</option>
-                      <option value="Salaried">Salaried</option>
-                      <option value="Other">Other</option>
-                    </select>
-                    {formData.profession === 'Other' && (
-                      <div className="mt-2">
-                        <input
-                          type="text"
-                          id="modal-other-profession"
-                          name="otherProfession"
-                          required
-                          value={formData.otherProfession}
-                          onChange={handleChange}
-                          placeholder="Specify your profession"
-                          className="w-full px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
-                        />
-                      </div>
-                    )}
                   </div>
 
                   {/* 5. City / Location */}
@@ -436,6 +393,39 @@ _Submitted via BluePrint Build-Con Web Portal_`;
                     />
                   </div>
 
+                  {/* 7. Profession */}
+                  <div className="md:col-span-2">
+                    <label htmlFor="modal-profession" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
+                      Profession <span className="text-slate-500 font-normal lowercase">(optional)</span>
+                    </label>
+                    <select
+                      id="modal-profession"
+                      name="profession"
+                      value={formData.profession}
+                      onChange={handleChange}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
+                    >
+                      <option value="">Select your profession</option>
+                      <option value="Self-employed">Self-employed</option>
+                      <option value="Salaried">Salaried</option>
+                      <option value="Other">Other</option>
+                    </select>
+                    {formData.profession === 'Other' && (
+                      <div className="mt-2">
+                        <input
+                          type="text"
+                          id="modal-other-profession"
+                          name="otherProfession"
+                          required
+                          value={formData.otherProfession}
+                          onChange={handleChange}
+                          placeholder="Specify your profession"
+                          className="w-full px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
+                        />
+                      </div>
+                    )}
+                  </div>
+
                   {/* 7. Project / Property Type (Merged) */}
                   <div className="md:col-span-2">
                     <label htmlFor="modal-projectType" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
@@ -471,24 +461,21 @@ _Submitted via BluePrint Build-Con Web Portal_`;
                     )}
                   </div>
 
-                  {/* 9. Estimated Budget */}
+                  {/* 9. Estimated Budget (Manual Input) */}
                   <div>
                     <label htmlFor="modal-budget" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
                       Estimated Project Budget (₹) <span className="text-red-600">*</span>
                     </label>
-                    <select
+                    <input
+                      type="text"
                       id="modal-budget"
                       name="budget"
+                      required
                       value={formData.budget}
                       onChange={handleChange}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
-                    >
-                      {BUDGET_RANGES.map((b) => (
-                        <option key={b} value={b}>
-                          {b}
-                        </option>
-                      ))}
-                    </select>
+                      placeholder="e.g. ₹45 Lakhs or 50,00,000"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
+                    />
                   </div>
 
                   {/* 10. Service Interested In */}
@@ -512,9 +499,9 @@ _Submitted via BluePrint Build-Con Web Portal_`;
                   </div>
 
                   {/* 11. Project Finance */}
-                  <div>
+                  <div className="sm:col-span-2">
                     <label htmlFor="modal-projectFinance" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
-                      Interested in Project Loan? <span className="text-red-600">*</span>
+                      Interested in Project Finance? <span className="text-red-600">*</span>
                     </label>
                     <select
                       id="modal-projectFinance"
@@ -528,41 +515,7 @@ _Submitted via BluePrint Build-Con Web Portal_`;
                     </select>
                   </div>
 
-                  {/* 12. Project Cash */}
-                  <div>
-                    <label htmlFor="modal-projectCash" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
-                      Interested in Project Cash? <span className="text-red-600">*</span>
-                    </label>
-                    <select
-                      id="modal-projectCash"
-                      name="projectCash"
-                      value={formData.projectCash}
-                      onChange={handleChange}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
-                    >
-                      <option value="Yes">Yes</option>
-                      <option value="No">No</option>
-                    </select>
-                  </div>
-
-                  {/* 13. Join Referral Program (Full Width in Grid) */}
-                  <div className="sm:col-span-2">
-                    <label htmlFor="modal-joinReferral" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
-                      Would You Like to Join Our Referral Program? <span className="text-red-600">*</span>
-                    </label>
-                    <select
-                      id="modal-joinReferral"
-                      name="joinReferralProgram"
-                      value={formData.joinReferralProgram}
-                      onChange={handleChange}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20"
-                    >
-                      <option value="Yes">Yes (Earn ₹3,000 to ₹10,000+ per referral)</option>
-                      <option value="No">No (Only construction inquiry for my project)</option>
-                    </select>
-                  </div>
-
-                  {/* 14. Requirements / Message (Full Width in Grid) */}
+                  {/* 12. Requirements / Message (Full Width in Grid) */}
                   <div className="sm:col-span-2">
                     <label htmlFor="modal-message" className="block text-xs font-black uppercase tracking-wider text-black mb-1.5">
                       Your Requirements / Message <span className="text-slate-500 font-normal lowercase">(optional)</span>
@@ -577,17 +530,6 @@ _Submitted via BluePrint Build-Con Web Portal_`;
                       className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-black font-medium placeholder-slate-400 text-sm outline-none transition focus:border-[#0052FF] focus:ring-2 focus:ring-[#0052FF]/20 resize-none"
                     />
                   </div>
-                </div>
-
-                {/* REFERRAL REWARD HIGHLIGHT BANNER */}
-                <div className="rounded-xl bg-slate-50 border border-slate-200 p-3 text-center">
-                  <p className="text-[11px] sm:text-xs text-black font-extrabold flex items-center justify-center gap-1.5 flex-wrap">
-                    <Sparkles size={14} className="text-[#0052FF] shrink-0" />
-                    <span>Earn ₹3,000 to ₹10,000+ Per Successful Project Referral!</span>
-                  </p>
-                  <p className="text-[10px] sm:text-[11px] text-black font-medium mt-0.5">
-                    🚀 Your reward depends on the project scope and when project successfully commenced. T&amp;C Apply.
-                  </p>
                 </div>
 
                 {/* CONSENT CHECKBOXES - EVERY POINT HIGHLIGHTED IN BOLD BLACK */}

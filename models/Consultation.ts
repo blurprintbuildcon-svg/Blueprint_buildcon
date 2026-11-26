@@ -4,6 +4,7 @@ const consultationSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true, maxlength: 100 },
     phone: { type: String, required: true, trim: true, maxlength: 30 },
+    secondaryPhone: { type: String, trim: true, default: '', maxlength: 30 },
     email: { type: String, trim: true, lowercase: true, default: '', maxlength: 254 },
     projectType: { type: String, trim: true, default: '', maxlength: 150 },
     company: { type: String, trim: true, default: '', maxlength: 150 },
