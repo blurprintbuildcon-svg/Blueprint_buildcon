@@ -1,141 +1,137 @@
-import { redirect } from 'next/navigation';
+  import type { Metadata } from 'next';
+  import Link from 'next/link';
+  import {
+    ArrowLeft,
+    Building2,
+    Coins,
+    Layers,
+  } from 'lucide-react';
+  import ReferralForm from '@/components/ReferralForm';
+  import ReferralShareButton from '@/components/ReferralShareButton';
 
-export default function ReferPage() {
-  redirect('/');
-import type { Metadata } from 'next';
-import Link from 'next/link';
-import {
-  ArrowLeft,
-  Building2,
-  Coins,
-  Layers,
-} from 'lucide-react';
-import ReferralForm from '@/components/ReferralForm';
-import ReferralShareButton from '@/components/ReferralShareButton';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://blueprintbuildcon.homes';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://blueprintbuildcon.homes';
-
-export const metadata: Metadata = {
-  title: 'Refer & Earn Rewards | BluePrint Build-Con Construction Partner Program',
-  description:
-    'Refer residential or commercial construction projects to BluePrint Build-Con and earn cash rewards from ₹10,000 to ₹1,00,000+. Transparent payouts and quality engineering.',
-  keywords: [
-    'refer and earn construction',
-    'construction partner program',
-    'real estate referral rewards',
-    'civil construction referral partner',
-    'Blueprint BuildCon rewards',
-  ],
-  alternates: {
-    canonical: `${siteUrl}/refer`,
-  },
-  openGraph: {
-    title: 'Refer & Earn Rewards | BluePrint Build-Con Partner Program',
+  export const metadata: Metadata = {
+    title: 'Refer & Earn Rewards | BluePrint Build-Con Construction Partner Program',
     description:
-      'Refer clients for turnkey home or commercial construction and earn guaranteed referral bonuses from ₹10,000 to ₹1,00,000+.',
-    url: `${siteUrl}/refer`,
-    siteName: 'BluePrint Build-Con',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Refer & Earn with BluePrint Build-Con' }],
-    locale: 'en_IN',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Refer & Earn Rewards | BluePrint Build-Con Partner Program',
-    description: 'Earn lucrative referral rewards for construction project introductions.',
-    images: ['/og-image.png'],
-  },
-};
-
-export default function ReferPage() {
-  const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: siteUrl,
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: 'Refer & Earn',
-        item: `${siteUrl}/refer`,
-      },
+      'Refer residential or commercial construction projects to BluePrint Build-Con and earn cash rewards from ₹10,000 to ₹1,00,000+. Transparent payouts and quality engineering.',
+    keywords: [
+      'refer and earn construction',
+      'construction partner program',
+      'real estate referral rewards',
+      'civil construction referral partner',
+      'Blueprint BuildCon rewards',
     ],
+    alternates: {
+      canonical: `${siteUrl}/refer`,
+    },
+    openGraph: {
+      title: 'Refer & Earn Rewards | BluePrint Build-Con Partner Program',
+      description:
+        'Refer clients for turnkey home or commercial construction and earn guaranteed referral bonuses from ₹10,000 to ₹1,00,000+.',
+      url: `${siteUrl}/refer`,
+      siteName: 'BluePrint Build-Con',
+      images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Refer & Earn with BluePrint Build-Con' }],
+      locale: 'en_IN',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Refer & Earn Rewards | BluePrint Build-Con Partner Program',
+      description: 'Earn lucrative referral rewards for construction project introductions.',
+      images: ['/og-image.png'],
+    },
   };
-  const steps = [
-    {
-      number: '01',
-      title: 'Submit Client Details',
-      desc: 'Fill out our quick 2-minute referral form with your contact info and your client’s construction requirement.',
-      icon: Layers,
-    },
-    {
-      number: '02',
-      title: 'We Consult & Finalize',
-      desc: 'Our civil engineers & architects consult with the client, provide free 3D blueprints, site feasibility, and transparent cost estimates.',
-      icon: Building2,
-    },
-    {
-      number: '03',
-      title: 'Earn Lucrative Cash Rewards',
-      desc: 'Once the client approves and commences construction, your reward is transferred directly to your bank account or UPI.',
-      icon: Coins,
-    },
-  ];
 
-  const rewardTiers = [
-    {
-      category: 'Architectural & 3D Design',
-      reward: '₹5,000 – ₹15,000',
-      scope: 'Floor plans, 3D Elevation, Structural Drawings & Sanctioning',
-      tag: 'Fast Payout',
-    },
-    {
-      category: 'Residential Homes & Villas',
-      reward: '₹25,000 – ₹1,00,000+',
-      scope: 'Turnkey Bungalows, Duplex Homes, G+2/G+3 Independent Residences',
-      tag: 'Most Popular',
-      featured: true,
-    },
-    {
-      category: 'Commercial & Turnkey Projects',
-      reward: 'Up to ₹2,00,000+',
-      scope: 'Office Buildings, Commercial Showrooms, Large Warehouses & Institutions',
-      tag: 'High Value',
-    },
-  ];
+  export default function ReferPage() {
+    const breadcrumbSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: siteUrl,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Refer & Earn',
+          item: `${siteUrl}/refer`,
+        },
+      ],
+    };
+    const steps = [
+      {
+        number: '01',
+        title: 'Submit Client Details',
+        desc: 'Fill out our quick 2-minute referral form with your contact info and your client’s construction requirement.',
+        icon: Layers,
+      },
+      {
+        number: '02',
+        title: 'We Consult & Finalize',
+        desc: 'Our civil engineers & architects consult with the client, provide free 3D blueprints, site feasibility, and transparent cost estimates.',
+        icon: Building2,
+      },
+      {
+        number: '03',
+        title: 'Earn Lucrative Cash Rewards',
+        desc: 'Once the client approves and commences construction, your reward is transferred directly to your bank account or UPI.',
+        icon: Coins,
+      },
+    ];
 
-  const faqs = [
-    {
-      q: 'Who can refer clients to BluePrint Build-Con?',
-      a: 'Anyone! Friends, family, real estate consultants, architects, interior designers, property brokers, and satisfied existing clients can all participate.',
-    },
-    {
-      q: 'When do I receive my referral reward?',
-      a: 'Referral rewards are disbursed directly to your designated bank account or UPI ID upon contract signing and milestone kickoff (e.g. excavation / foundation phase).',
-    },
-    {
-      q: 'Is there any limit to the number of referrals I can submit?',
-      a: 'No! There is no limit. You can refer as many homeowners, plot owners, or commercial builders as you like, earning rewards for each successful project.',
-    },
-    {
-      q: 'How will I know the status of my referral?',
-      a: 'Our team will keep you updated via WhatsApp and phone regarding site visits, proposal presentations, and contract status.',
-    },
-  ];
+    const rewardTiers = [
+      {
+        category: 'Architectural & 3D Design',
+        reward: '₹5,000 – ₹15,000',
+        scope: 'Floor plans, 3D Elevation, Structural Drawings & Sanctioning',
+        tag: 'Fast Payout',
+      },
+      {
+        category: 'Residential Homes & Villas',
+        reward: '₹25,000 – ₹1,00,000+',
+        scope: 'Turnkey Bungalows, Duplex Homes, G+2/G+3 Independent Residences',
+        tag: 'Most Popular',
+        featured: true,
+      },
+      {
+        category: 'Commercial & Turnkey Projects',
+        reward: 'Up to ₹2,00,000+',
+        scope: 'Office Buildings, Commercial Showrooms, Large Warehouses & Institutions',
+        tag: 'High Value',
+      },
+    ];
 
-  return (
-    <div className="bg-slate-50 min-h-screen">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-      {/* Hero Section */}
-      {/* <PageHero
+    const faqs = [
+      {
+        q: 'Who can refer clients to BluePrint Build-Con?',
+        a: 'Anyone! Friends, family, real estate consultants, architects, interior designers, property brokers, and satisfied existing clients can all participate.',
+      },
+      {
+        q: 'When do I receive my referral reward?',
+        a: 'Referral rewards are disbursed directly to your designated bank account or UPI ID upon contract signing and milestone kickoff (e.g. excavation / foundation phase).',
+      },
+      {
+        q: 'Is there any limit to the number of referrals I can submit?',
+        a: 'No! There is no limit. You can refer as many homeowners, plot owners, or commercial builders as you like, earning rewards for each successful project.',
+      },
+      {
+        q: 'How will I know the status of my referral?',
+        a: 'Our team will keep you updated via WhatsApp and phone regarding site visits, proposal presentations, and contract status.',
+      },
+    ];
+
+    return (
+      <div className="bg-slate-50 min-h-screen">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+        {/* Hero Section */}
+        {/* <PageHero
         eyebrow="BluePrint Partner & Referral Program"
         title="Refer a Construction Project. Earn Up to ₹1,00,000+ in Cash Rewards!"
         description="Help friends, colleagues, or clients find Pune's most reliable, transparent, and quality-driven civil construction team. Get rewarded generously for every verified project."
@@ -143,8 +139,8 @@ export default function ReferPage() {
         imageAlt="Modern residential construction by BluePrint Build-Con"
       /> */}
 
-      {/* Program Highlights Banner */}
-      {/* <section className="py-12 bg-white border-b border-slate-200">
+        {/* Program Highlights Banner */}
+        {/* <section className="py-12 bg-white border-b border-slate-200">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             <div className="flex items-start gap-4 p-5 rounded-2xl bg-blue-50/60 border border-blue-100">
@@ -186,8 +182,8 @@ export default function ReferPage() {
         </div>
       </section> */}
 
-      {/* How it Works Section */}
-      {/* <section className="py-16 bg-[#f7f9fc] border-b border-slate-200">
+        {/* How it Works Section */}
+        {/* <section className="py-16 bg-[#f7f9fc] border-b border-slate-200">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-2xl mx-auto mb-14">
             <span className="text-xs font-bold uppercase tracking-wider text-brand-orange bg-blue-50 px-3 py-1 rounded-full">
@@ -223,8 +219,8 @@ export default function ReferPage() {
         </div>
       </section> */}
 
-      {/* Commission Tiers */}
-      {/* <section className="py-16 bg-white border-b border-slate-200">
+        {/* Commission Tiers */}
+        {/* <section className="py-16 bg-white border-b border-slate-200">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-brand-orange bg-blue-50 px-3 py-1 rounded-full">
@@ -282,29 +278,29 @@ export default function ReferPage() {
         </div>
       </section> */}
 
-      {/* Main Referral Form Section */}
-      <section
-        id="referral-form"
-        className="min-h-[calc(100vh-80px)] bg-slate-100 px-4 pb-16 pt-28 sm:px-6 sm:pt-32"
-      >
-        <div className="mx-auto max-w-2xl">
-          <div className="mb-5 flex items-center justify-between">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 transition-colors hover:text-brand-blue"
-            >
-              <ArrowLeft size={16} aria-hidden="true" />
-              Back to Home
-            </Link>
-            <ReferralShareButton />
+        {/* Main Referral Form Section */}
+        <section
+          id="referral-form"
+          className="min-h-[calc(100vh-80px)] bg-slate-100 px-4 pb-16 pt-28 sm:px-6 sm:pt-32"
+        >
+          <div className="mx-auto max-w-2xl">
+            <div className="mb-5 flex items-center justify-between">
+              <Link
+                href="/"
+                className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 transition-colors hover:text-brand-blue"
+              >
+                <ArrowLeft size={16} aria-hidden="true" />
+                Back to Home
+              </Link>
+              <ReferralShareButton />
+            </div>
+
+            <ReferralForm />
           </div>
+        </section>
 
-          <ReferralForm />
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      {/* <section className="py-16 bg-[#f7f9fc] border-t border-slate-200">
+        {/* FAQ Section */}
+        {/* <section className="py-16 bg-[#f7f9fc] border-t border-slate-200">
         <div className="container mx-auto px-4 md:px-6 max-w-4xl">
           <div className="text-center mb-12">
             <h2 className="text-2xl md:text-3xl font-extrabold text-brand-navy tracking-tight">
@@ -343,6 +339,6 @@ export default function ReferPage() {
           </div>
         </div>
       </section> */}
-    </div>
-  );
-}
+      </div>
+    );
+  }
