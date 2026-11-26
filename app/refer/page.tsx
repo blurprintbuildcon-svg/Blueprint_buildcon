@@ -9,13 +9,59 @@ import {
 import ReferralForm from '@/components/ReferralForm';
 import ReferralShareButton from '@/components/ReferralShareButton';
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://blueprintbuildcon.homes';
+
 export const metadata: Metadata = {
   title: 'Refer & Earn Rewards | BluePrint Build-Con Construction Partner Program',
   description:
     'Refer residential or commercial construction projects to BluePrint Build-Con and earn cash rewards from ₹10,000 to ₹1,00,000+. Transparent payouts and quality engineering.',
+  keywords: [
+    'refer and earn construction',
+    'construction partner program',
+    'real estate referral rewards',
+    'civil construction referral partner',
+    'Blueprint BuildCon rewards',
+  ],
+  alternates: {
+    canonical: `${siteUrl}/refer`,
+  },
+  openGraph: {
+    title: 'Refer & Earn Rewards | BluePrint Build-Con Partner Program',
+    description:
+      'Refer clients for turnkey home or commercial construction and earn guaranteed referral bonuses from ₹10,000 to ₹1,00,000+.',
+    url: `${siteUrl}/refer`,
+    siteName: 'BluePrint Build-Con',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Refer & Earn with BluePrint Build-Con' }],
+    locale: 'en_IN',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Refer & Earn Rewards | BluePrint Build-Con Partner Program',
+    description: 'Earn lucrative referral rewards for construction project introductions.',
+    images: ['/og-image.png'],
+  },
 };
 
 export default function ReferPage() {
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: siteUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Refer & Earn',
+        item: `${siteUrl}/refer`,
+      },
+    ],
+  };
   const steps = [
     {
       number: '01',
@@ -80,6 +126,10 @@ export default function ReferPage() {
 
   return (
     <div className="bg-slate-50 min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* Hero Section */}
       {/* <PageHero
         eyebrow="BluePrint Partner & Referral Program"
